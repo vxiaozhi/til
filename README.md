@@ -33,6 +33,9 @@
 
 - [AxonHub](https://github.com/looplj/axonhub) 开源的 AI 网关应用，为不同的 AI 模型提供统一的 API 兼容层，配备 Web 控制面板。
 
+## AI编程
+- [Open Lovable](https://github.com/firecrawl/open-lovable) 一个开源的前端应用，使用自然语言生成网站 UI，类似于 V0/Lovable。
+
 ## 开源项目
 
 ### 开源复刻
@@ -45,11 +48,15 @@
     
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
+- [IntraScribe](https://github.com/weynechen/intrascribe) 可完全本地化的，面向企业、学校与机关等内网环境的本地优先语音转写与协作平台：支持实时转写、说话人分离、高质量批处理、AI 总结与标题生成。默认提供浏览器 WebRTC 接入与 SSE 实时返回.
 - [FlyCut Caption - 智能视频字幕裁剪工具](https://github.com/x007xyz/flycut-caption) 一个基于 Web 的 AI 视频字幕编辑工具，可以视频语音自动转文本，生成字幕
 
 ### 语音 TTS
 - [index-tts-lora](https://github.com/asr-pub/index-tts-lora) 网友基于 B 站开源的 Index-TTS 语音合成模型的微调模型，提升语音的韵律感和自然度。
-  
+
+### AI视频处理
+- [AI视频转录器](https://github.com/wendy7756/AI-Video-Transcriber) AI 视频转录&翻译&总结工具，支持YouTube、Tiktok、B 站等30+平台。代码开源，需要自己搭建前后端。
+
 ## ASR模型
 - [Wisper](https://github.com/openai/whisper) OpenAI开源的语音识别模型， 默认对中文的效果较差，这里有改进介绍：[Whisper对于中文语音识别与转写中文文本优化的实践(Python3.10)](https://www.cnblogs.com/v3ucn/p/17987069)
 - [Whisper-Finetune](https://github.com/shuaijiang/Whisper-Finetune) 微调Whisper语音识别模型
