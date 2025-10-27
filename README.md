@@ -35,7 +35,9 @@
 
 ## AI编程
 - [Open Lovable](https://github.com/firecrawl/open-lovable) 一个开源的前端应用，使用自然语言生成网站 UI，类似于 V0/Lovable。
+- [coro-code](https://github.com/Blushyes/coro-code) Rust 实现的基于终端的 AI 编码代理，Claude Code 的开源替代品。
 
+  
 ## 开源项目
 
 ### 开源复刻
