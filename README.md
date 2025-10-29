@@ -49,7 +49,8 @@
 - [binglish：AI 桌面英语](https://github.com/klemperer/binglish) 一个 Python 脚本，自动为 Windows 更换必应 Bing 每日壁纸，并在壁纸上添加“每日单词”，AI 生成单词解释和例句。
 
 ### AI Agent
-- [🧠🤖Deep Agents](https://github.com/langchain-ai/deepagents) Deep Agents 是一个 Python 包，它解决了传统 LLM Agent 的一个根本性局限：无法有效规划和执行复杂的多步骤任务。虽然通过工具调用循环的简单 Agent 可以处理基础任务，但它们在面临需要战略规划、任务分解和协调执行的更长期、更复杂的挑战时往往会失败。
+- [🧠🤖Deep Agents](https://github.com/langchain-ai/deepagents) Deep Agents 是一个 Python 包，它解决了传统 LLM Agent 的一个根本性局限：无法有效规划和执行复杂的多步骤任务。虽然通过工具调用循环的简单 Agent 可以处理基础任务，但它们在面临需要战略规划、任务分解和协调执行的更长期、更复杂的挑战时往往会失败。[基于LangChain实现]
+- [CrewAI](https://github.com/crewAIInc/crewAI) CrewAI 是一个多智能体（multi-agent）编排框架，其核心理念是让多个具备特定角色的 AI 代理协同合作（组成“crew”团队）来完成复杂任务。每个代理被赋予特定的角色、目标和背景知识，通过相互分工与配合，自动地进行任务委派和问询，最终以团队形式完成用户交给的工作。 [CrewAI 起初借鉴并构建在 LangChain 生态之上，因而天然支持使用 LangChain 提供的大量工具集合（如搜索、数据库查询、API 接口等)]
 
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
