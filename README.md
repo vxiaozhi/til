@@ -47,7 +47,10 @@
 - [NCE Flow](https://github.com/luzhenhua/NCE-Flow) 《新概念英语》点读，可以选择任一句开始播放，也可以自动朗读。
 - [Type Words](https://github.com/zyronon/TypeWords) 开源的 Web 应用，通过打字学习英语单词，加深记忆，有发音和例句，内置多个常用词库
 - [binglish：AI 桌面英语](https://github.com/klemperer/binglish) 一个 Python 脚本，自动为 Windows 更换必应 Bing 每日壁纸，并在壁纸上添加“每日单词”，AI 生成单词解释和例句。
-    
+
+### AI Agent
+- [🧠🤖Deep Agents](https://github.com/langchain-ai/deepagents) Deep Agents 是一个 Python 包，它解决了传统 LLM Agent 的一个根本性局限：无法有效规划和执行复杂的多步骤任务。虽然通过工具调用循环的简单 Agent 可以处理基础任务，但它们在面临需要战略规划、任务分解和协调执行的更长期、更复杂的挑战时往往会失败。
+
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
 - [IntraScribe](https://github.com/weynechen/intrascribe) 可完全本地化的，面向企业、学校与机关等内网环境的本地优先语音转写与协作平台：支持实时转写、说话人分离、高质量批处理、AI 总结与标题生成。默认提供浏览器 WebRTC 接入与 SSE 实时返回.
