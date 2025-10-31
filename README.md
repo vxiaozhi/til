@@ -61,6 +61,7 @@ Vibe Coding 在快速原型开发、个人项目和探索性编程中表现出�
 ## Spec 编程
 
 - [AI编程 - Spec开发工作流解析](https://zhuanlan.zhihu.com/p/1934780545004442461)
+- [规格驱动开发利器：Spec Workflow MCP](https://github.com/pimzino/spec-workflow-mcp)
 
 **由来**
 
