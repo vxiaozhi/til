@@ -66,6 +66,9 @@ LLM 应用架构演进分四个发展阶段：Prompt阶段，Chain编排阶段�
 - [Eino](https://github.com/cloudwego/eino) 字节跳动开源的 AI Agent 框架， Go 实现
 - [tRPC-Agent-Go]() 腾讯开源的 AI Agent 框架
 
+### 知识库搭建
+- [PandaWiki](https://github.com/chaitin/PandaWiki) PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索 等能力
+
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
 - [IntraScribe](https://github.com/weynechen/intrascribe) 可完全本地化的，面向企业、学校与机关等内网环境的本地优先语音转写与协作平台：支持实时转写、说话人分离、高质量批处理、AI 总结与标题生成。默认提供浏览器 WebRTC 接入与 SSE 实时返回.
