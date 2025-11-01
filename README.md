@@ -39,9 +39,16 @@
 
 ### 什么是Agent
 
+- [How to think about agent frameworks](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
+- [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
+  
 一个比较经典的定义是OpenAI的研究主管Lilian Weng给出的定义是：Agent = 大模型（LLM）+ 规划（Planning）+ 记忆（Memory）+ 工具使用（Tool Use）。这个定义是从技术实现的角度对Agent进行了定义，它指的是要实现一个Agent，就需要支持这些能力，它需要基于大模型，需要有规划的能力，能思考接下来要做的事情，需要有记忆，能够读取长期记忆和短期记忆，需要能够使用工具，他是将支持这些能力的集合体定义为了Agent。
 
+![](https://lilianweng.github.io/posts/2023-06-23-agent/agent-overview.png)
+
 Antropic的 Barry Zhang 提出 Agent 更简洁的概念，即在循环（Loop）中使用工具的模型 。
+
+![](https://blog.langchain.com/content/images/size/w1000/2025/04/58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.webp)
 
 ### Prompt的设计
 
