@@ -69,6 +69,35 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 
 这些提示词各有侧重，但都体现了设计一个有效 AI Agent 所需考虑的关键要素：清晰的定位、明确的能力与限制、规范的工具使用、结构化的任务执行以及有效的沟通策略。学习这些特点有助于构建更强大、更可靠、更易于协作的 AI Agent
 
+### 记忆系统
+
+- [Awesome-LLM-Resources-List](https://github.com/ilsilfverskiold/Awesome-LLM-Resources-List) 这里收集了记忆系统（Long-Term Memory）相关的开源项目
+
+常用开源方案：
+
+| Provider     | Community             | Founded     | GitHub                                                                                          | ⭐ Stars | Open Source                 |
+|--------------|------------------------|-------------|--------------------------------------------------------------------------------------------------|---------|-----------------------------|
+| Mem0         | 🚀 Fast-growing        | June 2023   | [![GitHub followers](https://img.shields.io/github/followers/mem0ai?style=flat-square&color=teal)](https://github.com/mem0ai/mem0)         | 35.2k   | ✅ Apache-2.0               |
+| Letta        | 💬 Active dev community| Oct 2023    | [![GitHub followers](https://img.shields.io/github/followers/letta-ai?style=flat-square&color=teal)](https://github.com/letta-ai/letta)     | 17k     | ✅ Apache-2.0               |
+| Zep          | 🤝 Moderate community  | Aug 2024    | [![GitHub followers](https://img.shields.io/github/followers/getzep?style=flat-square&color=teal)](https://github.com/getzep/graphiti)      | 11.6k   | ⚠️ Graphiti CE (Apache-2.0) |
+| MemoRAG      | 🧪 Small research group| Sep 2024    | [![GitHub followers](https://img.shields.io/github/followers/qhjqhj00?style=flat-square&color=teal)](https://github.com/qhjqhj00/MemoRAG)    | 1.8k    | ✅ Apache-2.0               |
+| Memary       | 🧠 Niche community     | April 2024  | [![GitHub followers](https://img.shields.io/github/followers/kingjulio8238?style=flat-square&color=teal)](https://github.com/kingjulio8238/Memary) | 2.3k    | ✅ MIT                      |
+| Cognee       | 🔄 Moderate            | Aug 2023    | [![GitHub followers](https://img.shields.io/github/followers/topoteretes?style=flat-square&color=teal)](https://github.com/topoteretes/cognee)     | 5.8k    | ✅ Apache-2.0               |
+
+记忆功能对比：
+
+| Provider  | Based   | Optional KG | Self-Editing / Agentic | Rolling Summaries            | Categories |
+|-----------|---------|-------------|-------------------------|-------------------------------|------------|
+| Mem0      | 🧮 Vector | ✅ Yes       | ✅ Yes                  | ❌ Not explicit               | ✅ Yes     |
+| Letta     | 🧮 Vector | ⚠️ Partial  | ✅ Yes                  | ⚠️ Partial (memory blocks)    | ✅ Yes     |
+| Zep       | 🧠 KG     |  -         | ✅ Yes                  | ✅ Auto chat summarization     | ✅ Yes     |
+| MemoRAG   | 🧮 Vector | ❌ No       | ✅ Yes                  | ❌ Uses long-range model      | ❌ No      |
+| Memary    | 🧠 KG     | -         | ✅ Yes                  | ⚠️ Plans “rewind” feature     | ✅ Yes     |
+| Cognee    | 🧠 KG     | -         | ✅ Yes                  | ❌ No auto summaries          | ✅ Yes     |
+
+
+
+
 ### LLM的应用架构演进过程
 
 LLM 应用架构演进分四个发展阶段：Prompt阶段，Chain编排阶段，Agent阶段和Multi-Agent阶段。 概括来说就是：
