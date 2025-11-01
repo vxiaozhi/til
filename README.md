@@ -73,7 +73,7 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 
 - [Awesome-LLM-Resources-List](https://github.com/ilsilfverskiold/Awesome-LLM-Resources-List) 这里收集了记忆系统（Long-Term Memory）相关的开源项目
 
-常用开源方案：
+常用开源方案（以下方案均为 Python 实现）：
 
 | Provider     | Community             | Founded     | GitHub                                                                                          | ⭐ Stars | Open Source                 |
 |--------------|------------------------|-------------|--------------------------------------------------------------------------------------------------|---------|-----------------------------|
