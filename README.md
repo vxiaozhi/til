@@ -7,7 +7,7 @@
 
 ## Go语言
 
-- [rpcx](https://github.com/smallnest/rpcx) Go语言呢实现的微服务 RPC 框架，类似于阿里巴巴的 Dubbo 和微博的 Motan。序列化支持，JSON, Protobuf, MessagePack, 原始字节。服务发现支持：	对等网络, zookeeper, etcd, consul, mDNS。
+- [rpcx](https://github.com/smallnest/rpcx) Go语言呢实现的微服务 RPC 框架，类似于阿里巴巴的 Dubbo 和微博的 Motan。序列化支持，JSON, Protobuf, MessagePack, 原始字节。服务发现支持：	对等网络（点对点）, zookeeper, etcd, consul, mDNS。
   
 ## 设计模式
 
