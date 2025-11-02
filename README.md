@@ -37,6 +37,8 @@
 
 ## AIAgent
 
+- [智能体设计模式：智能系统构建实战指南](https://jimmysong.io/book/agentic-design-patterns/) 几米宋的大作
+
 ### 什么是Agent
 
 - [How to think about agent frameworks](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
@@ -72,7 +74,9 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 ### 记忆系统
 
 - [Awesome-LLM-Resources-List](https://github.com/ilsilfverskiold/Awesome-LLM-Resources-List) 这里收集了记忆系统（Long-Term Memory）相关的开源项目
-
+- [awesome-ai-memory](https://github.com/XiaomingX/awesome-ai-memory) AI长期记忆的开源和商业项目列表,列举了2024-2025年社区认可度高、技术前沿的AI记忆及智能体相关工具
+- [超越“金鱼脑”：深度剖析四大主流 AI Agent 记忆管理技术](https://zhuanlan.zhihu.com/p/1943700805099185953) 深入剖析了为什么传统的 RAG 还不够，以及 Agent 引入记忆系统的必要性。
+  
 常用开源方案（以下方案均为 Python 实现）：
 
 | Provider     | Community             | Founded     | GitHub                                                                                          | ⭐ Stars | Open Source                 |
