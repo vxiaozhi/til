@@ -213,7 +213,7 @@ Kiro AI IDE 就把这种流程做成了“Spec 工作流”，让 AI 编程也�
 - 需求输入
 - 需求/技术/任务/测试评审
 
-**实践**
+### Spec Coding 实践
 
 - [Spec-Kit](https://github.com/github/spec-kit) GitHub 官方发布的实现规约编程的开源工具
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec)  OpenSpec 是一个面向规范驱动开发的 AI 原生系统，通过结构化的规范工作流协调人类与 AI 编程助手。通过在实施前确立明确意图，OpenSpec 能够提供确定性的、可审查的输出，且无需 API 密钥或复杂配置。 
@@ -230,7 +230,83 @@ GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛
  
 其中最关键的 4 个指令是：/specify、/plan 、/tasks 、/implement 指令。
 
+由于 Spec-Kit 需要依赖 特定的 Agent 才能运行，因此 我们采用 https://github.com/pimzino/spec-workflow-mcp 来简化使用流程。
 
+以下是在 Mac VSCode + CodeBuddy 下的操作流程，以创建一个图书管理系统为例：
+
+#### Step 0： 安装依赖
+
+安装 node：
+
+```
+brew install node
+```
+
+配置 mcp server：
+
+```
+{
+  "mcpServers": {
+    "spec-workflow": {
+      "command": "npx",
+      "args": ["-y", "@pimzino/spec-workflow-mcp@latest", "/path/to/your/project"]
+    }
+  }
+}
+```
+
+连接成功后，你将看到以下可用工具:
+
+```
+spec-workflow
+
+工具:
+approvals
+spec-status
+spec-workflow-guide
+steering-guide
+Command: npx -y @pimzino/spec-workflow-mcp@latest /path/to/your/project
+```
+
+输入以下内从检查 mcp 是否被调用：
+
+```
+展示 spec workflow guide
+```
+
+
+在终端中输入以下命令启动 Web Dashboard：
+
+```
+npx -y @pimzino/spec-workflow-mcp@latest /path/to/your/project --dashboard
+```
+
+Dashboard 提供了可视化的项目管理界面，包括：
+
+- 项目状态概览
+- 文档审批管理
+- 进度跟踪
+- 任务管理
+
+### Step 1： Steering
+
+聊天窗口输入以下内容：
+
+```
+用 Python 开发一个图书管理系统。
+
+首先创建 Steering 文档
+```
+
+运行完成，会在steering 目录下创建三个文件：product.md tech.md structure.md. 
+
+注意：每个文件创建完成后需要在 dashboard 中申请通过后才会进入下一步。
+
+### Step 2： 基于 Steering 指导，创建具体的规格文档
+
+### Step 3： 基于规格，生成 Tasks
+
+### Step 4： 按照 Tasks 文档逐步实施开发
 
 ## 建站
 - NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/) 
