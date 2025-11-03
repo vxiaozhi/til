@@ -215,6 +215,9 @@ Kiro AI IDE 就把这种流程做成了“Spec 工作流”，让 AI 编程也�
 
 **实践**
 
+- [Spec-Kit](https://github.com/github/spec-kit) GitHub 官方发布的实现规约编程的开源工具
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec)  OpenSpec 是一个面向规范驱动开发的 AI 原生系统，通过结构化的规范工作流协调人类与 AI 编程助手。通过在实施前确立明确意图，OpenSpec 能够提供确定性的、可审查的输出，且无需 API 密钥或复杂配置。 
+
 GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛关注，源代码见： https://github.com/github/spec-kit 。主要命令：
 
 - /constitution - 建立项目宪法：定义项目核心原则、技术约束、质量标准
@@ -226,6 +229,7 @@ GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛
 - /implement - 开始干活：逐任务自动执行、进度跟踪、质量验证
  
 其中最关键的 4 个指令是：/specify、/plan 、/tasks 、/implement 指令。
+
 
 
 ## 建站
