@@ -189,6 +189,8 @@ Vibe Coding 在快速原型开发、个人项目和探索性编程中表现出�
 
 - [AI编程 - Spec开发工作流解析](https://zhuanlan.zhihu.com/p/1934780545004442461)
 - [规格驱动开发利器：Spec Workflow MCP](https://github.com/pimzino/spec-workflow-mcp)
+- [Spec-Kit](https://github.com/github/spec-kit) GitHub 官方发布的实现规约编程的开源工具
+- [OpenSpec](https://github.com/Fission-AI/OpenSpec)  OpenSpec 是一个面向规范驱动开发的 AI 原生系统，通过结构化的规范工作流协调人类与 AI 编程助手。通过在实施前确立明确意图，OpenSpec 能够提供确定性的、可审查的输出，且无需 API 密钥或复杂配置。
 
 **由来**
 
@@ -213,10 +215,6 @@ Kiro AI IDE 就把这种流程做成了“Spec 工作流”，让 AI 编程也�
 - 需求输入
 - 需求/技术/任务/测试评审
 
-### Spec Coding 实践
-
-- [Spec-Kit](https://github.com/github/spec-kit) GitHub 官方发布的实现规约编程的开源工具
-- [OpenSpec](https://github.com/Fission-AI/OpenSpec)  OpenSpec 是一个面向规范驱动开发的 AI 原生系统，通过结构化的规范工作流协调人类与 AI 编程助手。通过在实施前确立明确意图，OpenSpec 能够提供确定性的、可审查的输出，且无需 API 密钥或复杂配置。 
 
 GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛关注，源代码见： https://github.com/github/spec-kit 。主要命令：
 
@@ -229,6 +227,53 @@ GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛
 - /implement - 开始干活：逐任务自动执行、进度跟踪、质量验证
  
 其中最关键的 4 个指令是：/specify、/plan 、/tasks 、/implement 指令。
+
+## Spec Coding 实践
+
+### Spec Coding（通过 Spec-Kit ）
+
+#### Step 0： 安装依赖
+
+Spec-Kit需要依赖 AIAgent， 如 CodeBuddy，Qwen，Cursor，Copilot。这里我们以CodeBuddy为例。
+
+本地终端安装 codebuddy-code 命令行：
+
+```
+npm install -g @tencent-ai/codebuddy-code
+```
+
+安装 Specify:
+
+```
+# 方式 1：持久化安装（推荐）
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# 方式 2：一次性使用
+uvx --from git+https://github.com/github/spec-kit.git specify init my-project
+```
+
+初始化并配置 github 令牌：
+
+```
+# 先申请 Github 令牌： https://github.com/settings/personal-access-tokens
+# 进行导入配置变量，其中/root/.bashrc 为 Linux 系统本机的变量位置，如在 Mac 安装，默认地址为 ~/.zshrc  或 ~/.bashrc。
+export GH_TOKEN='github_pat_xxx' & export GITHUB_TOKEN="$GH_TOKEN" >> /root/.bashrc
+ 
+source  /root/.bashrc
+```
+
+#### Step 1: 初始化项目
+
+```
+# 使用 CodeBuddy 进行项目初始化
+specify init my-project
+
+#存量项目，直接进入工作根目录，进行
+specify init .
+```
+
+
+### Spec Coding（通过 spec-workflow-mcp ）
 
 由于 Spec-Kit 需要依赖 特定的 Agent 才能运行，因此 我们采用 https://github.com/pimzino/spec-workflow-mcp 来简化使用流程。
 
