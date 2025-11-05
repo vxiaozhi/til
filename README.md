@@ -218,11 +218,11 @@ Kiro AI IDE 就把这种流程做成了“Spec 工作流”，让 AI 编程也�
 
 GitHub 官方发布了 Spec-Kit 实现规约编程的开源工具并引发广泛关注，源代码见： https://github.com/github/spec-kit 。主要命令：
 
-- /constitution - 建立项目宪法：定义项目核心原则、技术约束、质量标准
-- /specify - 写需求文档：自然语言描述功能需求、AI 自动生成完整规约、质量检测清单与验证
+- /constitution - 建立项目宪法：定义项目核心原则、技术约束、质量标准 → 输出 .specify/memory/constitution.md
+- /specify - 写需求文档：自然语言描述功能需求、AI 自动生成完整规约、质量检测清单与验证 → 输出 specs/###-slug/spec.md
 - /clarify - 澄清规约：进行用户需求澄清细节、确认
-- /plan - 做技术方案：生成技术栈选型、架构设计、数据模型、API 契约
-- /tasks - 任务分解清单：按照用户故事组织、依赖关系分析、并行执行优化
+- /plan - 做技术方案：生成技术栈选型、架构设计、数据模型、API 契约  → 输出 specs/###-slug/plan.md
+- /tasks - 任务分解清单：按照用户故事组织、依赖关系分析、并行执行优化 → 输出 specs/###-slug/tasks.md
 - /analyze - 审核文档: 识别spec.md`、`plan.md`、`tasks.md 不一致性、操作约束、规范分析报告、提供建议与修复
 - /implement - 开始干活：逐任务自动执行、进度跟踪、质量验证
  
