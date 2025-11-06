@@ -81,7 +81,7 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 相关接口：
 
 - [Mineflayer](https://github.com/PrismarineJS/mineflayer) Mineflayer 是一个强大的、高级的 JavaScript API，用于创建可以与 Minecraft 服务器交互的 Minecraft 机器人。它是 PrismarineJS 生态系统的一部分，为开发者提供了一套全面的工具，以便通过编程方式自动化和增强他们的 Minecraft 体验。
-
+- [Mindcraft](https://github.com/mindcraft-bots/mindcraft) Mindcraft 是一个创新框架，通过大型语言模型（LLMs）和 Mineflayer 库将人工智能引入 Minecraft。该项目支持创建能够理解自然语言、感知环境并在 Minecraft 世界中执行复杂任务的智能机器人。
 
 ### 记忆系统
 
