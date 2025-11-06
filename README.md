@@ -161,6 +161,15 @@ MCP 协议支持两种主要的通信机制：基于标准输入输出的本地�
 
 - [Agentic Context Engine (ACE)](https://github.com/kayba-ai/agentic-context-engine) Agentic Context Engine (ACE) 是一个革命性框架，它使 AI agents 能够从经验中学习并随时间推移提升性能。基于斯坦福大学和 SambaNova 的研究成果，ACE 通过增量学习实现持续优化策略的三代理系统——且无需微调或训练数据。
 
+## AIAgent 应用领域
+
+### 编程开发
+
+- [cline](https://github.com/cline/cline)
+- [Roo](https://github.com/RooCodeInc/Roo-Code)
+- [CodeBuddy]()
+- [trae-agent](https://github.com/bytedance/trae-agent) 字节开源 编程 Agent
+
 ## 氛围编程（vibe coding）
 
 2025年，Andrej Karpathy 提出了 "Vibe Coding" 这个概念，描述了一种全新的 AI 辅助开发模式：开发者用自然语言描述想法，AI 立即生成代码，然后通过不断的反馈和调整来完善功能。
