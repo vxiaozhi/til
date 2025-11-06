@@ -76,6 +76,13 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 
 这些提示词各有侧重，但都体现了设计一个有效 AI Agent 所需考虑的关键要素：清晰的定位、明确的能力与限制、规范的工具使用、结构化的任务执行以及有效的沟通策略。学习这些特点有助于构建更强大、更可靠、更易于协作的 AI Agent
 
+### Agent环境
+
+相关接口：
+
+- [Mineflayer](https://github.com/PrismarineJS/mineflayer) Mineflayer 是一个强大的、高级的 JavaScript API，用于创建可以与 Minecraft 服务器交互的 Minecraft 机器人。它是 PrismarineJS 生态系统的一部分，为开发者提供了一套全面的工具，以便通过编程方式自动化和增强他们的 Minecraft 体验。
+
+
 ### 记忆系统
 
 - [Awesome-LLM-Resources-List](https://github.com/ilsilfverskiold/Awesome-LLM-Resources-List) 这里收集了记忆系统（Long-Term Memory）相关的开源项目
