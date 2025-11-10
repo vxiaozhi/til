@@ -175,6 +175,10 @@ trpc-a2a-go 是 tRPC 团队提供的 A2A 协议 Go 语言实现，主要特性�
 - 灵活的认证支持：内置 JWT、API Key、OAuth2 等多种认证方式
 - 丰富的示例：包含简单示例、流式处理、认证等完整示例
 
+其它：
+
+- [Agent2Agent (A2A) 协议发布](https://developers.googleblog.com/zh-hans/a2a-a-new-era-of-agent-interoperability/)
+
 ### Agent 如何进化提升认知
 
 - [Agentic Context Engine (ACE)](https://github.com/kayba-ai/agentic-context-engine) Agentic Context Engine (ACE) 是一个革命性框架，它使 AI agents 能够从经验中学习并随时间推移提升性能。基于斯坦福大学和 SambaNova 的研究成果，ACE 通过增量学习实现持续优化策略的三代理系统——且无需微调或训练数据。
