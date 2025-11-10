@@ -157,6 +157,24 @@ MCP 协议支持两种主要的通信机制：基于标准输入输出的本地�
 - [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
 - [modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 
+### Agent-to-Agent (A2A) 协议
+
+Agent-to-Agent (A2A) 协议是由 Google 开源的标准协议 [原始仓库](https://github.com/a2aproject/A2A)，专门用于不同 AI 代理之间的发现和协作。该协议定义了：
+
+- 统一的通信接口：标准化的 HTTP API，支持消息传递、任务管理等核心功能
+- 代理发现机制：通过 AgentCard 描述代理能力，实现自动发现和匹配
+- 多模态支持：支持文本、图像等多种数据类型的处理和传输
+- 流式通信：支持实时流式数据传输，适用于长时间运行的任务
+- 会话管理：通过会话 ID 组织多轮对话和相关任务
+
+开源 [trpc-a2a-go](https://github.com/trpc-group/trpc-a2a-go/) 项目简介
+trpc-a2a-go 是 tRPC 团队提供的 A2A 协议 Go 语言实现，主要特性包括：
+
+- 完整的 A2A 协议实现：支持所有核心 A2A 协议特性
+- 易于使用的 API：提供简洁的接口用于构建 A2A 服务和客户端
+- 灵活的认证支持：内置 JWT、API Key、OAuth2 等多种认证方式
+- 丰富的示例：包含简单示例、流式处理、认证等完整示例
+
 ### Agent 如何进化提升认知
 
 - [Agentic Context Engine (ACE)](https://github.com/kayba-ai/agentic-context-engine) Agentic Context Engine (ACE) 是一个革命性框架，它使 AI agents 能够从经验中学习并随时间推移提升性能。基于斯坦福大学和 SambaNova 的研究成果，ACE 通过增量学习实现持续优化策略的三代理系统——且无需微调或训练数据。
