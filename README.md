@@ -436,6 +436,7 @@ Dashboard 提供了可视化的项目管理界面，包括：
 - [AgentVerse](https://github.com/OpenBMB/AgentVerse) AgentVerse 是一个综合框架，旨在促进在各种应用中部署多个基于 LLM 的 Agent。该框架提供两种主要范式：任务解决和模拟，使开发者能够创建能够协作解决复杂任务或模拟交互环境的多 Agent 系统。
 - [Eino](https://github.com/cloudwego/eino) 字节跳动开源的 AI Agent 框架， Go 实现
 - [tRPC-Agent-Go]() 腾讯开源的 AI Agent 框架
+- [Agno](https://github.com/agno-agi/agno) 多智能体（multi-agent）框架
 
 ### 知识库搭建
 - [PandaWiki](https://github.com/chaitin/PandaWiki) PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索 等能力
