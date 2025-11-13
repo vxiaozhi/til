@@ -55,14 +55,15 @@
 
 ![](https://lilianweng.github.io/posts/2023-06-23-agent/agent-overview.png)
 
-agent有以下4个模块：角色（Profile）、记忆（Memory）、规划（Planning）和动作（Action）模块：
+agent有以下4个模块： Tool、记忆（Memory）、规划（Planning）和动作（Action）模块：
 
-- Profile/Role：确定agent的角色。agent 通常通过承担特定角色来执行任务，例如coder、teacher、domain experts、translator；角色信息包括年龄，性别，职业，性格 等等；通常将角色信息写入prompts，影响LLM的行为。
+- Tool：核心技术：函数调用（Function Calling）、API集成。优势：突破大模型固有局限，实现现实世界操作。
 - Memory：记忆模块存储环境中的信息，agent则利用记忆来帮助决策未来的动作，使行为更加一致、合理。记忆模块结合了认知科学研究中关于人类记忆过程的原理和机制。人类记忆遵循一个从感官记忆（记录感知输入）到短期记忆（暂时保持信息），再到长期记忆（在较长时间内巩固信息）的总体进程。对Agent而言，短期记忆类似于在Transformer架构限制的上下文窗口内的输入信息。长期记忆则类似于代理可以快速查询和检索的外部向量存储。
 - Planning：将复杂任务分解为更简单的子任务，逐个解决。比较常见的planning策略有以下几种：
   - Single-path reasoning：最终任务被分解为几个中间步骤，以级联方式连接，每个步骤只引导到一个后续步骤；如CoT, Zero-shotCot, ReWoo等
   - Multi-path reasoning ：推理步骤被组织成树状结构。每个中间步骤可能有多个后续步骤，更类似于人类思维。如ToT，RAP等
   - Planning with feedback ：在采取行动后能够接收反馈。反馈可以来自环境、人类和模型。如ReAct以及结合强化学习的Reflexion等。
+  - [相关论文 Understanding the planning of LLM agents: A survey](https://arxiv.org/pdf/2402.02716)
 - Action：将agent的决策转化为具体的输出。Agent可以调用APIs， Databases，或者直接依赖LLM的能力采取action；通过Action，Agent可以完成一个任务 、与其他agent交流或者 探索环境 （trial-and-error） 
 
 Antropic的 Barry Zhang 提出 Agent 更简洁的概念，即在循环（Loop）中使用工具的模型 。
