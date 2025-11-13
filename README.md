@@ -43,6 +43,7 @@
 ## AIAgent
 
 - [智能体设计模式：智能系统构建实战指南](https://jimmysong.io/book/agentic-design-patterns/) 几米宋的大作
+- [从ChatGPT到AI Agent，一文讲透 Agent 的底层逻辑](https://zhuanlan.zhihu.com/p/1966627526530037143)
 
 ### 什么是Agent
 
