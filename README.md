@@ -563,6 +563,7 @@ Dashboard 提供了可视化的项目管理界面，包括：
 Beamer 的主题大方简洁，非常适合用作学术汇报和晋升述职。
 
 - [这是 beamer 的官方主题](https://hartwork.org/beamer-theme-matrix/)
+- [Beamer Github源码](https://github.com/josephwright/beamer)
 - [技术大佬潘伟洲 的一些课件作品。大多使用 LaTeX + Beamer 制作](https://github.com/wzpan/wzpan.github.io/wiki/slides)
 
 Beamer的缺点： 不支持直接插入视频。要播放视频，你需要先将视频转成帧图像，然后使用 animation 包来实现播放，而且只支持 Adobe Reader。体验非常糟糕。
