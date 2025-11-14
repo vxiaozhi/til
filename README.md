@@ -537,6 +537,11 @@ Dashboard 提供了可视化的项目管理界面，包括：
 ### AI视频处理
 - [AI视频转录器](https://github.com/wendy7756/AI-Video-Transcriber) AI 视频转录&翻译&总结工具，支持YouTube、Tiktok、B 站等30+平台。代码开源，需要自己搭建前后端。
 
+
+## 向量存储
+
+- [Milvus](https://github.com/milvus-io/milvus) 高性能、云原生向量 DB。支持内存映射（Mmap）实现对磁盘上大型文件的直接内存访问。
+  
 ## 开源大语言模型
 
 - [gpt-oss](https://github.com/openai/gpt-oss) OpenAI 开源的大语言模型
@@ -546,3 +551,4 @@ Dashboard 提供了可视化的项目管理界面，包括：
 - [Wisper](https://github.com/openai/whisper) OpenAI开源的语音识别模型， 默认对中文的效果较差，这里有改进介绍：[Whisper对于中文语音识别与转写中文文本优化的实践(Python3.10)](https://www.cnblogs.com/v3ucn/p/17987069)
 - [Whisper-Finetune](https://github.com/shuaijiang/Whisper-Finetune) 微调Whisper语音识别模型
 - [FunASR](https://github.com/modelscope/FunASR) FunASR是一个基础语音识别工具包，提供多种功能，包括语音识别（ASR）、语音端点检测（VAD）、标点恢复、语言模型、说话人验证、说话人分离和多人对话语音识别等。
+
