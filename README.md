@@ -552,3 +552,26 @@ Dashboard 提供了可视化的项目管理界面，包括：
 - [Whisper-Finetune](https://github.com/shuaijiang/Whisper-Finetune) 微调Whisper语音识别模型
 - [FunASR](https://github.com/modelscope/FunASR) FunASR是一个基础语音识别工具包，提供多种功能，包括语音识别（ASR）、语音端点检测（VAD）、标点恢复、语言模型、说话人验证、说话人分离和多人对话语音识别等。
 
+## PPT(Slides)制作
+
+- [陈皓-如何做一个有质量的技术分享](https://coolshell.cn/articles/21589.html)
+
+做 slides 有非常多种选择，PowerPoint、Keynote、LaTeX+Beamer、reveal.js、Emacs org-mode、Jupyter Notebook……
+
+### LaTeX + Beamer
+
+Beamer 的主题大方简洁，非常适合用作学术汇报和晋升述职。
+
+- [这是 beamer 的官方主题](https://hartwork.org/beamer-theme-matrix/)
+- [技术大佬潘伟洲 的一些课件作品。大多使用 LaTeX + Beamer 制作](https://github.com/wzpan/wzpan.github.io/wiki/slides)
+
+Beamer的缺点： 不支持直接插入视频。要播放视频，你需要先将视频转成帧图像，然后使用 animation 包来实现播放，而且只支持 Adobe Reader。体验非常糟糕。
+
+为了让像我一样审美较差的码农也能用powerpoint/keynote做出媲美LaTeX Beamer的slides，成为一名合格的PPT工程师，轻松应对答辩晋升、技术分享和学术交流的任务，技术大佬潘伟洲开始了一个名为 BeamerStyleSlides 项目：对 Beamer 的更多官方主题进行复刻，并且在 Github 上开源：
+
+- [BeamerStyleSlides](https://github.com/wzpan/BeamerStyleSlides)
+
+这就是 BeamerStyleSlides 的由来。
+
+
+
