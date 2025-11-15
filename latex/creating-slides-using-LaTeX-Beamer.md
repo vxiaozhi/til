@@ -191,7 +191,20 @@ overleaf网站中不乏一些国内科研院校分享的模版，如：
 ### 2、基于一个已有的模版
 
 - 参考：https://github.com/wzpan/BeamerStyleSlides/tree/master/benchmark
-- 下载字体
+
+拷贝 slides.tex、tencent.jgp 到当前项目。
+
+### 3. 安装依赖字体
+
+slides.tex 中依赖了以下三种字体，下载并安装。
+
+- [Adobe Kaiti Std](https://fontsgeek.com/adobe-kaiti-std-font)
+- [Adobe Song Std](https://fontsgeek.com/adobe-song-std-font)
+- [Adobe Heiti Std](https://fontsgeek.com/adobe-heiti-std-font)
+
+在 Mac 上添加新字体，最简单的方法是双击字体文件，然后在弹出的预览窗口中点击“安装字体”。
+
+您还可以打开“字体册”应用程序，点击菜单栏的“文件”>“添加字体”，然后选择您要安装的字体文件。 
 
 ## Beamer模板转 PPT
 
