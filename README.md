@@ -706,6 +706,14 @@ ls   /usr/local/texlive/2022/texmf-dist/tex/latex/beamer/*.sty
 
 这个网站： https://hartwork.org/beamer-theme-matrix/ 提供了主题效果矩阵表，Beamer的行(AnnArbor)与列(albatross)分别对应着主题(AnnArbor)和配色(albatross)
 
+overleaf网站中不乏一些国内科研院校分享的模版，如：
+
+- [清华大学计算机系 THU Beamer Theme](https://www.overleaf.com/latex/templates/thu-beamer-theme/vwnqmzndvwyb)
+- [中国原子能科学研究院Beamer模板](https://www.overleaf.com/latex/templates/zhong-guo-yuan-zi-neng-ke-xue-yan-jiu-yuan-beamermo-ban/cbxsfscsnjwb)
+- [东北师大NENU-beamer-template](https://www.overleaf.com/latex/templates/dong-bei-shi-da-nenu-beamer-template/pjxbzdszjpsh)
+- [厦门大学Beamer](https://www.overleaf.com/latex/templates/sha-men-da-xue-beamer/sckzzdghzxbh)
+
+
 **Beamer模板转 PPT**
 
 Beamer的缺点： 不支持直接插入视频。要播放视频，你需要先将视频转成帧图像，然后使用 animation 包来实现播放，而且只支持 Adobe Reader。体验非常糟糕。
