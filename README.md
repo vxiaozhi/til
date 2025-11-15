@@ -560,12 +560,153 @@ Dashboard 提供了可视化的项目管理界面，包括：
 
 ### LaTeX + Beamer
 
-Beamer 的主题大方简洁，非常适合用作学术汇报和晋升述职。
+#### 1. **Beamer 是什么，为什么用 Beamer？**
+
+LaTeX：基于TeX的排版系统，以代码形式编写文档，擅长数学公式、学术排版。
+Beamer：LaTeX的一个宏包，专门用于生成结构化的幻灯片（类似PPT），输出为PDF。Beamer 的主题大方简洁，非常适合用作学术汇报和晋升述职。
+
+一些文档：
 
 - [这是 beamer 的官方主题](https://hartwork.org/beamer-theme-matrix/)
+- [overleaf网站提供的 Beamer主题，大多开源](https://www.overleaf.com/latex/templates/tagged/presentation)
 - [Beamer Github源码](https://github.com/josephwright/beamer)
 - [从零开始用beamer做学术报告幻灯片](https://alexander-qi.github.io/2019/teachbeamer/)
 - [技术大佬潘伟洲 的一些课件作品。大多使用 LaTeX + Beamer 制作](https://github.com/wzpan/wzpan.github.io/wiki/slides)
+
+#### 2. 怎么使用 Beamer
+
+- 安装 LaTex + Beamer 基础工具：TeX Live，需要的安装体积比较大，约6GB， 官网：https://tug.org/texlive/
+- 安装 Beamer 可视化编辑器，常用编辑器，如：TeXworks、TeXstudio、Visual Studio Code插件：LaTeX Workshop。 这里推荐 [TeXstudio](https://texstudio.sourceforge.net/) ,TeXstudio 是C++实现的开源工具，[Git仓库地址](https://github.com/texstudio-org/texstudio/)
+
+如果从 0 开始编写Beamer 文档，难度很大。因此，Beamer 内置了很多主题模板，我们可以引用这些主题进行编写：
+
+```
+\usecolortheme{rose}
+```
+
+这里的 rose ，即为主题名称。TeX Live 内置了很多主题，默认内置主题文件在 Mac 上通过以下命令查看：
+
+```
+ls   /usr/local/texlive/2022/texmf-dist/tex/latex/beamer/*.sty
+
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerarticle.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasearticle.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseauxtemplates.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseboxes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasecolor.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasecompatibility.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasedecode.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasefont.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseframe.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseframecomponents.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseframesize.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaselocalstructure.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasemisc.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasemodes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasenavigation.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasenotes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseoptions.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseoverlay.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaserequires.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasesection.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetemplates.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasethemes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetheorems.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetitle.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetoc.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetranslator.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbasetwoscreens.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerbaseverbatim.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemealbatross.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemebeaver.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemebeetle.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemecrane.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemedefault.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemedolphin.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemedove.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemefly.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemelily.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthememonarca.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemeorchid.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemerose.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemeseagull.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemeseahorse.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemesidebartab.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemespruce.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemestructure.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemewhale.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamercolorthemewolverine.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfoils.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemedefault.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemeprofessionalfonts.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemeserif.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemestructurebold.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemestructureitalicserif.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerfontthemestructuresmallcapsserif.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemecircles.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemedefault.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemeinmargin.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemerectangles.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerinnerthemerounded.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemedefault.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemeinfolines.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthememiniframes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemeshadow.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemesidebar.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemesmoothbars.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemesmoothtree.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemesplit.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerouterthemetree.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerpatchparalist.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerprosper.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerseminar.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamertexpower.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeAnnArbor.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeAntibes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeBergen.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeBerkeley.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeBerlin.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeBoadilla.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeCambridgeUS.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeCopenhagen.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeDarmstadt.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeDresden.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeEastLansing.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeFrankfurt.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeGoettingen.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeHannover.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeIlmenau.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeJuanLesPins.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeLuebeck.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeMadrid.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeMalmoe.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeMarburg.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeMontpellier.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemePaloAlto.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemePittsburgh.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeRochester.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeSingapore.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeSzeged.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeWarsaw.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemebars.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeboxes.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeclassic.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemecompatibility.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemedefault.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemelined.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeplain.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemeshadow.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemesidebar.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemesplit.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/beamerthemetree.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/multimedia.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/multimediasymbols.sty
+/usr/local/texlive/2022/texmf-dist/tex/latex/beamer/xmpmulti.sty
+```
+
+这个网站： https://hartwork.org/beamer-theme-matrix/ 提供了主题效果矩阵表，Beamer的行(AnnArbor)与列(albatross)分别对应着主题(AnnArbor)和配色(albatross)
+
+**Beamer模板转 PPT**
 
 Beamer的缺点： 不支持直接插入视频。要播放视频，你需要先将视频转成帧图像，然后使用 animation 包来实现播放，而且只支持 Adobe Reader。体验非常糟糕。
 
