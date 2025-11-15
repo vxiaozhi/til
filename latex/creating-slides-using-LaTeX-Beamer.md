@@ -181,10 +181,17 @@ overleaf网站中不乏一些国内科研院校分享的模版，如：
 
 ## TeXstudio 操作流程
 
-### 1、设置
+### 1、设置支持中文
+
+默认使用 latext 或者 pdflatex 进行编译，文档中有中文时会报错。确定进行下面设置：
 
 - 在TeXstudio中设置使用XeLaTeX编译。进入“选项” > “设置TeXstudio”（或“设置”） > “构建”选项卡，将“默认编译器”设置为“XeLaTex”。
 - 同时，为确保中文支持和避免乱码，建议在“编辑器”选项卡中将“默认字体编码”设置为“UTF-8”。 
+
+### 2、基于一个已有的模版
+
+- 参考：https://github.com/wzpan/BeamerStyleSlides/tree/master/benchmark
+- 下载字体
 
 ## Beamer模板转 PPT
 
