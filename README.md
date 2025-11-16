@@ -276,6 +276,11 @@ AI Agent在大众看到之前已经发展了两年多，直到最近Manus的爆�
 - [CodeBuddy]()
 - [trae-agent](https://github.com/bytedance/trae-agent) 字节开源 编程 Agent
 
+### PPT 编写
+
+- [PPTAgent](https://github.com/icip-cas/PPTAgent) PPTAgent 是一个创新的 AI 驱动系统，通过精密的两阶段工作流，能够自动从文档生成专业演示文稿。该系统受人类演示文稿创作方法启发，结合先进的语言模型与视觉处理技术，提供超越简单文本到幻灯片转换的高质量、内容丰富的幻灯片。
+- [TrainPPTAgent](https://github.com/johnson7788/TrainPPTAgent) TrainPPTAgent 是一款基于 AI 的智能演示文稿生成工具。用户只需输入主题，系统即可自动通过微信搜索网络内容，生成结构完整、内容丰富的 PPT 大纲与逐页内容。项目采用 前后端分离架构：前端负责交互、大纲编辑与模板选择，后端则借助大语言模型（LLM）与强化学习（GRPO）完成内容生成与优化，使生成的 PPT 更贴合用户目标。
+
 ## 氛围编程（vibe coding）
 
 2025年，Andrej Karpathy 提出了 "Vibe Coding" 这个概念，描述了一种全新的 AI 辅助开发模式：开发者用自然语言描述想法，AI 立即生成代码，然后通过不断的反馈和调整来完善功能。
