@@ -138,6 +138,7 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 | MemoRAG      | 🧪 Small research group| Sep 2024    | [![GitHub followers](https://img.shields.io/github/followers/qhjqhj00?style=flat-square&color=teal)](https://github.com/qhjqhj00/MemoRAG)    | 1.8k    | ✅ Apache-2.0               |
 | Memary       | 🧠 Niche community     | April 2024  | [![GitHub followers](https://img.shields.io/github/followers/kingjulio8238?style=flat-square&color=teal)](https://github.com/kingjulio8238/Memary) | 2.3k    | ✅ MIT                      |
 | Cognee       | 🔄 Moderate            | Aug 2023    | [![GitHub followers](https://img.shields.io/github/followers/topoteretes?style=flat-square&color=teal)](https://github.com/topoteretes/cognee)     | 5.8k    | ✅ Apache-2.0               |
+| EverMemOS - 陈天桥盛大团队，推出最强开源记忆系统EverMemOS       | EverMind-AI            | Nov 2025    | https://github.com/EverMind-AI/EverMemOS   | 166    | ✅ Apache-2.0               |
 
 记忆功能对比：
 
