@@ -486,7 +486,11 @@ Dashboard 提供了可视化的项目管理界面，包括：
 
 通过 Rules 约束大模型输出，通过 MCP 触达外部业务系统，通过知识库进行私域知识库输入，而通过 Skills 则是为大模型武装上特定技能，配备现实世界所需要的技能，高效解决问题。Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的目标，是让 Claude 不再只是一个「能聊天的模型」，而是一个具备可扩展、可执行技能体系的代理式 Agentic AI 工具。
 
-- [Claude Skills](https://github.com/anthropics/skills)
+- [Claude官方 Skills](https://github.com/anthropics/skills)
+
+其它有用 skills：
+- [内容研究撰稿人](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/content-research-writer/SKILL.md)
+- []()
 
   
 ## 建站
