@@ -582,6 +582,9 @@ Beamer：LaTeX的一个宏包，专门用于生成结构化的幻灯片（类似
 
 参考：[使用 LaTeX + Beamer 创建PPT](latex/creating-slides-using-LaTeX-Beamer.md)
 
+## 年终总结
+
+- [二〇二三年的年终总结都写好了吗？](https://github.com/saveweb/review-2023)
 
 
 
