@@ -90,6 +90,8 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 
 这些提示词各有侧重，但都体现了设计一个有效 AI Agent 所需考虑的关键要素：清晰的定位、明确的能力与限制、规范的工具使用、结构化的任务执行以及有效的沟通策略。学习这些特点有助于构建更强大、更可靠、更易于协作的 AI Agent
 
+- [share-best-prompt](https://github.com/shareAI-lab/share-best-prompt) 世界上最好的提示词 （总计估值超过300亿的提示词）外国网友x1xh成功获取了 v0、Manus、Cursor、Same.dev 和 Lovable 的完整官方系统提示词。附带提示词对应的中文版本。
+
 ### Agent游戏环境
 
 相关接口：
