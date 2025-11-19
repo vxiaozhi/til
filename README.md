@@ -489,6 +489,7 @@ Dashboard 提供了可视化的项目管理界面，包括：
 Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-code) 的 Command 机制实现的， 这里介绍更多 Claude command 相关资料：
 
 - [claude-code 使用指南](https://github.com/zebbern/claude-code-guide)
+- [Claude Code 逆向工程研究仓库](https://github.com/shareAI-lab/analysis_claude_code) 使用 Claude code 对其自身进行逆向工程分析，附分析的全部提示词。
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) 这是一份精选列表，包含斜杠命令、CLAUDE.md文件、命令行工具及其他资源与指南，旨在提升您的Claude代码工作流效率、生产力及使用体验。
 - [SuperClaude_Framework](https://github.com/SuperClaude-Org/SuperClaude_Framework) SuperClaude是一个元编程配置框架，通过行为指令注入与组件编排技术，将Claude代码转化为结构化开发平台。该框架配备强大工具与智能代理，能够提供系统化的工作流自动化解决方案。
 - [claude-code-subagents-collection](https://github.com/davepoon/claude-code-subagents-collection) Claude Code专属AI子代理与斜杠指令全集，集成领域专家知识与强大自动化功能，全面提升开发工作流效率。
