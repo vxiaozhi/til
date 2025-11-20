@@ -218,6 +218,12 @@ MCP 协议支持两种主要的通信机制：基于标准输入输出的本地�
 - [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
 - [modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
 
+**MCP Servers**
+
+- [awesome-mcp-servers](https://github.com/wong2/awesome-mcp-servers) 精选模型上下文协议（MCP）服务器列表
+- [LaTeX MCP Server](https://github.com/Yeok-c/latex-mcp-server)  阅读你引用的论文，验证/补充你的论点。访问你的Python脚本，根据实验数据生成新图表/Latex表格，并自动将其插入Latex文档。可逐步验证每个环节，确保PDF编译成功。其功能在于能自主将研究框架与实验结果整合成文（尽管成品可能略显粗糙）。
+- [MCP LaTeX Server](https://github.com/RobertoDure/mcp-latex-server) MCP LaTeX服务器通过标准化协议，使Claude等AI助手能够无缝处理LaTeX文档。该服务器提供创建、编辑、读取和验证LaTeX文件的工具，可轻松生成专业的学术论文、报告、演示文稿及其他LaTeX文档。**支持 Beamer**
+  
 ### Agent-to-Agent (A2A) 协议
 
 Agent-to-Agent (A2A) 协议是由 Google 开源的标准协议 [原始仓库](https://github.com/a2aproject/A2A)，专门用于不同 AI 代理之间的发现和协作。该协议定义了：
