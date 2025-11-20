@@ -40,6 +40,10 @@
 
 之所以命名“黑板”，是因为它让人想起专家们站在黑板前协作解决问题的情形。每位专家都独立地对当前状态做出评估，随时可能到黑板前添加、修改或删除信息。专家们通常自行决定接下来由谁来到黑板前，在黑板模式中，如果有多个程序都能提供帮助，将由调停者（moderator）组件决定这些程序的执行顺序。
 
+## 翻译
+
+- [PDFMathTranslate](https://github.com/PDFMathTranslate/PDFMathTranslate) 基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/OpenAI 等服务，提供 CLI/GUI/MCP/Docker/Zotero
+  
 ## AIAgent
 
 - [从ChatGPT到AI Agent，一文讲透 Agent 的底层逻辑](https://zhuanlan.zhihu.com/p/1966627526530037143)
