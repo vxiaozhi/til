@@ -55,6 +55,7 @@
 
 - [How to think about agent frameworks](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
 - [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
+- [Google Agent Development Kit 的运行时架构](https://google.github.io/adk-docs/runtime/)
   
 一个比较经典的定义是OpenAI的研究主管Lilian Weng给出的定义是：Agent = 大模型（LLM）+ 规划（Planning）+ 记忆（Memory）+ 工具使用（Tool Use）。这个定义是从技术实现的角度对Agent进行了定义，它指的是要实现一个Agent，就需要支持这些能力，它需要基于大模型，需要有规划的能力，能思考接下来要做的事情，需要有记忆，能够读取长期记忆和短期记忆，需要能够使用工具，他是将支持这些能力的集合体定义为了Agent。
 
@@ -564,6 +565,8 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [AgentVerse](https://github.com/OpenBMB/AgentVerse) AgentVerse 是一个综合框架，旨在促进在各种应用中部署多个基于 LLM 的 Agent。该框架提供两种主要范式：任务解决和模拟，使开发者能够创建能够协作解决复杂任务或模拟交互环境的多 Agent 系统。
 - [Eino](https://github.com/cloudwego/eino) 字节跳动开源的 AI Agent 框架， Go 实现
 - [tRPC-Agent-Go]() 腾讯开源的 AI Agent 框架
+- [Google Agent Development Kit (ADK) for Go](https://github.com/google/adk-go)
+- [Google Agent Development Kit (ADK) for Python](https://github.com/google/adk-python)
 - [Agno](https://github.com/agno-agi/agno) 多智能体（multi-agent）框架
 
 ### 知识库搭建
