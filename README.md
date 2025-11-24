@@ -572,7 +572,13 @@ Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的�
 - [tRPC-Agent-Go]() 腾讯开源的 AI Agent 框架
 - [Google Agent Development Kit (ADK) for Go](https://github.com/google/adk-go)
 - [Google Agent Development Kit (ADK) for Python](https://github.com/google/adk-python)
+- [Spring AI Alibaba](https://github.com/alibaba/spring-ai-alibaba) 阿里开源 java 版本 Agent 框架
 - [Agno](https://github.com/agno-agi/agno) 多智能体（multi-agent）框架
+
+### AI Agent 可观测
+- [Langfuse](https://github.com/langfuse/langfuse)
+- [loongsuite-python-agent](https://github.com/alibaba/loongsuite-python-agent) LoongSuite ，会针对更多的主流的开源框架，比如说 Python 的一些框架提供完善的支持。最近在做 Dify 的可观测性的支持，很快就会发布。
+- [loongsuite-go-agent](https://github.com/alibaba/loongsuite-go-agent)
 
 ### 知识库搭建
 - [PandaWiki](https://github.com/chaitin/PandaWiki) PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索 等能力
