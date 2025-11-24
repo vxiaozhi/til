@@ -51,11 +51,18 @@
 - [DecryptPrompt](https://github.com/DSXiangLi/DecryptPrompt) 总结Prompt&LLM论文，开源数据&模型，AIGC应用
 - [智能体设计模式：智能系统构建实战指南](https://jimmysong.io/book/agentic-design-patterns/) 几米宋的大作
 
+### Agent架构相关
+
+- [Google Agent Development Kit 的运行时架构](https://google.github.io/adk-docs/runtime/)
+- [Development Trends and Architecture Evolution of AI Agents](https://www.alibabacloud.com/blog/development-trends-and-architecture-evolution-of-ai-agents_602529)
+- [Development Trends and Architecture Evolution of AI Agents - 中文翻译](https://www.cnblogs.com/alisystemsoftware/p/19061466) AI Agent 发展趋势与架构演进 
+- [阿里云发布《AI 原生应用架构白皮书》](https://sca.aliyun.com/en/blog/sca-gvr7dx_awbbpb_ksx4ge93i5zcflry/)
+
 ### 什么是Agent
 
 - [How to think about agent frameworks](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
 - [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
-- [Google Agent Development Kit 的运行时架构](https://google.github.io/adk-docs/runtime/)
+
   
 一个比较经典的定义是OpenAI的研究主管Lilian Weng给出的定义是：Agent = 大模型（LLM）+ 规划（Planning）+ 记忆（Memory）+ 工具使用（Tool Use）。这个定义是从技术实现的角度对Agent进行了定义，它指的是要实现一个Agent，就需要支持这些能力，它需要基于大模型，需要有规划的能力，能思考接下来要做的事情，需要有记忆，能够读取长期记忆和短期记忆，需要能够使用工具，他是将支持这些能力的集合体定义为了Agent。
 
