@@ -14,6 +14,7 @@
 ## 开源项目
 
 - [HiMarket](https://github.com/higress-group/himarket)  HiMarket 是一个开箱即用的 AI 开放平台解决方案，可以用于构建企业级的 AI 能力市场与开发者生态中心。
+- [HiMarket 市场官网](https://mcp.higress.ai/) 这里收集了众多开源 mcp server
 - [Spring AI Alibaba](https://github.com/alibaba/spring-ai-alibaba) 阿里开源 java 版本 Agent 框架
 
 可观测：
