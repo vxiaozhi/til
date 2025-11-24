@@ -5,6 +5,12 @@
 - [Development Trends and Architecture Evolution of AI Agents](https://www.alibabacloud.com/blog/development-trends-and-architecture-evolution-of-ai-agents_602529)
 - [Development Trends and Architecture Evolution of AI Agents - 中文翻译](https://www.cnblogs.com/alisystemsoftware/p/19061466) AI Agent 发展趋势与架构演进 
 
+
+## Higress
+
+- [vxiaozhi - AI网关-Higress简介](https://github.com/vxiaozhi/vxiaozhi.github.io/blob/main/docs/_posts/zh/gateway/2025-03-23-ai-gateway-higress-intro.md)
+- [Dify 性能瓶颈？Higress AI 网关为它注入「高可用之魂」！](https://www.cnblogs.com/alisystemsoftware/p/19057287)
+
 ## 开源项目
 
 - [HiMarket](https://github.com/higress-group/himarket)  HiMarket 是一个开箱即用的 AI 开放平台解决方案，可以用于构建企业级的 AI 能力市场与开发者生态中心。
@@ -14,7 +20,7 @@
 
 - [loongsuite-python-agent](https://github.com/alibaba/loongsuite-python-agent) LoongSuite ，会针对更多的主流的开源框架，比如说 Python 的一些框架提供完善的支持。最近在做 Dify 的可观测性的支持，很快就会发布。
 - [loongsuite-go-agent](https://github.com/alibaba/loongsuite-go-agent)
-  
+
 ## 相关博文
 
 - [MCP Registry 官方发布：Nacos 原生支持，借助 HiMarket 构建企业级私有 MCP 市场 ](https://www.cnblogs.com/alisystemsoftware/p/19107143)
