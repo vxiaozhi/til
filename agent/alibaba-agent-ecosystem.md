@@ -25,6 +25,11 @@
 - [mcp.nacos.io/](https://mcp.nacos.io/) 这里提供将 MCP Stdio 模式转换成 Streamable 或 SSE 协议 , 主要是 通过 nacos-mcp-router 这个项目实现的。
 - [Dify 发现 Nacos MCP 服务](https://nacos.io/docs/latest/manual/user/ai/dify-nacos-mcp/?spm=5238cd80.6a0fa1b0.0.0.ad975508Qnmeps)
 
+部署：
+
+- [nacos-docker 部署](https://github.com/nacos-group/nacos-docker)
+- [nacos-k8s 部署](https://github.com/nacos-group/nacos-k8s)
+
 控制台体验地址：
 
 - https://console.nacos.io/
