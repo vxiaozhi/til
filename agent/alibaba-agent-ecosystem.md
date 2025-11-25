@@ -31,6 +31,8 @@ HiMarket 是一个开箱即用的 AI 开放平台解决方案，可以用于构�
 - AI 开放平台门户 (for 开发者/企业内部用户)：门户是面向内外开发者的“店面”。开发者可以在此完成开发者注册、创建消费者、获取凭证、浏览和订阅 AI 产品、在线测试，并清晰地监控自己的调用状态和成本。
 - AI 网关：作为 Higress 社区的子项目，Higress AI 网关承载所有 AI 调用的认证、安全、流控、协议转换以及可观测性等能力。
 
+详细介绍：[HiMarket 正式开源，为企业落地开箱即用的 AI 开放平台](https://higress.cn/blog/higress-gvr7dx_awbbpb_qp271vn6iw24huxv/?source=blog)
+
 代码仓库：
 
 - [HiMarket](https://github.com/higress-group/himarket)  HiMarket 是一个开箱即用的 AI 开放平台解决方案，可以用于构建企业级的 AI 能力市场与开发者生态中心。
