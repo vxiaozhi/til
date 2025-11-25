@@ -603,7 +603,11 @@ Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的�
 
 - [gpt-oss](https://github.com/openai/gpt-oss) OpenAI 开源的大语言模型
 - [gpt-oss-120b 和 DeepSeek-R1-0528 性能对比](https://www.reddit.com/r/LocalLLaMA/comments/1mifuqk/gptoss120b_outperforms_deepseekr10528_in/)
-  
+
+## LLM 强化训练
+
+- [verl](https://github.com/volcengine/verl) 【字节开源】verl是一个灵活、高效且可用于生产环境的大语言模型强化学习训练库。
+
 ## ASR模型
 - [Wisper](https://github.com/openai/whisper) OpenAI开源的语音识别模型， 默认对中文的效果较差，这里有改进介绍：[Whisper对于中文语音识别与转写中文文本优化的实践(Python3.10)](https://www.cnblogs.com/v3ucn/p/17987069)
 - [Whisper-Finetune](https://github.com/shuaijiang/Whisper-Finetune) 微调Whisper语音识别模型
