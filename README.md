@@ -574,6 +574,7 @@ Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的�
 - [Google Agent Development Kit (ADK) for Python](https://github.com/google/adk-python)
 - [Spring AI Alibaba](https://github.com/alibaba/spring-ai-alibaba) 阿里开源 java 版本 Agent 框架
 - [Agno](https://github.com/agno-agi/agno) 多智能体（multi-agent）框架
+- [AgentScope](https://github.com/agentscope-ai/agentscope) 面向智能体的编程：构建大型语言模型应用
 
 ### AI Agent 可观测
 - [Langfuse](https://github.com/langfuse/langfuse)
