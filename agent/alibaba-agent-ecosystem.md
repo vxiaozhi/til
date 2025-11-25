@@ -30,6 +30,16 @@
 - [nacos-docker 部署](https://github.com/nacos-group/nacos-docker)
 - [nacos-k8s 部署](https://github.com/nacos-group/nacos-k8s)
 
+
+K8s 部署时，需编辑/deploy/nacos/nacos-quick-start.yaml文件，添加如下3个环境变量：
+
+```
+NACOS_AUTH_TOKEN: Nacos 用于生成JWT Token的密钥，使用长度大于32字符的字符串，再经过Base64编码。
+NACOS_AUTH_IDENTITY_KEY: Nacos Server端之间 Inner API的身份标识的Key，必填。
+NACOS_AUTH_IDENTITY_VALUE: Nacos Server端之间 Inner API的身份标识的Value，必填。
+```
+参考：[Nacos Kubernetes 快速开始](https://nacos.io/docs/latest/quickstart/quick-start-kubernetes/?spm=5238cd80.674e7612.0.0.228c3b83sskXyj)
+
 控制台体验地址：
 
 - https://console.nacos.io/
