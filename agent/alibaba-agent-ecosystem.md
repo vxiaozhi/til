@@ -8,8 +8,14 @@
 
 ## Higress
 
+- [Higress Demo体验](https://demo.higress.io/route)
 - [vxiaozhi - AI网关-Higress简介](https://github.com/vxiaozhi/vxiaozhi.github.io/blob/main/docs/_posts/zh/gateway/2025-03-23-ai-gateway-higress-intro.md)
 - [Dify 性能瓶颈？Higress AI 网关为它注入「高可用之魂」！](https://www.cnblogs.com/alisystemsoftware/p/19057287)
+
+### Higress 对 MCP 的支持
+
+- [MCP Server 插件配置](https://higress.cn/ai/mcp-server/?spm=36971b57.21353015.0.0.58687095MCpdmO)
+- [Higress 开源 Remote MCP Server 托管方案，并将上线 MCP 市场](https://www.cnblogs.com/alisystemsoftware/p/18804540)
 
 ## 开源项目
 
