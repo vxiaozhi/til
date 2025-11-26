@@ -33,4 +33,19 @@ uv build
 uv tool install .
 ```
 
+## 自定义 Skills 实践
+
+### 1. md-to-ppt-outline_PPT大纲生成
+
+```
+创建一个新技能：读取当前项目下所有 md 文件，生成 ppt 中文大纲，技能指令文件也用中文
+```
+
+生成的技能：https://github.com/vxiaozhi/Claude_skills_zh-CN/tree/main/md-to-ppt-outline_PPT%E5%A4%A7%E7%BA%B2%E7%94%9F%E6%88%90
+
+
+### 2. proto-generator_需求生成Protobuf
+
+生成的技能： https://github.com/vxiaozhi/Claude_skills_zh-CN/tree/main/proto-generator_%E9%9C%80%E6%B1%82%E7%94%9F%E6%88%90Protobuf
+
 
