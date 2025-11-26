@@ -3,6 +3,7 @@
 Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的目标，是让 Claude 不再只是一个「能聊天的模型」，而是一个具备可扩展、可执行技能体系的代理式 Agentic AI 工具。
 
 - [Claude官方 Skills](https://github.com/anthropics/skills)
+- [Claude官方 Skills 对应的中文版本](https://github.com/vxiaozhi/Claude_skills_zh-CN)
 
 其它有用 skills：
 
@@ -20,3 +21,16 @@ Skill 架构遵循渐进式披露设计原则(Progressive Disclosure Design Prin
 - 资源层 - 按需加载，包含捆绑的资源、脚本和引用
 
 这种分层方法确保 Claude 能够快速识别相关技能，同时为复杂任务保持上下文窗口效率。
+
+## Skill_Seekers
+
+- [Skill_Seekers](https://github.com/vxiaozhi/Skill_Seekers)
+
+修复 log 问题：https://github.com/yusufkaraaslan/Skill_Seekers/pull/187/commits/4137c737a0194f5436bba65d71c7e176a30689b6
+
+```
+uv build
+uv tool install .
+```
+
+
