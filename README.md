@@ -121,6 +121,7 @@ Agent的开发，系统提示词的设计至关重要，可以说一个好的智
 
 - [AG-UI](https://github.com/ag-ui-protocol/ag-ui) 是一个用于Agent与前端页面交互的协议，他是一个基于事件驱动的协议，将Agent的各种行为（工具调用、大模型调用等）以不同类型Event的形式推送到前端，当前已经 CopliotKit 提供了不少与UI组件通过 AG-UI 协议与Agent交互。
 - [CopilotKit](https://github.com/CopilotKit/CopilotKit) CopilotKit框架，旨在帮助开发者构建由 AI 驱动的应用程序，其中的 copilot 和 agent 能够无缝集成到现有软件中。该框架专注于快速开发和生产就绪能力，为创建智能、交互式的用户体验提供了核心构建模块
+- [Agent Development Kit Web UI (ADK WEB)](https://github.com/google/adk-web) Google出品的 Agent 开发调试前端
 
 ### 记忆系统
 
