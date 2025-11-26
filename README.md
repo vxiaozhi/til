@@ -643,6 +643,10 @@ Beamer：LaTeX的一个宏包，专门用于生成结构化的幻灯片（类似
 
 - [二〇二三年的年终总结都写好了吗？](https://github.com/saveweb/review-2023)
 
+## 游戏引擎
+
+- [godot](https://github.com/godotengine/godot) Multi-platform 2D and 3D game engine
+
 ## 40个思维模型
 
 更多模型参考：[40个实用的思维模型](https://zhuanlan.zhihu.com/p/679640997)
