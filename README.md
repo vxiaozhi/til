@@ -621,6 +621,10 @@ Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的�
 - [Whisper-Finetune](https://github.com/shuaijiang/Whisper-Finetune) 微调Whisper语音识别模型
 - [FunASR](https://github.com/modelscope/FunASR) FunASR是一个基础语音识别工具包，提供多种功能，包括语音识别（ASR）、语音端点检测（VAD）、标点恢复、语言模型、说话人验证、说话人分离和多人对话语音识别等。
 
+## 重排模型
+- [bge-reran](https://doc.fastgpt.io/docs/introduction/development/custom-models/bge-rerank)
+- [Qwen3-Reranker-8B](https://huggingface.co/Qwen/Qwen3-Reranker-8B)
+
 ## PPT(Slides)制作
 
 - [陈皓-如何做一个有质量的技术分享](https://coolshell.cn/articles/21589.html)
