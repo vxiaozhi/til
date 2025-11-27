@@ -1,6 +1,7 @@
 # PPT Agent
 
 - [z.ai/](https://chat.z.ai/)
+- [这篇文档用时序图说明了 skill PPT 实现原理](https://mp.weixin.qq.com/s/KZOATWKPzvGDDelsavOl4Q)
 
 ## PPTAgent
 - [PPTAgent](https://github.com/icip-cas/PPTAgent) PPTAgent 是由中国科学院软件研究所的中文信息处理实验室（ICIP-CAS）研发的 AI 驱动系统，通过精密的两阶段工作流，能够自动从文档生成专业演示文稿。该系统受人类演示文稿创作方法启发，结合先进的语言模型与视觉处理技术，提供超越简单文本到幻灯片转换的高质量、内容丰富的幻灯片。
