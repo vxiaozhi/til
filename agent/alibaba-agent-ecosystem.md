@@ -12,6 +12,7 @@
 - [Higress 文档及博客仓库 higress-group.github.io](https://github.com/higress-group/higress-group.github.io)
 - [vxiaozhi - AI网关-Higress简介](https://github.com/vxiaozhi/vxiaozhi.github.io/blob/main/docs/_posts/zh/gateway/2025-03-23-ai-gateway-higress-intro.md)
 - [Dify 性能瓶颈？Higress AI 网关为它注入「高可用之魂」！](https://www.cnblogs.com/alisystemsoftware/p/19057287)
+- [Higress Plugin Server](https://github.com/higress-group/plugin-server) http server for higress wasmplugin
 
 ### Higress 对 MCP 的支持
 
