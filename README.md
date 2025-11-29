@@ -16,6 +16,12 @@
 
 - [uv](https://github.com/astral-sh/uv) Rust实现的 python 包管理器，比 Pip 快 10-100 倍。
 
+## 代码评审（Code Review）
+
+- [Google： 开发者代码 review 指南](https://google.github.io/eng-practices/review/)
+- [Google： 评审者指南-如何进行 Code Review](https://google.github.io/eng-practices/review/reviewer/)
+- [Google：开发者指南，如何让CL通过Code Review](https://google.github.io/eng-practices/review/developer/)
+  
 ## Json-RPC2.0
 - [(译) JSON-RPC 2.0 规范(中文版)](https://wiki.geekdream.com/Specification/json-rpc_2.0.html)
 - [JSON-RPC 2.0 Specification](https://www.jsonrpc.org/specification)
