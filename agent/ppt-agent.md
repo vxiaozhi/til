@@ -8,11 +8,14 @@
 
 ## AI PPT 产品
 
-- [z.ai/](https://chat.z.ai/)
+- [z.ai/](https://chat.z.ai/) 基于 GLM 模型
 - [KIMI PPT](https://www.kimi.com/slides)
 - [Gemini PPT](https://gemini.google.com/app)  Canvas 模式下，指令包含：生成 PPT
 - [智谱清言 PPT 模式](https://chatglm.cn/main/alltoolsdetail?lang=zh)
 
+试用体验：
+
+- [Gemini](https://gemini.google.com/share/a43cc1b0f674)
 ## AI生成的 PPT 大纲示例
 
 - [Higress 云原生 API 网关 PPT 大纲](../ppt-outline/higress-ai-native-gateway.md)
