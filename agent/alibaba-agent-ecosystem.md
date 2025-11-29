@@ -14,6 +14,10 @@
 - [Dify 性能瓶颈？Higress AI 网关为它注入「高可用之魂」！](https://www.cnblogs.com/alisystemsoftware/p/19057287)
 - [Higress Plugin Server](https://github.com/higress-group/plugin-server) http server for higress wasmplugin
 
+agent:
+
+- [issue:Higress的可定制化AI Agent网关插件设计 #1174](https://github.com/alibaba/higress/issues/1174)
+
 higress相关分享：
 
 - [分享视频：应用网关的演进历程和分类](https://developer.aliyun.com/live/254581?spm=36971b57.6e3b63e0.0.0.28de67c0rVt607) 里面介绍 API 网关 的由来及演进，以及 AI 网关。
