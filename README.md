@@ -5,53 +5,31 @@
 
 ## 目录
 
-## Go语言
+## 编程语言与框架
+
+### Go语言
 
 - [rpcx](https://github.com/smallnest/rpcx) Go语言呢实现的微服务 RPC 框架，类似于阿里巴巴的 Dubbo 和微博的 Motan。序列化支持，JSON, Protobuf, MessagePack, 原始字节。服务发现支持：	对等网络（点对点）, zookeeper, etcd, consul, mDNS。
 - [ants](https://github.com/panjf2000/ants/) ants 是一个高性能的 goroutine 池，实现了对大规模 goroutine 的调度管理、goroutine 复用，允许使用者在开发并发程序的时候限制 goroutine 数量，复用资源，达到更高效执行任务的效果。使用了 ants 的开源项目包括：coze-loop/trpc-go/dify-plugin-daemon
 - [GJSON](https://github.com/tidwall/gjson) Get JSON values quickly - JSON parser for Go
 - [Google 开发的依赖注入库 Wire](https://github.com/google/wire)
 
-## Python语言
+### Python语言
 
 - [uv](https://github.com/astral-sh/uv) Rust实现的 python 包管理器，比 Pip 快 10-100 倍。
 
-## 代码评审（Code Review）
+
+## 软件开发实践
+
+### 代码评审（Code Review）
 
 - [Google： 开发者代码 review 指南](https://google.github.io/eng-practices/review/)
 - [Google： 评审者指南-如何进行 Code Review](https://google.github.io/eng-practices/review/reviewer/)
 - [Google：开发者指南，如何让CL通过Code Review](https://google.github.io/eng-practices/review/developer/)
 
 以上来源于 Google 的工程实践，其本身也是开源的：[github.com/google/eng-practices](https://github.com/google/eng-practices)
-  
-## Json-RPC2.0
-- [(译) JSON-RPC 2.0 规范(中文版)](https://wiki.geekdream.com/Specification/json-rpc_2.0.html)
-- [JSON-RPC 2.0 Specification](https://www.jsonrpc.org/specification)
 
-请求对象包括四个成员：
-- jsonrpc： 指定JSON-RPC协议版本的字符串，必须准确写为“2.0”
-- method
-- params
-- id：唯一标识id，值必须包含一个字符串、数值或NULL空值。如果不包含该成员则被认定为是一个通知。该值一般不为NULL，若为数值则不应该包含小数。
-
-应答对象包括四个成员：
-- jsonrpc
-- result
-- error
-- id
-
-## 网关演进
-
-参考： [应用网关的演进历程和分类](https://higress.cn/blog/higress-gvr7dx_awbbpb_ss3ok5o9er9it0nb/)
-
-- 流量网关
-- ESB（企业服务总线，Enterprise Service Bus）网关
-- 微服务网关
-- 云原生网关
--  API 网关
--  AI 网关
-
-## 设计模式
+### 设计模式
 
 **架构模式——黑板模式**
 
@@ -61,136 +39,27 @@
 
 之所以命名“黑板”，是因为它让人想起专家们站在黑板前协作解决问题的情形。每位专家都独立地对当前状态做出评估，随时可能到黑板前添加、修改或删除信息。专家们通常自行决定接下来由谁来到黑板前，在黑板模式中，如果有多个程序都能提供帮助，将由调停者（moderator）组件决定这些程序的执行顺序。
 
+### 协议与规范
+- [Json-RPC2.0](protocols-and-specifications/json-rpc2.md)
+- [http todo]()
+- [prorobuf todo]
+
+
+## 系统架构
+
+- [网关演进](system-arch/gateway-evolution.md)
+  
 ## 翻译
 
 - [PDFMathTranslate](https://github.com/PDFMathTranslate/PDFMathTranslate) 基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/OpenAI 等服务，提供 CLI/GUI/MCP/Docker/Zotero
   
-## AIAgent
+## 人工智能与智能体（ AI & Agent）
 
-- [从ChatGPT到AI Agent，一文讲透 Agent 的底层逻辑](https://zhuanlan.zhihu.com/p/1966627526530037143)
-- [awesome-ai-agents](https://github.com/e2b-dev/awesome-ai-agents) 这个仓库收集了常用的 AIAgent 开源项目
-- [DecryptPrompt](https://github.com/DSXiangLi/DecryptPrompt) 总结Prompt&LLM论文，开源数据&模型，AIGC应用
-- [智能体设计模式：智能系统构建实战指南](https://jimmysong.io/book/agentic-design-patterns/) 几米宋的大作
-
-### Agent架构相关
-
-- [Google Agent Development Kit 的运行时架构](https://google.github.io/adk-docs/runtime/)
-- [Development Trends and Architecture Evolution of AI Agents](https://www.alibabacloud.com/blog/development-trends-and-architecture-evolution-of-ai-agents_602529)
-- [Development Trends and Architecture Evolution of AI Agents - 中文翻译](https://www.cnblogs.com/alisystemsoftware/p/19061466) AI Agent 发展趋势与架构演进 
-- [阿里云发布《AI 原生应用架构白皮书》](https://sca.aliyun.com/en/blog/sca-gvr7dx_awbbpb_ksx4ge93i5zcflry/)
-
-### Agent生态
-
-- [阿里 AI Agent 生态](agent/alibaba-agent-ecosystem.md)
-
-### 什么是Agent
-
-- [How to think about agent frameworks](https://blog.langchain.com/how-to-think-about-agent-frameworks/)
-- [LLM Powered Autonomous Agents](https://lilianweng.github.io/posts/2023-06-23-agent/)
-
-  
-一个比较经典的定义是OpenAI的研究主管Lilian Weng给出的定义是：Agent = 大模型（LLM）+ 规划（Planning）+ 记忆（Memory）+ 工具使用（Tool Use）。这个定义是从技术实现的角度对Agent进行了定义，它指的是要实现一个Agent，就需要支持这些能力，它需要基于大模型，需要有规划的能力，能思考接下来要做的事情，需要有记忆，能够读取长期记忆和短期记忆，需要能够使用工具，他是将支持这些能力的集合体定义为了Agent。
-
-![](https://lilianweng.github.io/posts/2023-06-23-agent/agent-overview.png)
-
-agent有以下4个模块： Tool、记忆（Memory）、规划（Planning）和动作（Action）模块：
-
-- Tool：核心技术：函数调用（Function Calling）、API集成。优势：突破大模型固有局限，实现现实世界操作。
-- Memory：记忆模块存储环境中的信息，agent则利用记忆来帮助决策未来的动作，使行为更加一致、合理。记忆模块结合了认知科学研究中关于人类记忆过程的原理和机制。人类记忆遵循一个从感官记忆（记录感知输入）到短期记忆（暂时保持信息），再到长期记忆（在较长时间内巩固信息）的总体进程。对Agent而言，短期记忆类似于在Transformer架构限制的上下文窗口内的输入信息。长期记忆则类似于代理可以快速查询和检索的外部向量存储。
-- Planning：将复杂任务分解为更简单的子任务，逐个解决。比较常见的planning策略有以下几种：
-  - Single-path reasoning：最终任务被分解为几个中间步骤，以级联方式连接，每个步骤只引导到一个后续步骤；如CoT, Zero-shotCot, ReWoo等
-  - Multi-path reasoning ：推理步骤被组织成树状结构。每个中间步骤可能有多个后续步骤，更类似于人类思维。如ToT，RAP等
-  - Planning with feedback ：在采取行动后能够接收反馈。反馈可以来自环境、人类和模型。如ReAct以及结合强化学习的Reflexion等。
-  - [相关论文 Understanding the planning of LLM agents: A survey](https://arxiv.org/pdf/2402.02716)
-- Action：将agent的决策转化为具体的输出。Agent可以调用APIs， Databases，或者直接依赖LLM的能力采取action；通过Action，Agent可以完成一个任务 、与其他agent交流或者 探索环境 （trial-and-error） 
-
-Antropic的 Barry Zhang 提出 Agent 更简洁的概念，即在循环（Loop）中使用工具的模型 。
-
-![](https://blog.langchain.com/content/images/size/w1000/2025/04/58d9f10c985c4eb5d53798dea315f7bb5ab6249e-2401x1000.webp)
-
-### Prompt的设计
-
-Agent的开发，系统提示词的设计至关重要，可以说一个好的智能体提示词就直接决定了一个智能体的上限。提示词的设计已经沉淀了很多方法论了，具体到Agent的提示词该怎么设计，可以学习和借鉴一下主流的Agent的提示词的撰写方法。
-
-- [system-prompts-and-models-of-ai-tools](https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools)
-
-这个Github项目收集了主流的AI Agent工具的提示词，非常值得学习。重点可以看看Manus和Cline。总结一下，这些世界一流的AI Agent提示词的撰写方法，主要有以下几个特点：
-
-- 角色与能力定义: 所有 Prompt 都首先清晰定义了 Agent 的角色、目标和核心能力。
-- 工具使用规则: 对于具备工具调用能力的 Agent，都详细规定了工具的使用方式、限制和注意事项。这是 Agentic AI 的核心要素。
-- 任务分解与规划: 隐式或显式地要求 Agent 能够分解复杂任务，并按计划执行（如cline的PLAN MODE, Manus 的 Agent Loop，Lovable 的分步计划）。
-- 上下文利用: 特别是 Cursor 和 cline，强调利用环境（IDE、项目文件、实时预览）信息。
-- 结构化的交互协议: 对大模型返回的数据格式提出明确要求，保证 LLM 与程序间通信的可靠性。（如cline采用XML格式交互）
-- 限制与边界: 清晰说明 Agent 不能做什么，有助于管理用户预期和保证安全。
-- 可扩展性：通过标准化协议集成外部能力（如cline提示词模版的MCP server模块）。
-- 代码质量与最佳实践: 对于编码相关的 Agent，都强调了代码质量、可维护性和遵循最佳实践。
-
-这些提示词各有侧重，但都体现了设计一个有效 AI Agent 所需考虑的关键要素：清晰的定位、明确的能力与限制、规范的工具使用、结构化的任务执行以及有效的沟通策略。学习这些特点有助于构建更强大、更可靠、更易于协作的 AI Agent
-
-- [share-best-prompt](https://github.com/shareAI-lab/share-best-prompt) 世界上最好的提示词 （总计估值超过300亿的提示词）外国网友x1xh成功获取了 v0、Manus、Cursor、Same.dev 和 Lovable 的完整官方系统提示词。附带提示词对应的中文版本。
-
-### Agent游戏环境
-
-相关接口：
-
-- [Mineflayer](https://github.com/PrismarineJS/mineflayer) Mineflayer 是一个强大的、高级的 JavaScript API，用于创建可以与 Minecraft 服务器交互的 Minecraft 机器人。它是 PrismarineJS 生态系统的一部分，为开发者提供了一套全面的工具，以便通过编程方式自动化和增强他们的 Minecraft 体验。
-- [Mindcraft](https://github.com/mindcraft-bots/mindcraft) Mindcraft 是一个创新框架，通过大型语言模型（LLMs）和 Mineflayer 库将人工智能引入 Minecraft。该项目支持创建能够理解自然语言、感知环境并在 Minecraft 世界中执行复杂任务的智能机器人。
-- [Project Malmö](https://zread.ai/microsoft/malmo) Project Malmö 是一个基于 Minecraft 构建的强大 AI 实验与研究平台。由微软设计，它为在复杂的 3D 世界中开发和测试人工智能算法提供了丰富的交互环境。该平台旨在激发新一代研究，探索这一独特环境带来的挑战性问题，从导航和生存任务到复杂的多智能体场景。
-
-### Agent前端
-
-- [AG-UI](https://github.com/ag-ui-protocol/ag-ui) 是一个用于Agent与前端页面交互的协议，他是一个基于事件驱动的协议，将Agent的各种行为（工具调用、大模型调用等）以不同类型Event的形式推送到前端，当前已经 CopliotKit 提供了不少与UI组件通过 AG-UI 协议与Agent交互。
-- [CopilotKit](https://github.com/CopilotKit/CopilotKit) CopilotKit框架，旨在帮助开发者构建由 AI 驱动的应用程序，其中的 copilot 和 agent 能够无缝集成到现有软件中。该框架专注于快速开发和生产就绪能力，为创建智能、交互式的用户体验提供了核心构建模块
-- [Agent Development Kit Web UI (ADK WEB)](https://github.com/google/adk-web) Google出品的 Agent 开发调试前端
-
-### 记忆系统
-
-#### 1. 记忆系统是什么？
-
-记忆系统是指通过特定机制存储、管理和检索信息，以增强模型在长期交互或复杂任务中的上下文连贯性、个性化响应及知识持久化的技术框架。其核心目标是解决大模型因固定上下文窗口限制导致的“失忆”问题，并模拟人类记忆的分层与动态更新特性。
-
-#### 2. 为什么需要记忆系统？
-
-大模型本身不存在记忆能力——如果开发agent应用，需要外挂记忆系统进行信息的记忆
-
-大模型本身的上下文阈值是有限的——开发过程中没有办法直接给它所有的对话或者文本内容，超出后早期对话内容会被丢弃，导致多轮对话中出现“断片”或重复提问。记忆系统通过分层存储（短期/长期记忆）和动态检索（如向量数据库），将历史信息压缩后注入当前上下文，确保对话连贯性。
-
-#### 3. 记忆系统的分层架构：
-
-记忆系统通常借鉴人类记忆的三层结构，分为短期、中期和长期记忆：
-
-- 短期记忆（STM）：存储当前对话或任务的即时信息，受限于模型的上下文窗口长度（如GPT-4的2048 tokens）。实现技术：将对话历史直接嵌入提示词中，但容量有限。
-- 中期记忆（MTM）：整合短期记忆中的主题信息，通过分段分页策略组织（如MemoryOS将同一主题的对话归并为“段”），并基于热度算法（访问频率、时间衰减等）动态更新。
-- 长期记忆（LPM）：持久化存储用户偏好、角色特征等个性化数据。例如，MemoryOS的LPM模块包含用户画像和智能体特征，通过向量数据库或知识图谱实现长期存储，然后通过RAG手段来进行提取。
-
-#### 4. 开源方案
-- [Awesome-LLM-Resources-List](https://github.com/ilsilfverskiold/Awesome-LLM-Resources-List) 这里收集了记忆系统（Long-Term Memory）相关的开源项目
-- [awesome-ai-memory](https://github.com/XiaomingX/awesome-ai-memory) AI长期记忆的开源和商业项目列表,列举了2024-2025年社区认可度高、技术前沿的AI记忆及智能体相关工具
-- [超越“金鱼脑”：深度剖析四大主流 AI Agent 记忆管理技术](https://zhuanlan.zhihu.com/p/1943700805099185953) 深入剖析了为什么传统的 RAG 还不够，以及 Agent 引入记忆系统的必要性。
-  
-常用开源方案（以下方案均为 Python 实现）：
-
-| Provider     | Community             | Founded     | GitHub                                                                                          | ⭐ Stars | Open Source                 |
-|--------------|------------------------|-------------|--------------------------------------------------------------------------------------------------|---------|-----------------------------|
-| Mem0         | 🚀 Fast-growing        | June 2023   | [![GitHub followers](https://img.shields.io/github/followers/mem0ai?style=flat-square&color=teal)](https://github.com/mem0ai/mem0)         | 35.2k   | ✅ Apache-2.0               |
-| Letta        | 💬 Active dev community| Oct 2023    | [![GitHub followers](https://img.shields.io/github/followers/letta-ai?style=flat-square&color=teal)](https://github.com/letta-ai/letta)     | 17k     | ✅ Apache-2.0               |
-| Zep          | 🤝 Moderate community  | Aug 2024    | [![GitHub followers](https://img.shields.io/github/followers/getzep?style=flat-square&color=teal)](https://github.com/getzep/graphiti)      | 11.6k   | ⚠️ Graphiti CE (Apache-2.0) |
-| MemoRAG      | 🧪 Small research group| Sep 2024    | [![GitHub followers](https://img.shields.io/github/followers/qhjqhj00?style=flat-square&color=teal)](https://github.com/qhjqhj00/MemoRAG)    | 1.8k    | ✅ Apache-2.0               |
-| Memary       | 🧠 Niche community     | April 2024  | [![GitHub followers](https://img.shields.io/github/followers/kingjulio8238?style=flat-square&color=teal)](https://github.com/kingjulio8238/Memary) | 2.3k    | ✅ MIT                      |
-| Cognee       | 🔄 Moderate            | Aug 2023    | [![GitHub followers](https://img.shields.io/github/followers/topoteretes?style=flat-square&color=teal)](https://github.com/topoteretes/cognee)     | 5.8k    | ✅ Apache-2.0               |
-| EverMemOS - 陈天桥盛大团队，推出最强开源记忆系统EverMemOS       | EverMind-AI            | Nov 2025    | https://github.com/EverMind-AI/EverMemOS   | 166    | ✅ Apache-2.0               |
-
-记忆功能对比：
-
-| Provider  | Based   | Optional KG | Self-Editing / Agentic | Rolling Summaries            | Categories |
-|-----------|---------|-------------|-------------------------|-------------------------------|------------|
-| Mem0      | 🧮 Vector | ✅ Yes       | ✅ Yes                  | ❌ Not explicit               | ✅ Yes     |
-| Letta     | 🧮 Vector | ⚠️ Partial  | ✅ Yes                  | ⚠️ Partial (memory blocks)    | ✅ Yes     |
-| Zep       | 🧠 KG     |  -         | ✅ Yes                  | ✅ Auto chat summarization     | ✅ Yes     |
-| MemoRAG   | 🧮 Vector | ❌ No       | ✅ Yes                  | ❌ Uses long-range model      | ❌ No      |
-| Memary    | 🧠 KG     | -         | ✅ Yes                  | ⚠️ Plans “rewind” feature     | ✅ Yes     |
-| Cognee    | 🧠 KG     | -         | ✅ Yes                  | ❌ No auto summaries          | ✅ Yes     |
-
+- [AI Agent 是什么](agent/introduction-to-ai-agent.md)
+- [Agent 架构与生态](agent/agent-architecture-and-ecosystem.md)
+- [Agent Prompt的设计](agent/agent-prompt.md) 系统提示词的方法论和优秀案例
+- [Agent 记忆系统](agent/agent-memory.md)
+- [交互协议: MCP (Model Context Protocol), A2A (Agent-to-Agent) 协议](agent/agent-protocol.md)
 
 
 
@@ -223,67 +92,7 @@ LLM通过结构化指令调用外部函数/API，将自然语言意图转为可�
 2. 隐私问题：别让助手乱翻你的东西 如果助手能调用你的支付宝付款，万一被坏人骗了，可能会乱花钱——所以现在很多Function Call都需要你"授权确认"才能用。
 3. 复杂任务容易搞砸 比如你让助手"先订机票，再订酒店，最后租辆车"，如果其中一步出错（比如机票卖完了），助手可能不知道怎么调整，需要你手把手教它。
 
-### MCP Model Context Protocol，模型上下文协议）
 
-- MCP2024年11月底，由 Anthropic 推出的一种开放标准，旨在统一大模型与外部数据源和工具之间的通信协议。
-- MCP 的主要目的在于解决当前 AI 模型因数据孤岛限制而无法充分发挥潜力的难题，MCP 使得 AI 应用能够安全地访问和操作本地及远程数据，为 AI 应用提供了连接万物的接口。
-
-MCP 与 Function Calling 的区别：
-
-- MCP（Model Context Protocol），模型上下文协议
-- Function Calling，函数调用
-
-这两种技术都旨在增强 AI 模型与外部数据的交互能力，但 MCP 不止可以增强 AI 模型，还可以连接其他的应用系统。
-
-**MCP 核心架构**
-
-MCP 遵循客户端-服务器架构（client-server），其中包含以下几个核心概念：
-
-- MCP 主机（MCP Hosts）：发起请求的 LLM 应用程序（例如 Claude Desktop、IDE 或 AI 工具）。
-- MCP 客户端（MCP Clients）：在主机程序内部，与 MCP server 保持 1:1 的连接。
-- MCP 服务器（MCP Servers）：为 MCP client 提供上下文、工具和 prompt 信息。
-- 本地资源（Local Resources）：本地计算机中可供 MCP server 安全访问的资源（例如文件、数据库）。
-- 远程资源（Remote Resources）：MCP server 可以连接到的远程资源（例如通过 API）。
-
-MCP 协议支持两种主要的通信机制：基于标准输入输出的本地通信和基于SSE（Server-Sent Events）的远程通信。这两种机制都使用 JSON-RPC 2.0 格式进行消息传输，确保了通信的标准化和可扩展性。
-
-- 本地通信：通过 stdio 传输数据，适用于在同一台机器上运行的客户端和服务器之间的通信。
-- 远程通信：利用 SSE 与 HTTP 结合，实现跨网络的实时数据传输，适用于需要访问远程资源或分布式部署的场景。
-
-**开发**
-
-- [modelcontextprotocol/python-sdk](https://github.com/modelcontextprotocol/python-sdk)
-- [modelcontextprotocol/typescript-sdk](https://github.com/modelcontextprotocol/typescript-sdk)
-- [modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)
-
-**MCP Servers**
-
-- [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
-- [awesome-mcp-servers](https://github.com/wong2/awesome-mcp-servers) 精选模型上下文协议（MCP）服务器列表
-- [LaTeX MCP Server](https://github.com/Yeok-c/latex-mcp-server)  阅读你引用的论文，验证/补充你的论点。访问你的Python脚本，根据实验数据生成新图表/Latex表格，并自动将其插入Latex文档。可逐步验证每个环节，确保PDF编译成功。其功能在于能自主将研究框架与实验结果整合成文（尽管成品可能略显粗糙）。
-- [MCP LaTeX Server](https://github.com/RobertoDure/mcp-latex-server) MCP LaTeX服务器通过标准化协议，使Claude等AI助手能够无缝处理LaTeX文档。该服务器提供创建、编辑、读取和验证LaTeX文件的工具，可轻松生成专业的学术论文、报告、演示文稿及其他LaTeX文档。**支持 Beamer**
-  
-### Agent-to-Agent (A2A) 协议
-
-Agent-to-Agent (A2A) 协议是由 Google 开源的标准协议 [原始仓库](https://github.com/a2aproject/A2A)，专门用于不同 AI 代理之间的发现和协作。该协议定义了：
-
-- 统一的通信接口：标准化的 HTTP API，支持消息传递、任务管理等核心功能
-- 代理发现机制：通过 AgentCard 描述代理能力，实现自动发现和匹配
-- 多模态支持：支持文本、图像等多种数据类型的处理和传输
-- 流式通信：支持实时流式数据传输，适用于长时间运行的任务
-- 会话管理：通过会话 ID 组织多轮对话和相关任务
-
-开源 [trpc-a2a-go](https://github.com/trpc-group/trpc-a2a-go/) 项目简介
-trpc-a2a-go 是 tRPC 团队提供的 A2A 协议 Go 语言实现，主要特性包括：
-
-- 完整的 A2A 协议实现：支持所有核心 A2A 协议特性
-- 易于使用的 API：提供简洁的接口用于构建 A2A 服务和客户端
-- 灵活的认证支持：内置 JWT、API Key、OAuth2 等多种认证方式
-- 丰富的示例：包含简单示例、流式处理、认证等完整示例
-
-其它：
-
-- [Agent2Agent (A2A) 协议发布](https://developers.googleblog.com/zh-hans/a2a-a-new-era-of-agent-interoperability/)
 
 ### Agent 如何进化提升认知
 
