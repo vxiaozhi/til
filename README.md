@@ -587,6 +587,11 @@ Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的�
 - [gpt-oss](https://github.com/openai/gpt-oss) OpenAI 开源的大语言模型
 - [gpt-oss-120b 和 DeepSeek-R1-0528 性能对比](https://www.reddit.com/r/LocalLLaMA/comments/1mifuqk/gptoss120b_outperforms_deepseekr10528_in/)
 
+## 开源数学大模型
+
+- [DeepSeek-Math-V2](https://github.com/deepseek-ai/DeepSeek-Math-V2)
+
+
 ## LLM 强化训练
 
 - [verl](https://github.com/volcengine/verl) 【字节开源】verl是一个灵活、高效且可用于生产环境的大语言模型强化学习训练库。
