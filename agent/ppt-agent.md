@@ -15,7 +15,11 @@
 
 试用体验：
 
-- [Gemini](https://gemini.google.com/share/a43cc1b0f674)
+- [Gemini](https://gemini.google.com/share/a43cc1b0f674) 生成最快
+- [z.ai](https://chat.z.ai/c/3a97d9f8-0934-4129-b58b-98412521a272) 速度慢
+- [kimi](https://www.kimi.com/chat/d4l7rfhb9p5ah4gsn9o0) 效果一般
+- [智谱清言](https://chatglm.cn/main/alltoolsdetail?lang=zh&cid=692a7d06774fa0827bd9d7f5) 效果炸裂，完全遵从了我发送的 outline 结构。而且生成的结果提供 html 源码，支持下载 pdf、pptx 格式。
+
 ## AI生成的 PPT 大纲示例
 
 - [Higress 云原生 API 网关 PPT 大纲](../ppt-outline/higress-ai-native-gateway.md)
