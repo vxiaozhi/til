@@ -14,6 +14,11 @@
 - [Dify 性能瓶颈？Higress AI 网关为它注入「高可用之魂」！](https://www.cnblogs.com/alisystemsoftware/p/19057287)
 - [Higress Plugin Server](https://github.com/higress-group/plugin-server) http server for higress wasmplugin
 
+higress相关分享：
+
+- [分享视频：应用网关的演进历程和分类](https://developer.aliyun.com/live/254581?spm=36971b57.6e3b63e0.0.0.28de67c0rVt607) 里面介绍 API 网关 的由来及演进，以及 AI 网关。
+- [PPT 下载地址：应用网关的演进历程和分类](https://developer.aliyun.com/ebook/8395?spm=36971b57.6e3b63e0.0.0.28de67c0rVt607)
+  
 ### Higress 对 MCP 的支持
 
 - [MCP Server 插件配置](https://higress.cn/ai/mcp-server/?spm=36971b57.21353015.0.0.58687095MCpdmO)
