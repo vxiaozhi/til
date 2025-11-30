@@ -29,4 +29,4 @@
 
 ## Agent生态
 
-- [阿里 AI Agent 生态](agent/alibaba-agent-ecosystem.md)
+- [阿里 AI Agent 生态](alibaba-agent-ecosystem.md)
