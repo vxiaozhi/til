@@ -4,9 +4,11 @@
 
 做 slides 有非常多种选择，PowerPoint、Keynote、LaTeX+Beamer、reveal.js、Emacs org-mode、Jupyter Notebook……
 
-### LaTeX + Beamer
+## 方案
 
-#### 1. **Beamer 是什么，为什么用 Beamer？**
+### 1. LaTeX + Beamer
+
+**Beamer 是什么，为什么用 Beamer？**
 
 LaTeX：基于TeX的排版系统，以代码形式编写文档，擅长数学公式、学术排版。
 Beamer：LaTeX的一个宏包，专门用于生成结构化的幻灯片（类似PPT），输出为PDF。Beamer 的主题大方简洁，非常适合用作学术汇报和晋升述职。
@@ -20,6 +22,16 @@ Beamer：LaTeX的一个宏包，专门用于生成结构化的幻灯片（类似
 - [技术大佬潘伟洲 的一些课件作品。大多使用 LaTeX + Beamer 制作](https://github.com/wzpan/wzpan.github.io/wiki/slides)
 
 参考：[使用 LaTeX + Beamer 创建PPT](latex/creating-slides-using-LaTeX-Beamer.md)
+
+### 2. PPT Agent
+
+- [Claude Document skills]()
+
+## 常用配色
+
+## 常用主题
+
+- 工作汇报蓝：#0161FF
 
 ## 年终总结
 
