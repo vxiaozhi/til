@@ -1,4 +1,4 @@
-<img width="152" height="77" alt="image" src="https://github.com/user-attachments/assets/58a6de14-79bb-4598-8795-a9b66b3210ec" />## 网关演进
+## 网关演进
 
 参考： [应用网关的演进历程和分类](https://higress.cn/blog/higress-gvr7dx_awbbpb_ss3ok5o9er9it0nb/)
 
