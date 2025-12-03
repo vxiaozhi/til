@@ -8,3 +8,9 @@
 - 云原生网关
 -  API 网关
 -  AI 网关
+
+
+## AI 网关
+
+- [2025KCD(Kubernetes Community Days) 的 slides和回放](https://sessionize.com/view/cnfxrf60/GridSmart?format=Embed_Styled_Html&isDark=False&title=KCD%20Hangzhou%20%2B%20OpenInfra%20Days%20China%202025)
+- [agentgateway](https://github.com/agentgateway/agentgateway) Next Generation Agentic Proxy for AI Agents and MCP servers
