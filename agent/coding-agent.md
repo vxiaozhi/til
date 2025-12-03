@@ -27,6 +27,13 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 
 - [提交 Git 代码](https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md)
 - [分析代码结构与目的，以创建详细文档](https://github.com/jerseycheese/Narraitor/blob/feature/issue-227-ai-suggestions/.claude/commands/create-docs.md)
+- [生成全面的架构文档](https://github.com/davepoon/claude-code-subagents-collection/blob/main/subagents/architect-review.md)
+- [act 参考](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/act.md)
+- [列出所有工具](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/all-tools.md)
+- [审查并优化系统架构](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/architecture-review.md)
+- [设置持续集成流水线](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/ci-setup.md)
+- [解释代码](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/explain-code.md)
+- [提示词优化](https://github.com/wshobson/commands/blob/main/tools/prompt-optimize.md)
 
 ### Claude code 技巧
 
