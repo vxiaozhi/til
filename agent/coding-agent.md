@@ -23,6 +23,11 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [Claude Code Slash Commands](https://github.com/wshobson/commands) 一套专为Claude Code打造的生产级斜杠命令全集，为现代软件开发提供智能自动化与多智能体编排能力。
 - [Claude-Command-Suite](https://github.com/qdhenry/Claude-Command-Suite) Claude Command Suite是一款开发工具包，提供148+条斜杠命令、54个AI智能体、Claude代码技能以及面向软件工程任务的自动化工作流。该套件通过结构化、可重复的工作流程，覆盖代码审查、测试部署、业务场景建模及GitHub-Linear同步等功能。
 
+### 斜杠命令（command）
+
+- [提交 Git 代码](https://github.com/evmts/tevm-monorepo/blob/main/.claude/commands/commit.md)
+- [分析代码结构与目的，以创建详细文档](https://github.com/jerseycheese/Narraitor/blob/feature/issue-227-ai-suggestions/.claude/commands/create-docs.md)
+
 ### Claude code 技巧
 
 - [关于 Claude 对国家限制，使用claude-code-router]( https://github.com/musistudio/claude-code-router)
