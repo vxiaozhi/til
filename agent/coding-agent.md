@@ -37,9 +37,28 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 
 ### Claude code 技巧
 
+如何写一份好的 CLAUDE.md 文件 [writing-a-good-claude-md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) ：
+
+- CLAUDE.md 旨在帮助 Claude 熟悉您的代码库。它应阐明项目的核心理念（WHY）、核心内容（WHAT）和实现方式（HOW）。
+- 指令宜精不宜多。在确保必要指引不缺失的前提下，文件中的指令应尽可能精简。
+- 保持 CLAUDE.md 内容简洁且具有普适性。
+- 采用渐进式披露原则——无需一次性告知 Claude 所有潜在信息，而应指导其如何查找关键信息，使其仅在需要时能自主获取并运用，从而避免上下文窗口或指令数量过度膨胀。
+- Claude 并非代码检查工具。请使用专业的代码检查器和格式化工具，并根据需要合理利用 Hooks、斜杠命令等其他功能。
+- CLAUDE.md 是项目引导机制中最高效的切入点，因此请避免自动生成此文件。为获得最佳效果，您应当精心设计其内容。
+
+
+其他：
+
 - [关于 Claude 对国家限制，使用claude-code-router]( https://github.com/musistudio/claude-code-router)
 - [命令行体验差？使用 Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
 
+## 总结
+CLAUDE.md 旨在帮助 Claude 熟悉您的代码库。它应阐明项目的核心理念（WHY）、核心内容（WHAT）和实现方式（HOW）。
+指令宜精不宜多。在确保必要指引不缺失的前提下，文件中的指令应尽可能精简。
+保持 CLAUDE.md 内容简洁且具有普适性。
+采用渐进式披露原则——无需一次性告知 Claude 所有潜在信息，而应指导其如何查找关键信息，使其仅在需要时能自主获取并运用，从而避免上下文窗口或指令数量过度膨胀。
+Claude 并非代码检查工具。请使用专业的代码检查器和格式化工具，并根据需要合理利用 Hooks、斜杠命令等其他功能。
+CLAUDE.md 是项目引导机制中最高效的切入点，因此请避免自动生成此文件。为获得最佳效果，您应当精心设计其内容。
 ### Claude-Code 应用之写书
 
 - [进阶费曼学习法：Claude code 写书](https://zhuanlan.zhihu.com/p/1932021734954997646) 书目全在[github](https://github.com/zsc?tab=repositories)
