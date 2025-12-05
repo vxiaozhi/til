@@ -19,3 +19,7 @@
 
 ## 建站
 - NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/) 
+
+## 值得参考的开源项目
+
+- [banana-prompt-quicker](https://github.com/glidea/banana-prompt-quicker) 一个开源的浏览器插件，收集 Nano Banana 模型的热门提示词，方便复用
