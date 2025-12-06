@@ -21,6 +21,21 @@
 - NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/)
 - Shipany.ai
 
+## 部署
+
+### 商业
+
+- Vercel
+- [Cloudflare Workers](https://workers.cloudflare.com/)
+
+### 开源
+
+- [Dokploy](https://github.com/dokploy/dokploy) Vercel、Netlify和Heroku的开源替代方案。
+
+### [OpenNext](https://github.com/opennextjs)
+
+OpenNext Next.js与Remix、Astro等其他现代前端框架不同，它不具备跨平台自托管的能力。虽然可以将其作为Node.js应用程序运行，但这与在Vercel上的运行方式存在差异。多年来业界曾多次尝试解决这一问题，主要分为两类方案：开源框架的特定实现或闭源产品的定制化方案。由于Next.js持续更新迭代，这些分散的方案往往难以独立维护。OpenNext正是为了整合各方努力而发起的倡议项目。
+
 ## 开源网站监控
 
 - [openpanel](https://github.com/Openpanel-dev/openpanel) Openpanel是一款开源网页与产品分析平台，它融合了Mixpanel的强大功能、Plausible的易用性，堪称谷歌分析的最佳替代方案之一。
