@@ -1,4 +1,4 @@
-# 开发者服务
+# 独立开发者服务
 
 **支付**
 
@@ -18,7 +18,13 @@
 - [coro-code](https://github.com/Blushyes/coro-code) Rust 实现的基于终端的 AI 编码代理，Claude Code 的开源替代品。
 
 ## 建站
-- NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/) 
+- NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/)
+- Shipany.ai
+
+## 开源网站监控
+
+- [openpanel](https://github.com/Openpanel-dev/openpanel) Openpanel是一款开源网页与产品分析平台，它融合了Mixpanel的强大功能、Plausible的易用性，堪称谷歌分析的最佳替代方案之一。
+- [Plausible](https://github.com/plausible/analytics) 简单、开源、轻量且注重隐私的网站分析工具，是谷歌分析的替代选择。
 
 ## 值得参考的开源项目
 
