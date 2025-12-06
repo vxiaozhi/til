@@ -8,10 +8,8 @@
 ## 编程语言与框架
 
 - [Golang](programming-language/golang.md)
-- []()
-- []()
-
-
+- [Python](programming-language/python.md)
+- [Elixir](programming-language/elixir.md)
 
 
 ## 软件开发实践
