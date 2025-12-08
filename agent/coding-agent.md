@@ -9,6 +9,11 @@
 - [Qwen Code](https://github.com/QwenLM/qwen-code) 阿里开源：Qwen Code是一款基于Gemini CLI 改造的强大命令行AI工作流工具，特别针对Qwen3-Coder模型进行了优化。它通过先进的代码理解能力、自动化任务处理和智能辅助功能，显著提升您的开发工作效率。
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli) Google开源：Gemini CLI 是一款开源人工智能代理，能将 Gemini 的强大功能直接引入您的终端。它提供轻量级的 Gemini 访问方式，让您的指令能以最直接的路径抵达我们的模型。
 
+## Gemini CLI
+
+- [深入解析：Gemini CLI源码解析：Agent与上下文管理实现细节](https://www.cnblogs.com/yjbjingcha/p/19074738)
+- [深入AI Agent内核：Google gemini-cli 源码深度解构](https://zhuanlan.zhihu.com/p/1976305837011116648)
+  
 ## Claude Code
 
 Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-code) 的 Command 机制实现的， 这里介绍更多 Claude command 相关资料：
