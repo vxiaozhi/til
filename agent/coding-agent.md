@@ -40,6 +40,10 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [解释代码](https://github.com/davepoon/claude-code-subagents-collection/blob/main/commands/explain-code.md)
 - [提示词优化](https://github.com/wshobson/commands/blob/main/tools/prompt-optimize.md)
 
+### Claude Skill
+
+- [DrawIO-Skill: 创建专业的draw.io（diagrams.net）图表，采用XML格式（.drawio文件），集成PMP/PMBOK方法论、丰富的视觉资源库及行业标准专业模板。](https://github.com/jgtolentino/insightpulse-odoo/blob/main/docs/claude-code-skills/community/drawio-diagrams-enhanced/SKILL.md)
+
 ### Claude code 技巧
 
 如何写一份好的 CLAUDE.md 文件 [writing-a-good-claude-md](https://www.humanlayer.dev/blog/writing-a-good-claude-md) ：
