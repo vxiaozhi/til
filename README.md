@@ -56,6 +56,7 @@
 - [开发者服务](tools-and-resources/developer-services.md)
 - [PPT制作](tools-and-resources/ppt-creation.md)
 - [PDFMathTranslate](https://github.com/PDFMathTranslate/PDFMathTranslate) 基于 AI 完整保留排版的 PDF 文档全文双语翻译，支持 Google/DeepL/Ollama/OpenAI 等服务，提供 CLI/GUI/MCP/Docker/Zotero
+- [Next AI Draw.io](tools-and-resources/next-ai-drawio.md)
 
 ## 思维模型与方法论
 
