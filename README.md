@@ -49,6 +49,10 @@
 - [coding Agent](agent/coding-agent.md)
 - [PPT Agent](agent/ppt-agent.md)
 
+## DevOps
+
+- [k8s-helm-chart](devops/k8s-helm-chart.md)
+
 ## 实用工具与资源
 
 - [开源项目集合](tools-and-resources/open-source-project-collection.md)
