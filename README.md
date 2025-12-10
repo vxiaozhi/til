@@ -28,6 +28,7 @@
 ## 系统架构
 
 - [网关演进](system-arch/gateway-evolution.md)
+- [Cloudflare Workers](system-arch/introduction-to-cloudflare-workers.md)
 - [Milvus](https://github.com/milvus-io/milvus) 高性能、云原生向量 DB。支持内存映射（Mmap）实现对磁盘上大型文件的直接内存访问。
 
 
