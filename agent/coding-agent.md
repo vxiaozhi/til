@@ -8,6 +8,11 @@
 - [trae-agent](https://github.com/bytedance/trae-agent) 字节开源 编程 Agent
 - [Qwen Code](https://github.com/QwenLM/qwen-code) 阿里开源：Qwen Code是一款基于Gemini CLI 改造的强大命令行AI工作流工具，特别针对Qwen3-Coder模型进行了优化。它通过先进的代码理解能力、自动化任务处理和智能辅助功能，显著提升您的开发工作效率。
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli) Google开源：Gemini CLI 是一款开源人工智能代理，能将 Gemini 的强大功能直接引入您的终端。它提供轻量级的 Gemini 访问方式，让您的指令能以最直接的路径抵达我们的模型。
+- [open code](https://github.com/sst/opencode) The open source AI coding agent.
+
+Go版本:
+
+- [open code](https://github.com/opencode-ai/opencode) A powerful AI coding agent. Built for the terminal.
 
 ## Gemini CLI
 
