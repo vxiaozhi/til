@@ -51,6 +51,7 @@
 
 - [coding Agent](agent/coding-agent.md)
 - [PPT Agent](agent/ppt-agent.md)
+- [手机 Agent](agent/phone-agent.md)
 
 ## DevOps
 
