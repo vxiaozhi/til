@@ -7,9 +7,11 @@
 - [NCE Flow](https://github.com/luzhenhua/NCE-Flow) 《新概念英语》点读，可以选择任一句开始播放，也可以自动朗读。
 - [Type Words](https://github.com/zyronon/TypeWords) 开源的 Web 应用，通过打字学习英语单词，加深记忆，有发音和例句，内置多个常用词库
 - [binglish：AI 桌面英语](https://github.com/klemperer/binglish) 一个 Python 脚本，自动为 Windows 更换必应 Bing 每日壁纸，并在壁纸上添加“每日单词”，AI 生成单词解释和例句。
+- [专为儿童设计的 AI 英语阅读学习助手](https://github.com/xckevin/magic-english-buddy)
 
 ### 知识库搭建
 - [PandaWiki](https://github.com/chaitin/PandaWiki) PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索 等能力
+- [一个需要自搭建的后台服务，从网上抓取 AI 相关新闻，并发送摘要邮件，整个过程都由 AI 完成，需要安装 Claude Code。](https://github.com/wjcwjc77/hacker-news-agent)
 
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
