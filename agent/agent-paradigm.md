@@ -2,8 +2,8 @@
 
 ## React
 
-- [论文]()
-- [代码]()
+- [论文 ReAct: Synergizing Reasoning and Acting in Language Models](https://arxiv.org/abs/2210.03629)
+- [代码](https://github.com/ysymyth/ReAct)
 
 ## CodeAct
 
