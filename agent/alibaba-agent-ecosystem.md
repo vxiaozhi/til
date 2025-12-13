@@ -78,6 +78,7 @@ HiMarket 是一个开箱即用的 AI 开放平台解决方案，可以用于构�
 
 ## 可观测：
 
+- [Higress AI可观测_ai-statistics插件扩展设计 #1234](https://github.com/alibaba/higress/issues/1234)
 - [loongsuite-python-agent](https://github.com/alibaba/loongsuite-python-agent) LoongSuite ，会针对更多的主流的开源框架，比如说 Python 的一些框架提供完善的支持。最近在做 Dify 的可观测性的支持，很快就会发布。
 - [loongsuite-go-agent](https://github.com/alibaba/loongsuite-go-agent)
 
