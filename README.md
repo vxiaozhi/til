@@ -54,6 +54,12 @@
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
 
+## AIAgent可观测
+
+- [langfuse](https://github.com/langfuse/langfuse)
+- [langsmith](https://github.com/langchain-ai/langsmith-sdk)
+- [higress AI可观测](https://higress.cn/docs/latest/plugins/ai/api-o11y/ai-statistics/)
+
 ## DevOps
 
 - [k8s-helm-chart](devops/k8s-helm-chart.md)
