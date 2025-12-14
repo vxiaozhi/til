@@ -16,3 +16,12 @@ workerd（发音为 "worker-dee"）是基于 V8 的独立 JavaScript 和 WebAsse
 
 - [workerd, Cloudflare's JavaScript/Wasm Runtime](https://github.com/cloudflare/workerd)
 - [Cloudflare Workers SDK](https://github.com/cloudflare/workers-sdk)
+
+
+## Web框架
+
+Cloudflare workers 原生支持的 web 框架：
+
+- [astro](https://github.com/withastro/astro) The web framework for content-driven websites. 
+- [remix-run/remix](https://github.com/remix-run/remix) Remix 包在 Node.js、Bun、Deno、Cloudflare Workers 及其他环境中均能无缝运行。
+- [remix-run/react-router](https://github.com/remix-run/react-router) React声明式路由
