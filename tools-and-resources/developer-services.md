@@ -20,6 +20,15 @@
 ## 建站
 
 - NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/)
+- [traefik](https://github.com/traefik/traefik) 云原生应用代理 。核心特性：  
+  1. 持续更新配置（无需重启！）  
+  2. 支持多种负载均衡算法  
+  3. 利用Let's Encrypt为微服务提供HTTPS（支持通配符证书）  
+  4. 断路器、重试机制  
+  5. 通过简洁的Web界面体验其魔力  
+  6. 支持WebSocket、HTTP/2、gRPC就绪状态监控  
+  7. 开放Rest API接口   
+  8. 采用Go语言精心编译为单文件可执行程序，并提供官方Docker镜像
 - [Shipany.ai]() 
 - [nexty.dev](https://nexty.dev/zh/docs) 与 shipany 相比，不支持 cloudflare workers 部署 [nexty.dev克隆版代码参考](https://github.com/leoleoaabbcc/nexty.dev-template)
 
