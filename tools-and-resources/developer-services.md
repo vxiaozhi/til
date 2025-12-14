@@ -21,7 +21,7 @@
 
 - NGINX 原生 ACME 支持啦， NGINX 官方发布 ngx_http_acme_module 模块。 参考：[NGINX 原生 ACME 支持：从根本上重塑 TLS 自动化部署](https://sconts.com/post/nginx-native-acme-support/)
 - [Shipany.ai]() 
-- [nexty.dev](https://nexty.dev/zh/docs) 与 shipany 相比，不支持 cloudflare workers 部署
+- [nexty.dev](https://nexty.dev/zh/docs) 与 shipany 相比，不支持 cloudflare workers 部署 [nexty.dev克隆版代码参考](https://github.com/leoleoaabbcc/nexty.dev-template)
 
 ## 部署
 
