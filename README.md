@@ -75,6 +75,7 @@
 - [Next AI Draw.io](tools-and-resources/next-ai-drawio.md)
 - [Roadmaps](https://roadmap.sh/dashboard) 开发者互动式路线图、指南及其他教育内容，助力开发者在职业生涯中不断成长。[代码开源](https://github.com/kamranahmedse/developer-roadmap)
 - [kaniko](https://github.com/GoogleContainerTools/kaniko) K8s中构建镜像
+- [提效工具](tools-and-resources/efficiency-tools.md)
 
 ## 思维模型与方法论
 
