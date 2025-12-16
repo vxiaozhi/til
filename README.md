@@ -47,7 +47,7 @@
 - [交互协议: MCP (Model Context Protocol), A2A (Agent-to-Agent) 协议](agent/agent-protocol.md)
 - [AI 驱动的开发范式](agent/ai-driven-development-paradigm.md)
 - [Agent 范式](agent/agent-paradigm.md)
-
+- [Agent 上下文](agent/agent-context.md)
 
 ## AIAgent 应用领域
 
