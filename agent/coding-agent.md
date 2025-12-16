@@ -25,6 +25,7 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 
 - [claude-code 使用指南](https://github.com/zebbern/claude-code-guide)
 - [Claude Code 逆向工程研究仓库](https://github.com/shareAI-lab/analysis_claude_code) 使用 Claude code 对其自身进行逆向工程分析，附分析的全部提示词。
+- [What makes Claude Code so damn good (and how to recreate that magic in your agent)!?](https://minusx.ai/blog/decoding-claude-code/)  是什么让Claude Code如此出色（以及如何在你的智能体中重现这种魔力）？！
 - [我的 Claude Code 实战经验：深度使用每个功能 [译]](https://www.ginonotes.com/posts/how-i-use-every-claude-code-feature)
 - [掌握 Claude Code / 命令：让 AI 成为你的开发利器](https://feisky.xyz/posts/2025-07-01-claude-code-slash-command/)
 - [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) 这是一份精选列表，包含斜杠命令、CLAUDE.md文件、命令行工具及其他资源与指南，旨在提升您的Claude代码工作流效率、生产力及使用体验。
