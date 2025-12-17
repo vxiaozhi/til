@@ -35,6 +35,7 @@ Rust:
 - [Anthropic Claude Code]()
 - [OpenAI Codex CLI]()
 - [CodeBuddy]()
+- [Cursor](https://cursor.com/cn/agents)
 
 ## Gemini CLI
 
