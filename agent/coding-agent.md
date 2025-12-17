@@ -90,6 +90,19 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [关于 Claude 对国家限制，使用claude-code-router]( https://github.com/musistudio/claude-code-router)
 - [命令行体验差？使用 Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
 
+### Claude Code 接入 GLM4.6
+
+- [智谱 API Key](https://www.bigmodel.cn/usercenter/proj-mgmt/apikeys)
+- [智谱官方的 claude code 接入指引](https://docs.bigmodel.cn/cn/coding-plan/tool/claude)
+
+注意：当前支持到 2.0.14， 最新版本 2.0.17 测试会出错。 
+
+```
+# 检查当前版本
+claude --version
+
+2.0.14 (Claude Code)
+```
 
 ### Claude-Code 应用
 - [这个工具使用 AI 改写以前的 git 提交信息，让其变得更准确详细。](https://github.com/f/git-rewrite-commits)
