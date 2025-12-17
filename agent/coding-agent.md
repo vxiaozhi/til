@@ -2,6 +2,12 @@
 
 ## 常见Coding Agent产品
 
+三种形态： CLI 桌面 VSCode插件
+
+### 开源
+
+JS：
+
 - [cline](https://github.com/cline/cline)
 - [Roo](https://github.com/RooCodeInc/Roo-Code)
 - [CodeBuddy]()
@@ -9,10 +15,26 @@
 - [Qwen Code](https://github.com/QwenLM/qwen-code) 阿里开源：Qwen Code是一款基于Gemini CLI 改造的强大命令行AI工作流工具，特别针对Qwen3-Coder模型进行了优化。它通过先进的代码理解能力、自动化任务处理和智能辅助功能，显著提升您的开发工作效率。
 - [Gemini CLI](https://github.com/google-gemini/gemini-cli) Google开源：Gemini CLI 是一款开源人工智能代理，能将 Gemini 的强大功能直接引入您的终端。它提供轻量级的 Gemini 访问方式，让您的指令能以最直接的路径抵达我们的模型。
 - [open code](https://github.com/sst/opencode) The open source AI coding agent.
+- [ Continue.dev](https://github.com/continuedev/continue) 作为一个开源的AI编码助手，主要以VS Code和JetBrains扩展的形式存在，同时也提供CLI支持[14]。目前在 github 开源项目[44] 上有 30K star（截至2025-11-25）。该工具的核心价值主张是允许用户将任何LLM作为AI编码助手，支持云端和本地模型的灵活配置。其CLI模式可以作为编码Agent在文本用户界面（TUI）中运行，或在无头模式下运行后台Agent.
+
+Python:
+
+- [Aider](https://github.com/Aider-AI/aider) 作为开源CLI AI Agent工具的先驱，由Paul Gauthier开发，其GitHub仓库拥有38.4k星标，表明其在开发者社区中的高度认可[7]。该工具的核心设计理念是与本地文件和Git仓库的紧密协作，支持全仓库感知和多文件编辑功能，这使得它在处理复杂项目结构时具有显著优势。
 
 Go版本:
 
 - [open code](https://github.com/opencode-ai/opencode) A powerful AI coding agent. Built for the terminal.
+
+Rust:
+
+- [Warp](https://github.com/warpdotdev/Warp) 作为一款基于Rust构建的现代化终端，通过AI技术的深度集成重新定义了命令行体验。其AI Agent模式于2024年6月17日发布，目前在 github [42]上有25.3K star（截至2025-11-25）。Warp的设计理念是将LLM直接嵌入终端，以支持多步工作流和复杂任务的自动化执行。
+- [Block Goose](https://github.com/block/goose)  是由Block公司（前身为Square）开源团队开发的AI Agent工具，于2024年11月20日发布v1.15.0版本[17]。目前在 github 开源项目[45] 上有 22.4K star。该工具的设计理念是通过在本地机器上运行，为用户提供隐私和控制兼备的自动化任务能力。Goose支持多种语言模型，包括GPT、Sonnet 3.5和Mistral AI等，展现了良好的模型兼容性。
+
+### 商业化
+
+- [Anthropic Claude Code]()
+- [OpenAI Codex CLI]()
+- [CodeBuddy]()
 
 ## Gemini CLI
 
