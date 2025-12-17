@@ -51,7 +51,7 @@
 
 ## AIAgent 应用领域
 
-- [coding Agent](agent/coding-agent.md)
+- [Coding Agent](agent/coding-agent.md)
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
 
