@@ -1,5 +1,9 @@
 # Agent 上下文
 
+## 相关Paper
+
+- [Context Engineering 2.0: The Context of Context Engineering](https://arxiv.org/abs/2510.26493)
+
 ## 谷歌发布AI“大统一理论”
 
 - [paper: Mathematical Framing for Different Agent Strategies](https://arxiv.org/abs/2512.04469)
