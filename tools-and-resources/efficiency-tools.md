@@ -8,3 +8,7 @@
 ## Agent
 
 - [sleepless-agent](https://github.com/context-machine-lab/sleepless-agent) 全天候AI代理，通过Slack最大化Claude Code Pro使用率。自动处理任务、管理独立工作区、创建Git提交/拉取请求，并优化昼夜使用阈值。
+
+## 论文阅读
+
+- [zotero](https://github.com/zotero/zotero) 免费、开源、插件生态丰富（如Zotfile管理PDF，Better BibTeX用于LaTeX）
