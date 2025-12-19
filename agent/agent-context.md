@@ -1,5 +1,13 @@
 # Agent 上下文
 
+Context Engineering（上下文工程），本质上就是我们在充当翻译官，把人类习惯的高熵表达，转化为机器能理解的低熵指令。
+
+在 Context Engineering 2.0（[2510.26493] Context Engineering 2.0: The Context of Context Engineering） 这篇论文中，作者给出了一个更具哲学意味的定义：
+
+Context Engineering 是设计与优化上下文的收集、存储、管理与使用的系统性过程，旨在弥合人类（碳基智能）与机器（硅基智能）之间的认知差距（Cognitive Gap）。
+
+Context Engineering 2.0 提出了一个核心观点：上下文工程本质上是一个“熵减过程”。
+
 ## 相关Paper
 
 - [Context Engineering 2.0: The Context of Context Engineering](https://arxiv.org/abs/2510.26493)
