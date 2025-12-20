@@ -32,6 +32,20 @@
 - [Shipany.ai]() 
 - [nexty.dev](https://nexty.dev/zh/docs) 与 shipany 相比，不支持 cloudflare workers 部署 [nexty.dev克隆版代码参考](https://github.com/leoleoaabbcc/nexty.dev-template)
 
+
+## 全栈框架
+
+- [remix]()
+
+## Remix 打包成 Android & iOS 方案
+
+| 方案 | 代码复用率 | 商店上架 | 原生功能 | 开发复杂度 | 适合场景 |
+|------|-----------|---------|---------|-----------|---------|
+| **PWA** | 100% | ❌ 不能 | 有限 | 低 | 内容型应用，内部工具 |
+| **Capacitor** | 100% | ✅ 可以 | 中等 | 中 | 需要商店上架的中等复杂度应用 |
+| **React Native** | 30-50% | ✅ 可以 | 完整 | 高 | 对性能/原生功能要求高的应用 |
+| **Tauri 移动端** | 100% | ❌ 实验性 | 有限 | 中 | 技术尝鲜，非生产项目 |
+
 ## 部署
 
 ### 商业
