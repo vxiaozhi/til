@@ -36,9 +36,25 @@ Vibe Coding 在快速原型开发、个人项目和探索性编程中表现出�
 
 ## Spec 编程
 
+技术原理：
 - [AI编程 - Spec开发工作流解析](https://zhuanlan.zhihu.com/p/1934780545004442461)
+
+### 实现方案：
+
+通过MCP：
+
 - [规格驱动开发利器：Spec Workflow MCP](https://github.com/pimzino/spec-workflow-mcp)
+
+通过 Spec-Kit：
+
 - [Spec-Kit](https://github.com/github/spec-kit) GitHub 官方发布的实现规约编程的开源工具
+- [Spec-Kit vxiaozhi中文注解](https://github.com/vxiaozhi/spec-kit)
+- [Spec-Kit AgentSpec命令参考](https://github.com/vxiaozhi/spec-kit/tree/main/templates/commands-agent-spec)
+- [🇨🇳 Spec-Kit 中文汉化版 | GitHub 规范驱动开发工具包完整汉化 ](https://github.com/888888888881/spec-kit-chinese)
+- [Spec Kit CN 中文版](https://github.com/Linfee/spec-kit-cn)
+
+通过 OpenSpec：
+
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec)  OpenSpec 是一个面向规范驱动开发的 AI 原生系统，通过结构化的规范工作流协调人类与 AI 编程助手。通过在实施前确立明确意图，OpenSpec 能够提供确定性的、可审查的输出，且无需 API 密钥或复杂配置。
 
 **由来**
