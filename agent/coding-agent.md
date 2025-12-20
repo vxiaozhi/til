@@ -29,11 +29,11 @@ Rust:
 
 - [Warp](https://github.com/warpdotdev/Warp) 作为一款基于Rust构建的现代化终端，通过AI技术的深度集成重新定义了命令行体验。其AI Agent模式于2024年6月17日发布，目前在 github [42]上有25.3K star（截至2025-11-25）。Warp的设计理念是将LLM直接嵌入终端，以支持多步工作流和复杂任务的自动化执行。
 - [Block Goose](https://github.com/block/goose)  是由Block公司（前身为Square）开源团队开发的AI Agent工具，于2024年11月20日发布v1.15.0版本[17]。目前在 github 开源项目[45] 上有 22.4K star。该工具的设计理念是通过在本地机器上运行，为用户提供隐私和控制兼备的自动化任务能力。Goose支持多种语言模型，包括GPT、Sonnet 3.5和Mistral AI等，展现了良好的模型兼容性。
+- [OpenAI Codex CLI](https://github.com/openai/codex) Codex CLI 是来自 OpenAI 的强大编程 Agent，在本地计算机上运行，旨在通过智能代码理解、生成和执行能力来增强你的开发工作流程。Codex 采用基于 Rust 的核心架构，并通过 TypeScript SDK 集成实现可扩展性，同时提供交互式和非交互式模式以实现灵活的自动化。
 
 ### 商业化
 
 - [Anthropic Claude Code]()
-- [OpenAI Codex CLI]()
 - [CodeBuddy]()
 - [Cursor](https://cursor.com/cn/agents)
 
