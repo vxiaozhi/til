@@ -54,6 +54,7 @@
 - [Coding Agent](agent/coding-agent.md)
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
+- [AI 面试](https://github.com/FoloUp/FoloUp)
 
 ## AIAgent可观测
 
