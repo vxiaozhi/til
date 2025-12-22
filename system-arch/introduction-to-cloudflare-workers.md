@@ -28,6 +28,10 @@ workerd（发音为 "worker-dee"）是基于 V8 的独立 JavaScript 和 WebAsse
 - [Use WebSockets](https://developers.cloudflare.com/durable-objects/best-practices/websockets/)
 - [workers-chat-demo](https://github.com/cloudflare/workers-chat-demo)
 
+## 对 Agent 支持
+
+- [Build and deploy AI Agents on Cloudflare](https://github.com/cloudflare/agents)
+
 ## Web框架
 
 Cloudflare workers 原生支持的 web 框架：
