@@ -1,10 +1,16 @@
 # 独立开发者服务
 
-**支付**
+## 支付
 
 - [apple-refund-assistant](https://github.com/seth-shi/apple-refund-assistant) 一个开源的 Web 应用，用于即时处理苹果回传的消费数据，帮助开发者防范欺诈退款。
 
-**登录**
+### stripe
+
+- [stripe-mock](https://github.com/stripe/stripe-mock) stripe-mock是一款模拟HTTP服务器，其响应方式与真实的Stripe API一致。它可用于替代Stripe的测试模式，从而让集成Stripe的测试套件运行更快速、稳定性更高。
+- [stripe-ruby-mock](https://github.com/stripe-ruby-mock/stripe-ruby-mock) Stripe Ruby Mock 是一个功能强大的测试库，旨在帮助 Ruby 开发者在无需实际调用 Stripe 服务器 API 的情况下测试其 Stripe 集成。该库会拦截官方 Stripe Ruby gem 发出的请求并返回模拟响应，从而实现对支付处理逻辑的快速、可靠且离线的测试。 该库的核心原理是重写stripe-ruby的请求方法，跳过所有实际HTTP调用并直接返回测试数据。这使您能够在不实际连接Stripe服务器的情况下编写和运行测试。
+- [stripe-go](https://github.com/stripe/stripe-go) Go library for the Stripe API.
+
+## 登录
 
 - [casdoor]()
 - [草梅 Auth](https://github.com/CaoMeiYouRen/caomei-auth) 基于 Nuxt 框架的登录平台，支持 OAuth2.0 协议，有邮箱、用户名、手机、验证码、社交媒体等多种登录方式。
