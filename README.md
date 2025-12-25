@@ -57,11 +57,18 @@
 - [手机 Agent](agent/phone-agent.md)
 - [AI 面试](https://github.com/FoloUp/FoloUp)
 
+## AIAgent 构建平台
+
+- [dify]()
+- [coze-studio](https://github.com/coze-dev/coze-studio)
+- [n8n](https://github.com/n8n-io/n8n)
+
 ## AIAgent可观测
 
 - [langfuse](https://github.com/langfuse/langfuse)
 - [langsmith](https://github.com/langchain-ai/langsmith-sdk)
 - [higress AI可观测](https://higress.cn/docs/latest/plugins/ai/api-o11y/ai-statistics/)
+- [coze-loop](https://github.com/coze-dev/coze-loop)
 
 ## DevOps
 
