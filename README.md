@@ -57,6 +57,12 @@
 - [anthropic 工程博客](https://www.anthropic.com/engineering)
 - [hao-ai-lab.github.io/blogs/](https://hao-ai-lab.github.io/blogs/) 加州大学圣地亚哥分校郝AI实验室网站
 
+## LLM 推理优化
+
+- [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo)  是一个开源、低延迟的模块化推理框架，用于在分布式环境中服务生成式 AI 模型。它通过智能资源调度和请求路由、优化的内存管理和无缝的数据传输，实现跨大型 GPU 集群的推理工作负载无缝扩展。
+- [vLLM/SGLang]()
+- [打破算力瓶颈：LLM推理中Prefill/Decode分离架构深度解析](https://cloud.tencent.com/developer/article/2566044)
+
 ## AIAgent 应用领域
 
 - [Coding Agent](agent/coding-agent.md)
