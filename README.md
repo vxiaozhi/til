@@ -50,6 +50,12 @@
 - [Agent 范式](agent/agent-paradigm.md)
 - [Agent 上下文](agent/agent-context.md)
 
+## LLM & Agent (论文、博客、论坛)
+
+- [lmsys.org](https://lmsys.org/) LMSYS Org致力于开发大型模型的开源模型、数据集、系统及评估工具。
+- [Huggingface Daily Paper](https://huggingface.co/papers/date/2025-12-16)
+- [anthropic 工程博客](https://www.anthropic.com/engineering)
+
 ## AIAgent 应用领域
 
 - [Coding Agent](agent/coding-agent.md)
