@@ -7,6 +7,7 @@
 
 ## 编程语言与框架
 
+- [各个编程语言性能对比，代码开源](https://github.com/niklas-heer/speed-comparison) 基于莱布尼茨公式计算π值来作为 benchmark
 - [Golang](programming-language/golang.md)
 - [Python](programming-language/python.md)
 - [Elixir](programming-language/elixir.md)
