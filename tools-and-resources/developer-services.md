@@ -35,6 +35,7 @@
   6. 支持WebSocket、HTTP/2、gRPC就绪状态监控  
   7. 开放Rest API接口   
   8. 采用Go语言精心编译为单文件可执行程序，并提供官方Docker镜像
+- [caddy](https://github.com/caddyserver/caddy) Caddy 是一个强大、可扩展的平台，用于构建现代化的 Web 服务。虽然 Caddy 最广为人知的是作为 HTTPS 服务器，但其本质上是一个 Go 应用程序平台，运行模块化的 "应用"——即实现为 Caddy 模块的 Go 程序。与传统 Web 服务器相比，这种设计提供了前所未有的灵活性和控制能力。
 - [Shipany.ai]() 
 - [nexty.dev](https://nexty.dev/zh/docs) 与 shipany 相比，不支持 cloudflare workers 部署 [nexty.dev克隆版代码参考](https://github.com/leoleoaabbcc/nexty.dev-template)
 
