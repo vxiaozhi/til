@@ -14,6 +14,7 @@
 - [Bun](https://github.com/oven-sh/bun)  Zig 语言开发，Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one 。已被 Anstropic 收购。基于JavaScriptCore
 - [deno](https://github.com/denoland/deno) Rust开发的适用于JavaScript和TypeScript的现代运行时。基于 V8 引擎
 - [workerd, Cloudflare's JavaScript/Wasm Runtime](https://github.com/cloudflare/workerd) 基于 V8 引擎
+- [fibjs](https://github.com/fibjs/fibjs) JavaScript on Fiber（基于Chrome的V8 JavaScript引擎构建）
 
 ## 全栈框架
 
