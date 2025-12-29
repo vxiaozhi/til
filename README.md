@@ -84,9 +84,14 @@
 - [higress AI可观测](https://higress.cn/docs/latest/plugins/ai/api-o11y/ai-statistics/)
 - [coze-loop](https://github.com/coze-dev/coze-loop)
 
+## AI视频生成
+
+- [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) 利用AI大模型，一键生成高清短视频
+
 ## DevOps
 
 - [k8s-helm-chart](devops/k8s-helm-chart.md)
+
 
 ## 实用工具与资源
 
