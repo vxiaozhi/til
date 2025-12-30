@@ -3,6 +3,10 @@
 - [gpt-oss](https://github.com/openai/gpt-oss) OpenAI 开源的大语言模型
 - [gpt-oss-120b 和 DeepSeek-R1-0528 性能对比](https://www.reddit.com/r/LocalLLaMA/comments/1mifuqk/gptoss120b_outperforms_deepseekr10528_in/)
 
+## 翻译模型
+
+- [混元翻译模型1.5版本](https://github.com/Tencent-Hunyuan/HY-MT) [Hugging Face模型](https://huggingface.co/collections/tencent/hy-mt15)
+  
 ## 开源数学大模型
 
 - [DeepSeek-Math-V2](https://github.com/deepseek-ai/DeepSeek-Math-V2)
