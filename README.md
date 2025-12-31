@@ -57,6 +57,7 @@
 - [Huggingface Daily Paper](https://huggingface.co/papers/date/2025-12-16)
 - [anthropic 工程博客](https://www.anthropic.com/engineering)
 - [hao-ai-lab.github.io/blogs/](https://hao-ai-lab.github.io/blogs/) 加州大学圣地亚哥分校郝AI实验室网站
+- [cursor 博客](https://cursor.ac.cn/en/blog)
 
 ## LLM 推理优化
 
