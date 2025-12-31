@@ -47,7 +47,6 @@ Rust:
 Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-code) 的 Command 机制实现的， 这里介绍更多 Claude command 相关资料：
 
 - [claude-code 使用指南](https://github.com/zebbern/claude-code-guide)
-- [Claude Code 逆向工程研究仓库](https://github.com/shareAI-lab/analysis_claude_code) 使用 Claude code 对其自身进行逆向工程分析，附分析的全部提示词。
 - [What makes Claude Code so damn good (and how to recreate that magic in your agent)!?](https://minusx.ai/blog/decoding-claude-code/)  是什么让Claude Code如此出色（以及如何在你的智能体中重现这种魔力）？！
 - [我的 Claude Code 实战经验：深度使用每个功能 [译]](https://www.ginonotes.com/posts/how-i-use-every-claude-code-feature)
 - [掌握 Claude Code / 命令：让 AI 成为你的开发利器](https://feisky.xyz/posts/2025-07-01-claude-code-slash-command/)
@@ -56,6 +55,11 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [claude-code-subagents-collection](https://github.com/davepoon/claude-code-subagents-collection) Claude Code专属AI子代理与斜杠指令全集，集成领域专家知识与强大自动化功能，全面提升开发工作流效率。
 - [Claude Code Slash Commands](https://github.com/wshobson/commands) 一套专为Claude Code打造的生产级斜杠命令全集，为现代软件开发提供智能自动化与多智能体编排能力。
 - [Claude-Command-Suite](https://github.com/qdhenry/Claude-Command-Suite) Claude Command Suite是一款开发工具包，提供148+条斜杠命令、54个AI智能体、Claude代码技能以及面向软件工程任务的自动化工作流。该套件通过结构化、可重复的工作流程，覆盖代码审查、测试部署、业务场景建模及GitHub-Linear同步等功能。
+
+### 逆向
+
+- [Claude Code 逆向工程研究仓库](https://github.com/shareAI-lab/analysis_claude_code) 使用 Claude code 对其自身进行逆向工程分析，附分析的全部提示词。
+- [这是一个 Claude Code 的逆向工程，通过 Monkey Patch API 请求代码，拿到 Claude Code 最终与 LLM API 交互的 request 和 response，整体分析了 Claude Code 的执行流程](https://github.com/Yuyz0112/claude-code-reverse)  [项目贴心的提供了一个交互式可视化工具，用于体验逆向分析结果项目贴心个交互式可视化工具，用于体验逆向分析结果项目tie'xin个交互式可视化工具，用于体验逆向分析结果项目tie'xi个交互
 
 ### 斜杠命令（command）
 
