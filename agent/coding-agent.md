@@ -108,6 +108,28 @@ claude --version
 2.0.14 (Claude Code)
 ```
 
+### Codex接入 GLM
+
+1. 编辑 ~/.codex/config.toml:
+
+```
+model = "GLM-4.7"
+model_provider = "glm"
+
+[model_providers.glm]
+name = "GLM"
+base_url = "https://open.bigmodel.cn/api/coding/paas/v4"
+env_key = "GLM_API_KEY"
+wire_api = "chat"
+query_params = {}
+```
+
+2. 配置环境变量：
+
+```
+export GLM_API_KEY=xxx
+```
+
 ### Claude-Code 应用
 - [这个工具使用 AI 改写以前的 git 提交信息，让其变得更准确详细。](https://github.com/f/git-rewrite-commits)
 - [进阶费曼学习法：Claude code 写书](https://zhuanlan.zhihu.com/p/1932021734954997646) 书目全在[github](https://github.com/zsc?tab=repositories)
