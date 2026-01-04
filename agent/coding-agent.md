@@ -76,6 +76,7 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 ### Claude Skill
 
 - [DrawIO-Skill: 创建专业的draw.io（diagrams.net）图表，采用XML格式（.drawio文件），集成PMP/PMBOK方法论、丰富的视觉资源库及行业标准专业模板。](https://github.com/jgtolentino/insightpulse-odoo/blob/main/docs/claude-code-skills/community/drawio-diagrams-enhanced/SKILL.md)
+- [claude-scientific-skills](https://github.com/K-Dense-AI/claude-scientific-skills)  Claude Scientific Skills 集合——这是一个全面的工具包，旨在将 Claude Code 转换为桌面端强大的"AI 科学家"。该仓库提供了即用型技能，涵盖生物信息学、化学信息学、结构生物学、机器学习和科学计算等领域，使你能够通过自然语言命令执行复杂的多步骤科学工作流程。
 
 ### Claude code 技巧
 
