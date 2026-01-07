@@ -17,6 +17,7 @@
 - Manus.im
 - [lovable](https://lovable.dev/)
 - https://mgx.dev/
+- [Google AI Studio](https://aistudio.google.com/)
 
 ## AI 创作
 
