@@ -18,6 +18,7 @@ Skills 相关仓库：
 
 - [Claude官方 Skills](https://github.com/anthropics/skills)
 - [Claude官方 Skills 对应的中文版本](https://github.com/vxiaozhi/Claude_skills_zh-CN)
+- [Superpowers](https://github.com/obra/superpowers) Claude代码超能力：核心技能库
 
 其它有用 skills：
 
