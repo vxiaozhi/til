@@ -77,4 +77,6 @@ OpenNext Next.js与Remix、Astro等其他现代前端框架不同，它不具备
 
 - [banana-prompt-quicker](https://github.com/glidea/banana-prompt-quicker) 一个开源的浏览器插件，收集 Nano Banana 模型的热门提示词，方便复用
 - [CattoPic](https://github.com/Yuri-NagaSaki/CattoPic) 开源图床，支持直接部署 cloudflare worker。
-- [](https://github.com/antvis/Infographic) AntV Infographic 是 AntV 推出的新一代声明式信息图可视化引擎，通过精心设计的信息图语法，能够快速、灵活地渲染出高质量的信息图，让信息表达更高效，让数据叙事更简单。可以参考来实现 visword.com 网站
+- [Infographic](https://github.com/antvis/Infographic) AntV Infographic 是 AntV 推出的新一代声明式信息图可视化引擎，通过精心设计的信息图语法，能够快速、灵活地渲染出高质量的信息图，让信息表达更高效，让数据叙事更简单。可以参考来实现 visword.com 网站
+- [awesome-nano-banana](https://github.com/JimmyLv/awesome-nano-banana) 由Gemini-2.5-Flash-Image（又称Nano Banana）这一尖端图像生成与编辑模型精心策划的图片及提示词合集。探索借助Gemini生成的AI视觉作品，领略谷歌先进的图像生成技术。
+- [🚀 Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) 🍌 5000+精选Nano Banana Pro提示词库，含图像示例、多语言支持及即时画廊预览。开源式提示工程资源库
