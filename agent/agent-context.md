@@ -15,7 +15,7 @@ Context Engineering 2.0 提出了一个核心观点：上下文工程本质上�
 - [Li Z, Song S, Xi C, et al. Memos: A memory os for ai system[J]. arXiv preprint arXiv:2507.03724, 2025]()
 - [Chhikara P, Khant D, Aryan S, et al. Mem0: Building production-ready ai agents with scalable long-term memory[J]. arXiv preprint arXiv:2504.19413, 2025.]()
 - [Xu W, Liang Z, Mei K, et al. A-mem: Agentic memory for llm agents[J]. arXiv preprint arXiv:2502.12110, 2025.]()
-
+- [MemBuilder: Reinforcing LLMs for Long-Term Memory Construction via Attributed Dense Rewards](https://arxiv.org/html/2601.05488v1) by和平团队
 ## 谷歌发布AI“大统一理论”
 
 - [paper: Mathematical Framing for Different Agent Strategies](https://arxiv.org/abs/2512.04469)
