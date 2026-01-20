@@ -51,6 +51,13 @@
 - [Agent 范式](agent/agent-paradigm.md)
 - [Agent 上下文](agent/agent-context.md)
 
+
+## 智能体设计模式（Agentic Design Patterns）
+
+- [Agentic_Design_Patterns PDF原文](https://github.com/sarwarbeing-ai/Agentic_Design_Patterns)
+- [Agentic_Design_Patterns 中英文对照翻译](https://github.com/ginobefun/agentic-design-patterns-cn)
+- [Agentic_Design_Patterns 我用 manus 的翻译链接](https://manus.im/app/C23TuqAJEPEk1fAx9HHZz8)
+
 ## LLM & Agent (论文、博客、论坛)
 
 - [lmsys.org](https://lmsys.org/) LMSYS Org致力于开发大型模型的开源模型、数据集、系统及评估工具。
