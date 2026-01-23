@@ -132,5 +132,10 @@ export GLM_API_KEY=xxx
 ```
 
 ### Claude-Code 应用
+
 - [这个工具使用 AI 改写以前的 git 提交信息，让其变得更准确详细。](https://github.com/f/git-rewrite-commits)
 - [进阶费曼学习法：Claude code 写书](https://zhuanlan.zhihu.com/p/1932021734954997646) 书目全在[github](https://github.com/zsc?tab=repositories)
+
+### Claude-Code 配置实践
+
+- [everything-claude-code](https://github.com/affaan-m/everything-claude-code) 完整Claude代码配置合集 - 智能体、技能、钩子、命令、规则与MCP。来自Anthropic黑客马拉松获胜者的实战验证配置方案。
