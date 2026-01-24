@@ -1,5 +1,7 @@
 # Claude Code Skills
 
+- [Agent skills 开放标准](https://github.com/agentskills/agentskills)
+
 Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的目标，是让 Claude 不再只是一个「能聊天的模型」，而是一个具备可扩展、可执行技能体系的代理式 Agentic AI 工具。
 
 Anthropic Skills，旨在通过提供领域特定的专业知识、工作流程、上下文和最佳实践，将通用型 AI 代理转变为特定任务的专家。Skills 的核心在于其可重用、基于文件系统的资源包，能够让 Claude 按需加载所需信息，从而避免了在每次对话中重复提供相同指导的低效性。
