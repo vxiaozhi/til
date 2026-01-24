@@ -97,6 +97,7 @@
 
 ## AI视频生成
 
+- [remotion-dev/skills](https://github.com/remotion-dev/skills) 
 - [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo) 利用AI大模型，一键生成高清短视频
 - [ Huobao Drama - AI短剧生成平台](https://github.com/chatfire-AI/huobao-drama) 基于 Go + Vue3 的全栈AI短剧自动化生产平台
 
