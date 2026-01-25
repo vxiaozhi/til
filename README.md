@@ -68,6 +68,7 @@
 - [anthropic 工程博客](https://www.anthropic.com/engineering)
 - [hao-ai-lab.github.io/blogs/](https://hao-ai-lab.github.io/blogs/) 加州大学圣地亚哥分校郝AI实验室网站
 - [cursor 博客](https://cursor.ac.cn/en/blog)
+- [鱼皮的 Vibe Coding 零基础教程](https://github.com/liyupi/ai-guide/tree/main/Vibe%20Coding%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E6%95%99%E7%A8%8B)
 
 ## LLM 推理优化
 
