@@ -81,6 +81,7 @@
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
 - [AI 面试](https://github.com/FoloUp/FoloUp)
+- [UI生成：vercel-labs/json-render](https://github.com/vercel-labs/json-render) Vercel出品 AI → JSON → UI
 
 ## AIAgent 构建平台
 
