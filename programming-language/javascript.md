@@ -22,3 +22,7 @@
 - [remix-run/remix](https://github.com/remix-run/remix) Remix 包在 Node.js、Bun、Deno、Cloudflare Workers 及其他环境中均能无缝运行。
 - [remix-run/react-router](https://github.com/remix-run/react-router) React声明式路由
 - [TanStack/router](https://github.com/TanStack/router) 以客户为先、具备服务器能力，完全类型安全的网络路由器和全栈框架（支持React等）。
+
+## Web框架
+
+- [honojs/hono](https://github.com/honojs/hono) Hono - 在日语中意为火焰🔥 - 是一个基于Web标准构建的小巧、简洁且极速的Web框架。它可在任何JavaScript运行时上运行：包括Cloudflare Workers、Fastly Compute、Deno、Bun、Vercel、AWS Lambda、Lambda@Edge以及Node.js。
