@@ -29,6 +29,17 @@
 | **volta** | ✅ 全平台 | 脚本安装 | 快 | 优秀 | 项目级锁定，现代工具 |
 | **asdf** | ✅ 全平台 | 脚本安装 | 中等 | 优秀 | 多语言版本管理 |
 
+由于 npm 默认会将 node 安装到系统目录，如`/usr/local/bin` 等，会导致权限问题，这里给出解决权限问题的最佳配置实践：
+
+```
+# ~/.bashrc 或 ~/.zshrc
+export N_PREFIX=$HOME/.n
+export PATH=$N_PREFIX/bin:$PATH
+
+# npm 配置
+export NPM_CONFIG_PREFIX=$HOME/.npm-global
+export PATH=$HOME/.npm-global/bin:$PATH
+```
 
 ## 全栈框架
 
