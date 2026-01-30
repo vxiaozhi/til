@@ -8,6 +8,7 @@
 ## Agent
 
 - [clawdbot/clawdbot](https://github.com/clawdbot/clawdbot) 我们自己的个人AI助手。任何操作系统。任何平台。
+- [steveyegge/gastown](https://github.com/steveyegge/gastown) 史蒂夫·耶格（Steve Yegge）是一个著名的美国程序员。他说 AI 编程有8级，他已经到了第8级，也就是最高级。他需要工具来管理并行的 AI 编程，但是找不到满意的工具。于是，他就指挥 AI 写，并将这个工具起名为“煤气镇”（Gas Town）。这个名字来自电影《疯狂麦克斯》（Mad Max）第四部，是里面大反派老乔的老巢。那里到处都是二手零件组成的燃气机，能正常工作，但是看上去摇摇欲坠。
 - [sleepless-agent](https://github.com/context-machine-lab/sleepless-agent) 全天候AI代理，通过Slack最大化Claude Code Pro使用率。自动处理任务、管理独立工作区、创建Git提交/拉取请求，并优化昼夜使用阈值。
 - [vibe-kanban](https://github.com/BloopAI/vibe-kanban) 【Rust 实现】 从Claude Code、Codex或任何编程助手获得10倍以上的产出. Vibe Kanban 是一个 AI 编码代理的编排平台，旨在帮助开发者规划、审查和安全地执行 AI 辅助的编码任务。随着 AI 编码代理越来越多地编写世界代码，人类工程师现在将大部分时间花在规划、审查和编排任务上。Vibe Kanban 通过提供一个统一的管理多个编码代理的界面，并完全控制代码库安全，从而简化了整个工作流程。
 - [CodeKanban](https://github.com/fy0/CodeKanban) 类似 vibe-kanban， 但是用 Golang 实现。
