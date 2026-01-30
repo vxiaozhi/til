@@ -16,6 +16,20 @@
 - [workerd, Cloudflare's JavaScript/Wasm Runtime](https://github.com/cloudflare/workerd) 基于 V8 引擎
 - [fibjs](https://github.com/fibjs/fibjs) JavaScript on Fiber（基于Chrome的V8 JavaScript引擎构建）
 
+## Node多版本管理
+
+以下是 Node.js 多版本管理工具的详细对比：
+
+| 工具 | 跨平台 | 安装方式 | 切换速度 | 生态兼容性 | 推荐场景 |
+|------|--------|----------|----------|------------|----------|
+| **nvm** (Mac/Linux) | ❌ Unix系 | 脚本安装 | 快 | 优秀 | Unix/Linux/Mac |
+| **nvm-windows** | ❌ Windows | 安装包 | 中等 | 良好 | Windows专用 |
+| **fnm** (Fast Node Manager) | ✅ 全平台 | 脚本/包管理 | 极快 | 优秀 | 全平台，追求速度 |
+| **n** | ❌ Unix系 | npm安装 | 快 | 良好 | 简单易用 |
+| **volta** | ✅ 全平台 | 脚本安装 | 快 | 优秀 | 项目级锁定，现代工具 |
+| **asdf** | ✅ 全平台 | 脚本安装 | 中等 | 优秀 | 多语言版本管理 |
+
+
 ## 全栈框架
 
 - [astro](https://github.com/withastro/astro) The web framework for content-driven websites. 
