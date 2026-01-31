@@ -7,6 +7,7 @@
 - [JavaScriptCore]()
 - [Hermes]()
 - [QuickJS]()
+- [dop251/goja](https://github.com/dop251/goja) Go语言中嵌入的 JS 引擎
 
 ## JS 后端运行时
 
