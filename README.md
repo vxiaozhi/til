@@ -30,7 +30,7 @@
 ## 配置文件格式
 
 - [常见配置文件格式对比](config-formats/config-formats-comparison.md)
-- [json]()
+- [json](config-formats/formats-json.md)
 - ini
 - yaml
 - toml
