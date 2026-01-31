@@ -27,6 +27,13 @@
 - [flatbuffer todo]()
 - [Cap'n 协议](https://github.com/capnproto/capnproto) 号称比Protocol Buffers快无限倍， 典型应用[workerd, Cloudflare's JavaScript/Wasm Runtime](https://github.com/cloudflare/workerd)
 
+## 配置文件格式
+
+- [常见配置文件格式对比](config-formats/config-formats-comparison.md)
+- [json]()
+- ini
+- yaml
+- toml
 
 ## 系统架构
 
