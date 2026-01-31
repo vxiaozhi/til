@@ -91,11 +91,14 @@
 - [AI 面试](https://github.com/FoloUp/FoloUp)
 - [UI生成：vercel-labs/json-render](https://github.com/vercel-labs/json-render) Vercel出品 AI → JSON → UI
 
-## AIAgent 构建平台
+## AIAgent 平台及框架
 
 - [dify]()
 - [coze-studio](https://github.com/coze-dev/coze-studio)
 - [n8n](https://github.com/n8n-io/n8n)
+- 腾讯元器
+- [JS 框架 badlogic/pi-mono](https://github.com/badlogic/pi-mono) AI代理工具包：编码代理命令行界面、统一LLM API、终端用户界面与网页UI库、Slack机器人、vLLM容器组
+- [Go 框架 trpc-agent-go]()
 
 ## AIAgent可观测
 
