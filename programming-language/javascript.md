@@ -52,3 +52,7 @@ export PATH=$HOME/.npm-global/bin:$PATH
 ## Web框架
 
 - [honojs/hono](https://github.com/honojs/hono) Hono - 在日语中意为火焰🔥 - 是一个基于Web标准构建的小巧、简洁且极速的Web框架。它可在任何JavaScript运行时上运行：包括Cloudflare Workers、Fastly Compute、Deno、Bun、Vercel、AWS Lambda、Lambda@Edge以及Node.js。
+
+## 常用库
+
+- [xtermjs/xterm.js](https://github.com/xtermjs/xterm.js) A terminal for the web
