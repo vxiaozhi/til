@@ -1,10 +1,14 @@
 # til
 📝 Today I Learned
 
-建立本仓库动机参考了： [jbranchaud/til](https://github.com/jbranchaud/til)
+建立本仓库动机参考了： [jbranchaud/til](https://github.com/jbranchaud/til) 
 
 ## 目录
 
+## 书籍
+
+- [EbookFoundation/free-programming-books](https://github.com/EbookFoundation/free-programming-books) 免费提供的编程书籍,Star 380K+
+  
 ## 编程语言与框架
 
 - [各个编程语言性能对比，代码开源](https://github.com/niklas-heer/speed-comparison) 基于莱布尼茨公式计算π值来作为 benchmark
