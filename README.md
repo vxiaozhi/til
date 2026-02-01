@@ -49,6 +49,9 @@
 ## 游戏引擎
 
 - [godot](https://github.com/godotengine/godot) Multi-platform 2D and 3D game engine
+- [Web PixiJS](https://github.com/pixijs/pixijs) Next-Generation, Fastest HTML5 Creation Engine for the Web
+- [Web Phaser](https://github.com/phaserjs/phaser)  HTML5 Game Framework
+- [Web three.js](https://github.com/mrdoob/three.js) JavaScript 3D Library.
   
 ## 人工智能与智能体（ AI & Agent）
 
