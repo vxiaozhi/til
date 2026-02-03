@@ -125,6 +125,17 @@
 
 - [k8s-helm-chart](devops/k8s-helm-chart.md)
 
+## SandBox
+
+- [codesandbox](https://github.com/codesandbox)
+- [sandboxie-plus/Sandboxie](https://github.com/sandboxie-plus/Sandboxie)
+- [langgenius/dify-sandbox](https://github.com/langgenius/dify-sandbox)
+- [cloudflare/sandbox-sdk](https://github.com/cloudflare/sandbox-sdk)
+- [agent-infra/sandbox](https://github.com/agent-infra/sandbox)
+- [patriksimek/vm2](https://github.com/patriksimek/vm2) Advanced vm/sandbox for Node.js
+- [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox) agent-sandbox 能够便捷地管理隔离、有状态且单例的工作负载，非常适合用于AI代理运行时等应用场景。
+- [rivet-dev/sandbox-agent](https://github.com/rivet-dev/sandbox-agent) 在沙箱中运行编程代理。通过HTTP进行控制。支持Claude Code、Codex、OpenCode和Amp。
+- [alibaba/OpenSandbox](https://github.com/alibaba/OpenSandbox) OpenSandbox 是一个面向 AI 应用场景设计的「通用沙箱平台」，为大模型相关的能力（命令执行、文件操作、代码执行、浏览器操作、Agent 运行等）提供 多语言 SDK、沙箱接口协议和沙箱运行时。
 
 ## 实用工具与资源
 
