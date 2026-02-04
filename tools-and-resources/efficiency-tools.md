@@ -37,3 +37,7 @@
 ## 论文阅读
 
 - [zotero](https://github.com/zotero/zotero) 免费、开源、插件生态丰富（如Zotfile管理PDF，Better BibTeX用于LaTeX）
+
+## 终端
+
+- [ghostty-org/ghostty](https://github.com/ghostty-org/ghostty) Ghostty是一款快速、功能丰富且跨平台的终端模拟器，它采用平台原生用户界面并支持GPU加速。
