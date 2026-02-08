@@ -14,3 +14,6 @@
 
 - [论文 ReCode: Unify Plan and Action for Universal Granularity Control](https://arxiv.org/abs/2510.23564)
 - [代码](https://github.com/FoundationAgents/ReCode)
+
+## Agent持续迭代范式 Ralph Loop(Ralph 循环)
+- [Building a C compiler with a team of parallel Claudes](https://www.anthropic.com/engineering/building-c-compiler)
