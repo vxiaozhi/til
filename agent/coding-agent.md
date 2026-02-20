@@ -96,6 +96,11 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [关于 Claude 对国家限制，使用claude-code-router]( https://github.com/musistudio/claude-code-router)
 - [命令行体验差？使用 Claude Code for VS Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
 
+### Claude Code Proxy
+
+- [claude-code-proxy](https://github.com/1rgs/claude-code-proxy)
+- [gemini-for-claude-code](https://github.com/coffeegrind123/gemini-for-claude-code)
+
 ### Claude Code 接入 GLM4.6
 
 - [智谱 API Key](https://www.bigmodel.cn/usercenter/proj-mgmt/apikeys)
