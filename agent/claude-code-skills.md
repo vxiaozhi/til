@@ -1,6 +1,7 @@
 # Claude Code Skills
 
 - [Agent skills 开放标准](https://github.com/agentskills/agentskills)
+- [Claude Skills 开发完全指南](https://github.com/sanshao85/claude-skills-guide)
 
 Skills 是近期 Anthropic 发布了一个新特性——Claude Skills，它的目标，是让 Claude 不再只是一个「能聊天的模型」，而是一个具备可扩展、可执行技能体系的代理式 Agentic AI 工具。
 
@@ -25,6 +26,7 @@ Skills 相关仓库：
 其它有用 skills：
 
 - [内容研究撰稿人](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/content-research-writer/SKILL.md)
+- [Humanizer-zh: AI 写作去痕工具（中文版）](https://github.com/op7418/Humanizer-zh)
 
 支持 skills 的 Agent 框架：
 
