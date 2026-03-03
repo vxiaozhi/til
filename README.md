@@ -56,6 +56,10 @@
 - [Web PixiJS](https://github.com/pixijs/pixijs) Next-Generation, Fastest HTML5 Creation Engine for the Web
 - [Web Phaser](https://github.com/phaserjs/phaser)  HTML5 Game Framework
 - [Web three.js](https://github.com/mrdoob/three.js) JavaScript 3D Library.
+
+## OpenAI/Gemini/Claude API
+
+- [claude /v1/messages](llm/claude_v1_messages.md)
   
 ## 人工智能与智能体（ AI & Agent）
 
