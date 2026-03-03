@@ -16,6 +16,7 @@
 ## OpenClaw 与 Claude Code 写作
 
 - [Taskwarrior - 命令行任务管理工具](https://github.com/GothenburgBitFactory/taskwarrior)
+- [Pueue 是一款命令行任务管理工具，用于顺序或并行执行长时间运行的任务。](https://github.com/Nukesor/pueue)
 - Celery
 
 ## Agent 平台
