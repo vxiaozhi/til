@@ -47,6 +47,7 @@ Rust:
 Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-code) 的 Command 机制实现的， 这里介绍更多 Claude command 相关资料：
 
 - [claude-code 使用指南](https://github.com/zebbern/claude-code-guide)
+- [claude-code-tips](https://github.com/ykdojo/claude-code-tips)
 - [What makes Claude Code so damn good (and how to recreate that magic in your agent)!?](https://minusx.ai/blog/decoding-claude-code/)  是什么让Claude Code如此出色（以及如何在你的智能体中重现这种魔力）？！
 - [我的 Claude Code 实战经验：深度使用每个功能 [译]](https://www.ginonotes.com/posts/how-i-use-every-claude-code-feature)
 - [掌握 Claude Code / 命令：让 AI 成为你的开发利器](https://feisky.xyz/posts/2025-07-01-claude-code-slash-command/)
