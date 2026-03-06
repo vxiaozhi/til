@@ -98,11 +98,15 @@
 ## AIAgent 应用领域
 
 - [Coding Agent](agent/coding-agent.md)
-- [OpenClaw 龙虾](agent/openclaw)
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
 - [AI 面试](https://github.com/FoloUp/FoloUp)
 - [UI生成：vercel-labs/json-render](https://github.com/vercel-labs/json-render) Vercel出品 AI → JSON → UI
+
+## Agent OS
+
+- [OpenClaw 龙虾](agent/openclaw)
+- [RightNow-AI/openfang](https://github.com/RightNow-AI/openfang)
 
 ## AIAgent 平台及框架
 
