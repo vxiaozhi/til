@@ -6,6 +6,10 @@
 - picoClaw Go实现
 - python 实现
 
+## 背后的Agent
+
+- [pi-mono](https://github.com/badlogic/pi-mono)
+
 ## Skills
 
 ### [官方Skills](https://github.com/openclaw/skills)
