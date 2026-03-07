@@ -27,6 +27,11 @@ skillhub install self-improving-agent
 skillhub install nano-banana-pro
 ```
 
+- Humanizer 技能可消除文本中人工智能生成的痕迹，使其更自然流畅。它能识别并修正夸张、宣传性、模糊归因及AI词汇等常见模式。
+```
+skillhub install humanizer
+```
+
 ### 其它 skill hub
 
 - [Awesome OpenClaw Skills](https://github.com/VoltAgent/awesome-openclaw-skills)
