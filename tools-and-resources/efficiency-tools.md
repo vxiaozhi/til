@@ -19,6 +19,10 @@
 - [Pueue 是一款命令行任务管理工具，用于顺序或并行执行长时间运行的任务。](https://github.com/Nukesor/pueue)
 - Celery
 
+## Claude Code 协作
+
+- [claude-squad](https://github.com/smtg-ai/claude-squad) 管理多个AI终端代理，如Claude Code、Codex、OpenCode和Amp。
+
 ## Agent 平台
 
 - Manus.im
