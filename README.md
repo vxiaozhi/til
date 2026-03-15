@@ -98,6 +98,7 @@
 ## AIAgent 应用领域
 
 - [Coding Agent](agent/coding-agent.md)
+- [模型 Coding 能力评测](https://github.com/amebapu/aiCodingTestCase)
 - [PPT Agent](agent/ppt-agent.md)
 - [手机 Agent](agent/phone-agent.md)
 - [AI 面试](https://github.com/FoloUp/FoloUp)
