@@ -102,6 +102,10 @@ Tailscale 是一款基于开源 WireGuard 协议的零配置 VPN 工具，用于
   - 需要公网 IP 服务器
 - **对比**: 兼容 Tailscale 客户端，但服务端可自建
 
+### 6. cloudflared
+- [cloudflared](https://github.com/cloudflare/cloudflared) Cloudflare Tunnel的命令行客户端，这是一个隧道守护进程，用于将来自Cloudflare网络的流量代理至您的源站
+- [应用常见参考 codebuddy cli 远程控制](https://www.codebuddy.ai/docs/zh/cli/remote-control)
+
 ### 项目对比表
 
 | 项目 | 开源程度 | 免费设备数 | 协议 | 自托管 | 优势 |
