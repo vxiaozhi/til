@@ -73,6 +73,7 @@
 - [AI 驱动的开发范式](agent/ai-driven-development-paradigm.md)
 - [Agent 范式](agent/agent-paradigm.md)
 - [Agent 上下文](agent/agent-context.md)
+- [Harness Engineering（驾驭工程）](harness-engineering/)
 
 
 ## 智能体设计模式（Agentic Design Patterns）
