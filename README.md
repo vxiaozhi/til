@@ -148,6 +148,9 @@
 - [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox) agent-sandbox 能够便捷地管理隔离、有状态且单例的工作负载，非常适合用于AI代理运行时等应用场景。
 - [rivet-dev/sandbox-agent](https://github.com/rivet-dev/sandbox-agent) 在沙箱中运行编程代理。通过HTTP进行控制。支持Claude Code、Codex、OpenCode和Amp。
 - [alibaba/OpenSandbox](https://github.com/alibaba/OpenSandbox) OpenSandbox 是一个面向 AI 应用场景设计的「通用沙箱平台」，为大模型相关的能力（命令执行、文件操作、代码执行、浏览器操作、Agent 运行等）提供 多语言 SDK、沙箱接口协议和沙箱运行时。
+- [boxlite](https://github.com/boxlite-ai/boxlite)
+- [vm0](https://github.com/vm0-ai/vm0)
+- [zeroboot](https://github.com/zerobootdev/zeroboot)
 
 ## K8s dashboard
 
