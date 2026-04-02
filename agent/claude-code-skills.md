@@ -30,6 +30,7 @@ Skills 相关仓库：
 
 - [内容研究撰稿人](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/content-research-writer/SKILL.md)
 - [Humanizer-zh: AI 写作去痕工具（中文版）](https://github.com/op7418/Humanizer-zh)
+- [canghe-skills](https://github.com/freestylefly/canghe-skills) 苍何的技能skills仓库，搜集好用的 skills，辅助提效
   
 
 支持 skills 的 Agent 框架：
