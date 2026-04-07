@@ -21,3 +21,11 @@ GitHub上他附带的一份[想法文件](https://gist.github.com/karpathy/442a6
 
 - [tobi/qmd](https://github.com/tobi/qmd) QMD（Query Markup Documents）是一个本地混合搜索引擎，专为完全在你的设备上索引和搜索 Markdown 内容而设计
 - Obsidian
+
+## 相关实现
+
+Karpathy 大神提出的是概念，而非具体的实现方式。已经有其他人做了实现：
+
+- [ussumant/llm-wiki-compiler](https://github.com/ussumant/llm-wiki-compiler) 基于 claude plugin 实现
+- [Astro-Han/karpathy-llm-wiki](https://github.com/Astro-Han/karpathy-llm-wiki) 基于 skill 实现
+- [hellohejinyu/llm-wiki](https://github.com/hellohejinyu/llm-wiki) 基于命令行工具实现
