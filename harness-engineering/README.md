@@ -9,3 +9,4 @@
 
 - [gstack](https://github.com/garrytan/gstack)
 - [superpowers](https://github.com/obra/superpowers)
+- [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
