@@ -183,4 +183,5 @@
 - [task keeper](task-keeper/) 任务管家构想
 - [gitsy]()
 - [mockai]()
+- [writing_pipeline]()
 
