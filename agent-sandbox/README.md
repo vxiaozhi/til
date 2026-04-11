@@ -41,4 +41,24 @@
 - 它在性能和安全性之间取得了较好的折中：启动速度比纯 MicroVM 快，隔离强度又远超标准 runc 容器。
 - 特别值得一提的是，OpenSandbox 和 agent-sandbox 都原生支持多种安全运行时的透明切换，开发者可以根据实际需求选择合适的隔离级别。
 
-第三条是进程级/内核策略路线，这是 2026 年新兴的方向，以 Multikernel 的 Sandlock 项目为代表。其核心理念是：既然 AI Agent 的主要威胁来自提示注入导致的误操作而非内核逃逸，那么应该将防护重点从硬件隔离转移到细粒度的访问控制策略上。通过 Linux 内核原生的 Landlock（文件系统白名单）、seccomp-bpf（系统调用过滤）和 User Namespaces 等机制，可以在不增加显著开销的前提下实现有效的权限约束。这条路线目前还处于早期阶段，但代表了行业的重要思考方向。
+### 第三条是进程级/内核策略路线，
+- 这是 2026 年新兴的方向，以 Multikernel 的 Sandlock 项目为代表。
+- 其核心理念是：既然 AI Agent 的主要威胁来自提示注入导致的误操作而非内核逃逸，那么应该将防护重点从硬件隔离转移到细粒度的访问控制策略上。
+- 通过 Linux 内核原生的 Landlock（文件系统白名单）、seccomp-bpf（系统调用过滤）和 User Namespaces 等机制，可以在不增加显著开销的前提下实现有效的权限约束。
+- 这条路线目前还处于早期阶段，但代表了行业的重要思考方向。
+
+## SandBox 相关开源项目
+
+- [codesandbox](https://github.com/codesandbox)
+- [sandboxie-plus/Sandboxie](https://github.com/sandboxie-plus/Sandboxie)
+- [langgenius/dify-sandbox](https://github.com/langgenius/dify-sandbox)
+- [cloudflare/sandbox-sdk](https://github.com/cloudflare/sandbox-sdk)
+- [agent-infra/sandbox](https://github.com/agent-infra/sandbox)
+- [patriksimek/vm2](https://github.com/patriksimek/vm2) Advanced vm/sandbox for Node.js
+- [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox) agent-sandbox 能够便捷地管理隔离、有状态且单例的工作负载，非常适合用于AI代理运行时等应用场景。
+- [rivet-dev/sandbox-agent](https://github.com/rivet-dev/sandbox-agent) 在沙箱中运行编程代理。通过HTTP进行控制。支持Claude Code、Codex、OpenCode和Amp。
+- [alibaba/OpenSandbox](https://github.com/alibaba/OpenSandbox) OpenSandbox 是一个面向 AI 应用场景设计的「通用沙箱平台」，为大模型相关的能力（命令执行、文件操作、代码执行、浏览器操作、Agent 运行等）提供 多语言 SDK、沙箱接口协议和沙箱运行时。
+- [boxlite](https://github.com/boxlite-ai/boxlite)
+- [vm0](https://github.com/vm0-ai/vm0)
+- [zeroboot](https://github.com/zerobootdev/zeroboot)
+- [containers/bubblewrap](https://github.com/containers/bubblewrap)
