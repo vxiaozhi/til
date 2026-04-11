@@ -1,5 +1,9 @@
 # 个人知识库
 
+## 缘起
+
+### 缘起1
+
 缘起 Karpathy公开个人知识管理新范式：让大模型把你的一切资料「编译」成一部活的百科全书——RAG已死，人类只需负责思考。
 原文链接：https://mp.weixin.qq.com/s/zOAsp5uZh_JTUb4VDliC0A?mpshare=1&scene=1&srcid=0406G0owb5DwRZOFJpQCVkR0&sharer_shareinfo=0043d4e6d7686ab6763354afd7b04eeb&sharer_shareinfo_first=94e3be4a6c4fbbeb3ee3cc798f24161d&version=5.0.7.99844&platform=mac#rd
 
@@ -8,6 +12,10 @@
 而他给出的方案，叫做「LLM Wiki」——一种让大模型当你的全职知识管家、24小时不间断整理、更新、自检个人知识库的全新范式。
 
 GitHub上他附带的一份[想法文件](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+
+### 缘起2
+
+- [garrytan/gbrain](https://github.com/garrytan/gbrain) gstack 作者的另一大作，一个个人知识大脑，它将你的 Markdown 文件转化为可搜索、互联的智能系统，由 Postgres、pgvector 和混合 AI 搜索驱动。它专为以思考为生的人设计：创始人、投资者、研究人员，以及任何工作成效建立在自身知识积累之上的人。
 
 ## 索引和日志记录
 
