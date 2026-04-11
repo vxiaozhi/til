@@ -47,6 +47,15 @@
 - 通过 Linux 内核原生的 Landlock（文件系统白名单）、seccomp-bpf（系统调用过滤）和 User Namespaces 等机制，可以在不增加显著开销的前提下实现有效的权限约束。
 - 这条路线目前还处于早期阶段，但代表了行业的重要思考方向。
 
+## 相关工具
+
+- [hashicorp/packer](https://github.com/hashicorp/packer) Packer是一款工具，能够根据单一源配置为多种平台构建完全一致的机器镜像。
+
+## E2B
+
+- [开源 E2B](https://github.com/e2b-dev)
+- 腾讯云 E2B 产品（Agent 沙箱服务）：https://cloud.tencent.com/document/product/1814/129423
+
 ## SandBox 相关开源项目
 
 - [codesandbox](https://github.com/codesandbox)
