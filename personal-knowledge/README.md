@@ -34,7 +34,12 @@ GitHub上他附带的一份[想法文件](https://gist.github.com/karpathy/442a6
 
 Karpathy 大神提出的是概念，而非具体的实现方式。已经有其他人做了实现：
 
+推荐：
+- [thedotmack/claude-mem](https://github.com/thedotmack/claude-mem) Claude-Mem 是一个专为 Claude Code 及兼容的 AI 编程 Agent 设计的持久化记忆压缩系统。它解决了一个根本性问题：当你的 AI 编程会话结束时，所有累积的上下文——文件编辑、调试观察、架构决策——都会消失。Claude-Mem 会自动捕捉这些瞬间，使用 Claude Agent SDK 将其压缩为结构化记忆，并在未来的会话中注入相关上下文，从而让你的 AI 助手随着时间推移保持知识的连贯性。
 - [safishamsi/graphify](https://github.com/safishamsi/graphify) 一个面向 AI 编码助手的技能。 在 Claude Code、Codex、OpenCode、OpenClaw、Factory Droid 或 Trae 中输入 /graphify，它会读取你的文件、构建知识图谱，并把原本不明显的结构关系还给你。更快理解代码库，找到架构决策背后的"为什么"。
+
+一般：
+
 - [ussumant/llm-wiki-compiler](https://github.com/ussumant/llm-wiki-compiler) 基于 claude plugin 实现
 - [Astro-Han/karpathy-llm-wiki](https://github.com/Astro-Han/karpathy-llm-wiki) 基于 skill 实现
 - [hellohejinyu/llm-wiki](https://github.com/hellohejinyu/llm-wiki) 基于命令行工具实现
