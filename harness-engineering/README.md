@@ -17,3 +17,11 @@
 - [superpowers](https://github.com/obra/superpowers)
 - [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
 - [xixu-me/awesome-persona-distill-skills](https://github.com/xixu-me/awesome-persona-distill-skills) 这个网站收集了 同事.skill、前任.skill、女娲.skill、自己.skill、乔布斯.skill……
+
+## CLI 生态
+
+- 飞书 cli
+- 钉钉 cli
+- 企业微信 cli
+- [jackwener/OpenCLI](https://github.com/jackwener/OpenCLI) 让任何网站与工具成为你的命令行界面。一个通用的CLI枢纽和AI原生运行时环境。将任意网站、Electron应用或本地二进制文件转化为标准化的命令行接口。专为AI智能体设计，通过统一的AGENT.md集成，实现工具的发现、学习与无缝执行。
+- [nashsu/AutoCLI](https://github.com/nashsu/AutoCLI) 极速、安全的命令行工具 —— 一行命令快速获取任意网站信息。覆盖 Bilibili、知乎、小红书、Twitter/X、Reddit、YouTube、HackerNews 等 55+ 站点，同时支持控制 Electron 桌面应用、集成本地 CLI 工具（gh、docker、kubectl），通过浏览器会话复用和 AI 原生发现能力驱动。基于 OpenCLI（TypeScript）用 纯 Rust 完整重写。功能对等，最高快 12 倍，内存省 10 倍，单文件 4.7MB，零运行时依赖。
