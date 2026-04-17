@@ -1,6 +1,7 @@
 ## Claude Code
 
-Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-code) 的 Command 机制实现的， 这里介绍更多 Claude command 相关资料：
+- [claude-code 官方github](https://github.com/anthropics/claude-code)
+- [MarkShawn2020/DeepLearning.ai-Courses-ClaudeCode](https://github.com/MarkShawn2020/DeepLearning.ai-Courses-ClaudeCode) Vibe Genius 团队整理的 DeepLearning.AI 官方课程 'Claude Code: A Highly Agentic Coding Assistant' 学习笔记，由 Andrew Ng 和 Anthropic 的 Elie Schoppik 主讲
 
 - [claude-code 使用指南](https://github.com/zebbern/claude-code-guide)
 - [claude-code-tips](https://github.com/ykdojo/claude-code-tips)
