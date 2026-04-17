@@ -4,6 +4,7 @@
 - [walkinglabs/awesome-harness-engineering](https://github.com/walkinglabs/awesome-harness-engineering) [清华大学深圳国际研究生院（THU SIGS）开源实验室] 精选文章、操作指南、基准测试、规范及开源项目列表，专为驾驭工程而设：该实践旨在塑造人工智能代理的周边环境，以确保其可靠工作。
 - [walkinglabs/learn-harness-engineering](https://github.com/walkinglabs/learn-harness-engineering) [清华大学深圳国际研究生院（THU SIGS）开源实验室] 一门基于项目的课程，专注于构建环境、状态管理、验证与控制机制，以确保人工智能编码代理可靠运行。
 - [HKUDS/OpenHarness/](https://github.com/HKUDS/OpenHarness/) 港大开源的轻量级 Agent 框架
+- [gsd-build/get-shit-done](https://github.com/gsd-build/get-shit-done) 一个轻量但强大的元提示、上下文工程与规格驱动开发系统，适用于 Claude Code、OpenCode、Gemini CLI、Kilo、Codex、Copilot、Cursor、Windsurf、Antigravity、Augment、Trae、CodeBuddy 和 Cline。它解决的是 context rot：随着 Claude 的上下文窗口被填满，输出质量逐步劣化的问题。
 
 ## Cloude/托管 agent方案
 
