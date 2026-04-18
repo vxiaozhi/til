@@ -17,6 +17,7 @@
 - [gstack](https://github.com/garrytan/gstack)
 - [superpowers](https://github.com/obra/superpowers)
 - [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
+- [bytedance/deer-flow](https://github.com/bytedance/deer-flow) DeerFlow（Deep Exploration and Efficient Research Flow）是一个开源的 super agent harness。它把 sub-agents、memory 和 sandbox 组织在一起，再配合可扩展的 skills，让 agent 可以完成几乎任何事情。
 - [xixu-me/awesome-persona-distill-skills](https://github.com/xixu-me/awesome-persona-distill-skills) 这个网站收集了 同事.skill、前任.skill、女娲.skill、自己.skill、乔布斯.skill……
 
 ## CLI 生态
