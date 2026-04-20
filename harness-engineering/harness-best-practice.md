@@ -21,5 +21,13 @@ cluade code
 ```
 
 ### 4. claude code 官方 market
-- feature-dev
+
+claude 官方有 2 个：
+
+- https://github.com/anthropics/claude-code 【插件已内置】
+- https://github.com/anthropics/skills
+
+```
+/plugin marketplace add anthropics/skills
+```
 
