@@ -70,4 +70,5 @@
 - [boxlite](https://github.com/boxlite-ai/boxlite)
 - [vm0](https://github.com/vm0-ai/vm0)
 - [zeroboot](https://github.com/zerobootdev/zeroboot)
-- [containers/bubblewrap](https://github.com/containers/bubblewrap)
+- [containers/bubblewrap](https://github.com/containers/bubblewrap) claude-code 内置 sandbox
+- [TencentCloud/CubeSandbox](https://github.com/TencentCloud/CubeSandbox) 腾讯云开源 sandbox 方案
