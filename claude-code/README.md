@@ -14,6 +14,12 @@
 - [Claude Code Slash Commands](https://github.com/wshobson/commands) 一套专为Claude Code打造的生产级斜杠命令全集，为现代软件开发提供智能自动化与多智能体编排能力。
 - [Claude-Command-Suite](https://github.com/qdhenry/Claude-Command-Suite) Claude Command Suite是一款开发工具包，提供148+条斜杠命令、54个AI智能体、Claude代码技能以及面向软件工程任务的自动化工作流。该套件通过结构化、可重复的工作流程，覆盖代码审查、测试部署、业务场景建模及GitHub-Linear同步等功能。
 
+## 生态
+
+与主流办公聊天工具集成：
+
+- [chenhg5/cc-connect](https://github.com/chenhg5/cc-connect) cc-connect 把运行在你机器上的 AI Agent 桥接到你日常使用的即时通讯工具。代码审查、资料研究、自动化任务、数据分析 —— 只要 AI Agent 能做的事，都能通过手机、平板或任何有聊天应用的设备来完成。
+
 ### 逆向
 
 - [claude-code 源码](https://github.com/vxiaozhi/claude-code)
