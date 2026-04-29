@@ -20,6 +20,11 @@
 - [bytedance/deer-flow](https://github.com/bytedance/deer-flow) DeerFlow（Deep Exploration and Efficient Research Flow）是一个开源的 super agent harness。它把 sub-agents、memory 和 sandbox 组织在一起，再配合可扩展的 skills，让 agent 可以完成几乎任何事情。
 - [xixu-me/awesome-persona-distill-skills](https://github.com/xixu-me/awesome-persona-distill-skills) 这个网站收集了 同事.skill、前任.skill、女娲.skill、自己.skill、乔布斯.skill……
 
+## 自进化
+
+- [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
+- [lsdefine/GenericAgent](https://github.com/lsdefine/GenericAgent) GenericAgent 是一个极简、自我进化的自主 Agent 框架，赋予任何 LLM 对本地计算机的系统级控制权。其核心代码量仅约 3,000 行，围绕 9 个原子工具 和一个 约 100 行的 Agent 执行循环 构建。 [使用教程](https://datawhalechina.github.io/hello-generic-agent/part1/chapter1/)
+
 ## CLI 生态
 
 - 飞书 cli
