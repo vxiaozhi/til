@@ -25,6 +25,10 @@
 - [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)
 - [lsdefine/GenericAgent](https://github.com/lsdefine/GenericAgent) GenericAgent 是一个极简、自我进化的自主 Agent 框架，赋予任何 LLM 对本地计算机的系统级控制权。其核心代码量仅约 3,000 行，围绕 9 个原子工具 和一个 约 100 行的 Agent 执行循环 构建。 [使用教程](https://datawhalechina.github.io/hello-generic-agent/part1/chapter1/)
 
+## Agent 管理生态
+
+- [gastownhall/beads](https://github.com/gastownhall/beads) Beads (bd) 是一款专为 AI 编程 Agent 打造的分布式图谱化问题追踪器。它用具备依赖感知且受版本控制的知识图谱，取代了零散的 Markdown 计划文档——使得 Agent 与人类能够在长周期任务中协同工作，且永不丢失上下文。无论你是独立开发者、Agent 团队，还是人机混合工作流，Beads 都能为每位参与者提供伴随代码存在的持久化结构化记忆。
+
 ## CLI 生态
 
 - 飞书 cli
