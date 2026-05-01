@@ -28,6 +28,7 @@
 ## Agent 管理生态
 
 - [gastownhall/beads](https://github.com/gastownhall/beads) Beads (bd) 是一款专为 AI 编程 Agent 打造的分布式图谱化问题追踪器。它用具备依赖感知且受版本控制的知识图谱，取代了零散的 Markdown 计划文档——使得 Agent 与人类能够在长周期任务中协同工作，且永不丢失上下文。无论你是独立开发者、Agent 团队，还是人机混合工作流，Beads 都能为每位参与者提供伴随代码存在的持久化结构化记忆。
+- [openai/symphony](https://github.com/openai/symphony) Symphony 是一个长时间运行的自动化服务，能够将项目工作转化为隔离的、自主的执行过程。团队无需人工监督 coding agent，Symphony 会自行管理工作——轮询问题追踪器、为每个问题创建独立的工作区，并启动 coding agent 会话，这些会话将独立运行直至完成。
 
 ## CLI 生态
 
