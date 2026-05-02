@@ -5,8 +5,8 @@
 通用型管理工具， 这类工具的目标是“一个程序管理所有开发环境”。
 
 - [jdx/mise](https://github.com/jdx/mise)  (原 rtx) 特点: 速度最快，集成环境变量管理（direnv）和任务运行（make）。
-- vfox (version-fox) GitHub: version-fox/vfox 特点: 国产优秀开源工具，跨平台一致性极高，对 Windows 用户非常友好。
-- asdf GitHub: asdf-vm/asdf  特点: 插件生态最丰富（300+ 插件），是大多数现代工具的灵感来源。
+- vfox (version-fox) [GitHub](https://github.com/version-fox/vfox) 特点: 国产优秀开源工具，跨平台一致性极高，对 Windows 用户非常友好。
+- asdf [GitHub](https://github.com/asdf-vm/asdf)  特点: 插件生态最丰富（300+ 插件），是大多数现代工具的灵感来源。
 
 mise 安装：
 ```
