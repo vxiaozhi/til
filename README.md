@@ -156,6 +156,7 @@
 - [kaniko](https://github.com/GoogleContainerTools/kaniko) K8s中构建镜像
 - [提效工具](tools-and-resources/efficiency-tools.md)
 - [git](tools-and-resources/git.md)
+- [jdx/mise](https://github.com/jdx/mise) mise-en-place（得名于法语烹饪术语，意为“各就各位”）是一个独立的 Rust 二进制文件，旨在替代大多数开发者东拼西凑的零散开发环境工具集合。它将工具版本管理、环境变量管理和任务执行统一到一个极速的 CLI 中——作为你整个开发环境的前端。
 
 ## 思维模型与方法论
 
