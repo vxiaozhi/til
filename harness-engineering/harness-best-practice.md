@@ -25,7 +25,7 @@ $ ~/.local/bin/mise --version
 
 ### 1.  [claude-mem]()
 
-### 2. OpenSpec
+### 2. OpenSpec 【已放弃，经实践发现存在与 SpecKit 存在同样缺点： 文档过多，积累的文档无法被 agent 再次利用，起不到复利作用】
 ```
 npm install -g @fission-ai/openspec@latest
 
@@ -56,6 +56,7 @@ claude 官方有 2 个：
 
 - [gastownhall/beads](https://github.com/gastownhall/beads)
 
+安装：
 ```
 # Install beads CLI (system-wide - don't clone this repo into your project)
 curl -fsSL https://raw.githubusercontent.com/gastownhall/beads/main/scripts/install.sh | bash
@@ -67,4 +68,6 @@ bd init
 # Tell your agent
 echo "Use 'bd' for task tracking" >> AGENTS.md
 ```
+
+与 claude code 集成： https://gastownhall.github.io/beads/integrations/claude-code
 
