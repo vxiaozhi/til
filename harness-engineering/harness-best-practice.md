@@ -60,6 +60,12 @@ claude 官方有 2 个：
 
 - [gastownhall/gastown](https://github.com/gastownhall/gastown) Gas Town —— 一个多 Agent 编排系统，它将 AI 编码 Agent 视为结构化、基于 Git 的工作区内的一等公民和可问责的员工。无论你是运行两个还是二十个 Claude Code 实例，Gas Town 都能为你提供协调层、持久化工作跟踪以及监控基础设施，确保一切顺畅运转。
 - [Dicklesworthstone/beads_viewer](https://github.com/Dicklesworthstone/beads_viewer) Beads Viewer (bv) 是一个高性能的终端用户界面 (TUI)，用于浏览和管理使用 Beads issue 追踪系统的项目中的任务。它能将你的任务数据转化为智能依赖图，自动高亮传统基于列表的追踪器容易忽略的瓶颈、循环和关键路径。
+- [mantoni/beads-ui](https://github.com/mantoni/beads-ui) Beads 的本地界面 — 与您的编程代理协作处理问题。
+```
+npm i beads-ui -g
+# In your project directory:
+bdui start --open
+```
 
 安装：
 ```
