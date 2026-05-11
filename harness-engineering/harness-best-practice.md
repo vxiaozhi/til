@@ -82,3 +82,6 @@ echo "Use 'bd' for task tracking" >> AGENTS.md
 
 与 claude code 集成： https://gastownhall.github.io/beads/integrations/claude-code
 
+### 6. ruflo
+
+- [ruvnet/ruflo](https://github.com/ruvnet/ruflo) Ruflo 是一个多 Agent AI 编排平台，构建在一个自学习且可通过插件扩展的运行时之上，能够将 Claude Code 转化为由 100 多个专业 Agent 组成的协同集群。
