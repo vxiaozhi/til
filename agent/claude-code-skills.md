@@ -25,6 +25,7 @@ Skills 相关仓库：
 - [Claude官方 Skills 对应的中文版本](https://github.com/vxiaozhi/Claude_skills_zh-CN)
 - [Superpowers](https://github.com/obra/superpowers) Claude代码超能力：核心技能库
 - [Superpowers 中文版本](https://github.com/vxiaozhi/superpowers-zh)
+- [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) Everything Claude Code (ECC) 是面向 AI Agent 运行环境的性能优化系统——它包含了一套完整的、可用于生产环境的 Agent、技能、钩子、命令、规则以及 MCP 配置集合，由一位 Anthropic 黑客松获胜者历经 10 个月以上的密集日常使用演进而来。它不仅仅是一个配置包，更是一个涵盖了 Token 优化、记忆持久化、持续学习、安全扫描和研究驱动型开发 的可组合系统，可跨 Claude Code、Codex、Cursor、OpenCode、Gemini、GitHub Copilot 及其他 AI Agent 运行环境使用。
 - [mattpocock/skills](https://github.com/mattpocock/skills)
 
 其它有用 skills：
