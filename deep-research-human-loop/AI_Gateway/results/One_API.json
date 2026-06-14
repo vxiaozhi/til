@@ -1,0 +1,86 @@
+{
+  "basic_info": {
+    "项目名称": "One API",
+    "GitHub 地址": "https://github.com/songquanpeng/one-api",
+    "Stars": "34,900+（截至2026年6月，约34.9k）",
+    "主要语言": "Go（后端核心）+ JavaScript（前端Web界面），GitHub API标注主要语言为JavaScript因前端代码占比较多",
+    "开源协议": "MIT",
+    "背后公司/社区": "个人开发者宋全鹏（songquanpeng / JustSong）主导开发，社区协作维护。项目于2025年初停止主动维护后，社区fork出New API（QuantumNous/new-api）接替演进",
+    "首次发布": "2023年4月23日（v0.1.0），首次commit于2023年4月22日",
+    "官网": "https://oneapi.justsong.cn/（官方演示站：https://openai.justsong.cn/）"
+  },
+  "features": {
+    "模型提供商支持": "支持30+家模型提供商，涵盖100+模型。主要包括：OpenAI ChatGPT系列（含Azure OpenAI）、Anthropic Claude系列（含AWS Claude）、Google Gemini/PaLM2、Mistral、DeepSeek、字节豆包（火山引擎）、百度文心一言、阿里通义千问、讯飞星火、智谱ChatGLM、360智脑、腾讯混元、Moonshot AI、百川智能、MINIMAX、Groq、Ollama、零一万物、阶跃星辰、Coze、Cohere、xAI、together.ai、novita.ai、硅基流动（SiliconFlow）、Cloudflare Workers AI、DeepL等。此外还支持配置第三方代理服务（如OpenAI-SB、API2D、OhMyGPT、AI Proxy、CloseAI等）及自定义渠道",
+    "负载均衡": "支持多渠道负载均衡分发，采用优先级加权随机算法（基于渠道weight属性）。用户请求不加渠道ID时自动在多渠道间进行负载分发；管理员令牌可通过Authorization Header指定特定渠道（格式：Bearer ONE_API_KEY-CHANNEL_ID）。支持渠道自动故障转移与重试选择",
+    "速率限制": "仅支持全局级别的IP速率限制：全局API速率限制（单IP每3分钟最多180次非中继请求，通过GLOBAL_API_RATE_LIMIT配置）、全局Web速率限制（单IP每3分钟最多60次，通过GLOBAL_WEB_RATE_LIMIT配置）。可配合Redis实现持久化限流。不支持用户/令牌级别的细粒度速率限制，也不支持Token级或金额级速率限制",
+    "缓存能力": "支持Redis缓存（通过REDIS_CONN_STRING配置，支持sentinel和cluster模式）和内存缓存（通过MEMORY_CACHE_ENABLED=true启用，会引入配额更新延迟）。缓存内容涵盖Token验证、用户分组查询、渠道选择等，目标是用户响应返回前实现零数据库访问。同步频率通过SYNC_FREQUENCY控制（默认600秒）。支持TikToken编码数据缓存（TIKTOKEN_CACHE_DIR，便于离线环境部署）。支持批量更新聚合（BATCH_UPDATE_ENABLED）减少数据库连接压力。不支持Memcached缓存后端，不支持精确匹配缓存或语义缓存（向量嵌入级缓存）",
+    "降级与重试": "支持失败自动重试机制：当某渠道触发rate limit或故障后，系统自动重新随机选择其他渠道，最多重试10-20次，重试期间仅记录warning日志不向用户直接报错。支持渠道可用性定期检测（CHANNEL_TEST_FREQUENCY配置），可基于请求成功率自动禁用渠道（ENABLE_METRIC开启后，成功率阈值METRIC_SUCCESS_RATE_THRESHOLD默认0.8）。渠道故障自动熔断与恢复",
+    "认证与密钥管理": "多方式认证：邮箱注册/登录、GitHub OAuth、飞书OAuth、微信公众号授权登录。令牌管理：可设置令牌过期时间、使用额度上限、允许的IP范围白名单、允许访问的模型列表。系统访问令牌（管理API鉴权）。兑换码管理：批量生成和导出，用于账户充值。支持邮箱注册白名单。Cloudflare Turnstile用户验证。默认管理员账号root/123456，首次登录后需立即修改。不支持自动密钥轮转",
+    "可观测性": "日志功能：可配置日志目录（--log-dir，默认./logs），支持request id追踪，日志记录过多时自动切换文件。支持单独日志数据库（LUG_SQL_DSN）存储消耗日志。指标收集：可选启用ENABLE_METRIC统计请求成功率，通过METRIC_QUEUE_SIZE和METRIC_SUCCESS_RATE_THRESHOLD配置。告警推送：集成Message Pusher将报警信息推送到微信/飞书等多种App。渠道监控：定期更新渠道余额（CHANNEL_UPDATE_FREQUENCY）和检测渠道可用性（CHANNEL_TEST_FREQUENCY）。不原生集成Prometheus/Grafana/OpenTelemetry，无Trace ID级别的调用链追踪能力",
+    "请求/响应转换": "核心能力是将所有模型提供商的原生API统一转换为标准OpenAI API格式（/v1/chat/completions等）。支持两种处理模式：对OpenAI兼容渠道直接透传请求体和响应体；对非OpenAI格式渠道（Claude、Gemini、文心一言等）进行双向格式转换。支持模型映射/重定向：用户可使用任意模型名称，背后映射到实际渠道模型。例如用户请求gpt-4映射到claude-3-opus实现成本节省70%或透明切换。注意开启模型映射后请求体会被重新构造而非透传，可能导致部分厂商私有字段（如OpenAI的response_format、Claude的thinking参数）无法透传",
+    "提示词安全": "无内置Prompt注入检测与防护机制。有社区Issue（#663）请求添加敏感词过滤功能。可通过GEMINI_SAFETY_SETTING环境变量配置Gemini原生安全过滤级别（默认BLOCK_NONE）。[不确定]是否有后续版本或fork版本添加了内容安全检查模块",
+    "插件扩展": "无内置Wasm扩展或Lua脚本扩展机制。通过管理API（REST接口、Bearer Token鉴权）实现系统功能扩展，可由此开发自定义充值、用户管理等扩展功能。代码层面有供应商模块化重构计划（Issue #779），将各AI厂商封装为独立relay模块。有社区贡献者通过PR扩展Gemini的function calling、阿里云通义千问的relay适配等。不支持用户自定义插件/中间件的热加载",
+    "流式处理": "核心支持SSE（Server-Sent Events，text/event-stream）流式传输，实现ChatGPT风格打字机效果。适配OpenAI的stream: true参数规范。与讯飞星火等使用WebSocket协议的厂商通信时，One API内部通过WebSocket连接后转换为标准SSE输出给客户端。支持ENFORCE_INCLUDE_USAGE参数强制在流模式返回usage数据。流式token计数：逐chunk累加token，流结束后统一写入计费记录。不直接支持客户端WebSocket连接或Streamable HTTP",
+    "Token 计数与成本追踪": "Token计数基于tiktoken库，启动时需下载分词数据文件（支持TIKTOKEN_CACHE_DIR离线缓存）。计费公式：额度消耗 = 分组倍率 × 模型倍率 × (提示token数 + 补全token数 × 补全倍率)。GPT-3.5补全倍率固定1.33，GPT-4补全倍率固定2（与OpenAI官方一致）。三层成本追踪：用户级别额度（总配额/月配额/日配额）、令牌级别额度、全局消耗统计。支持按用户/渠道/模型维度的调用日志和消耗报表。支持以美元为单位显示额度。非流模式下直接使用OpenAI官方返回的usage数据。支持预扣费机制（v0.5.5起修复了错误时预扣费返还问题）"
+  },
+  "deployment": {
+    "部署方式": "独立服务部署模式。提供单可执行文件（Go编译的二进制约40MB），支持Docker一键部署、Docker Compose（MySQL方案）、手动编译部署、宝塔面板一键部署、Sealos云平台一键部署、Zeabur Git部署、Render直接部署。支持多机主从架构（master/slave节点），通过NODE_TYPE、SYNC_FREQUENCY、FRONTEND_BASE_URL等环境变量配置。非sidecar模式，非K8s Ingress插件模式",
+    "协议支持": "核心协议为REST（提供OpenAI兼容的HTTP REST API端点/v1/chat/completions等）。流式传输使用SSE（Server-Sent Events）。与特定厂商（如讯飞星火）通信时使用WebSocket作为内部通信协议并转换为SSE输出。[不确定]是否原生支持gRPC通信。不支持MCP协议原生集成（虽被MCP目录列为Client但无实际MCP工具/资源/提示协议实现）",
+    "传统网关集成": "可配合Nginx反向代理实现HTTPS终止和公网安全接入（社区推荐的典型部署架构为：用户→HTTPS+Nginx→One API→上游模型API）。[不确定]是否原生集成Kong、APISIX、Envoy、Traefik等传统API网关的插件或配置方案。项目自身定位为独立AI网关服务，未被设计为传统网关的插件或子模块",
+    "语言运行时": "后端：Go语言（使用Gin Web框架），编译为单个二进制文件。前端：JavaScript（Vue.js / Bootstrap UI）。运行时依赖：可选SQLite（默认，单机部署）/MySQL/PostgreSQL数据库，可选Redis缓存。Go的goroutine并发模型支撑高并发连接",
+    "扩展机制": "管理API扩展：通过REST API（Bearer Token/Cookie鉴权）调用系统接口实现扩展功能（如充值、用户管理、渠道管理）。Relay模块扩展：供应商通信层按厂商划分为独立relay模块，可通过PR贡献新的模型适配。无热加载插件系统，无中间件链机制。有社区提议供应商插件模块化重构（Issue #779）和自定义接口透传功能（Issue #806）"
+  },
+  "agent_ecosystem": {
+    "MCP 支持": "不支持Model Context Protocol（MCP）原生集成。虽被MCP官方目录网站（model-context-protocol.com）列为MCP Client，但项目本身无MCP Server代理功能、无API-to-MCP工具转换能力、无MCP工具注册与发现机制。[不确定]是否通过第三方扩展或fork版本间接支持MCP",
+    "A2A 支持": "不支持Google Agent-to-Agent（A2A）协议",
+    "Agent 框架集成": "无原生Agent框架集成。不内置支持LangChain、LangGraph、AutoGen、OpenAI Agents SDK、CrewAI等框架的特定适配或回调。[不确定]由于One API提供标准OpenAI兼容接口，理论上任何使用OpenAI SDK的Agent框架可通过配置base_url指向One API来间接使用",
+    "API-to-MCP 转换": "不支持将现有REST API（OpenAPI规范）零代码转换为MCP工具的能力"
+  },
+  "performance": {
+    "官方性能声明": "官方无具体性能基准数据。项目声明支持'高并发&动态伸缩'（Sealos部署场景）。编译后二进制约40MB，内存常驻约100MB，峰值约300MB，冷启动时间小于1秒。单进程可支撑数万个goroutine并发连接",
+    "延迟开销": "[不确定]精确的P50/P99延迟开销数据。社区实测数据：数据库未饱和时响应时间中位数约2秒（含上游模型推理时间）；数据库饱和后额外等待约1秒。流式请求场景下P99额外延迟估计小于50ms（对比Python方案LiteLLM的150-300ms有显著优势）。令牌计算对大请求体（500KB+）CPU消耗明显，可能引入额外延迟",
+    "社区评价": "优点：Go性能出色、极致轻量（40MB/100MB）、冷启动快、部署简单、资源占用极低（512MB内存低配VPS可稳定运行）。高并发下goroutine模型优势明显。缺点：默认SQLite高并发易锁库（生产环境建议换MySQL/PostgreSQL）；每个请求伴随3次同步数据库写操作导致并发瓶颈在数据库IO（实测约240-333 RPS上限）；默认HTTP连接池参数保守（MaxIdleConnsPerHost=2）；首屏加载速度慢（前端一次性加载所有数据）。社区普遍建议高并发场景启用Redis缓存+批量更新聚合+调整连接池参数以缓解性能瓶颈"
+  },
+  "governance": {
+    "多租户支持": "支持多层级租户隔离：用户分组管理（为不同分组设置不同倍率，实现差异化定价）、渠道分组管理、令牌级别隔离（每个API Key独立设置过期时间、额度上限、允许IP范围白名单、允许访问的模型列表）、系统管理员全局管理。支持虚拟密钥机制：对外提供统一API Key，后端自动映射到多渠道。支持主从多机部署架构。租户粒度覆盖用户/分组/令牌级别，不原生支持项目/工作空间级别隔离",
+    "审计日志": "调用日志记录能力：记录每次API调用的消耗（谁调用、何时调用、调用什么模型、消耗多少Token）。支持将消耗日志存储在独立的数据库（LUG_SQL_DSN配置）。可查看用户的额度明细和使用记录。日志中包含request id便于追踪和调试。支持在后台删除历史消耗日志。Issue #249请求在消费日志中补充上游渠道来源信息。Issue #1440请求添加内容审计功能（记录外发及AI响应的具体内容）。[不确定]是否支持完整的内容级别审计（记录请求体和响应体原文）以及是否记录工具调用详情",
+    "预算管理": "支持用户级别额度管理（可为每位用户设置总配额、月配额、日配额）。支持令牌级别额度上限（每个API Key独立配额）。支持兑换码机制用于账户充值。支持新用户初始额度设置。不支持自动化的超预算告警通知或超预算自动截断功能。[不确定]是否有社区方案通过Message Pusher实现预算告警",
+    "数据驻留": "完全支持数据本地化部署：所有管理数据（用户信息、API Key、额度记录、消耗日志）存储在部署者自有数据库（SQLite/MySQL/PostgreSQL），可选择国内服务器部署。项目README声明需遵守《生成式人工智能服务管理暂行办法》，要求面向中国公众服务前完成生成式AI备案。项目本身无内置GDPR合规功能（如数据导出、数据删除、Cookie同意等）。数据出境风险由部署者自行承担——若后端渠道使用海外厂商（如OpenAI、Anthropic），用户输入内容仍会传输至境外服务器处理"
+  },
+  "content_safety": {
+    "Prompt 注入防护": "[不确定]无内置Prompt注入检测与防护机制。无专用的Prompt注入特征库或检测模型。社区Issue #663曾提出敏感词过滤需求但未被合入主分支",
+    "PII 脱敏": "[不确定]无内置PII（个人身份信息）检测与脱敏功能。不提供输入输出双侧的敏感信息自动识别、掩码或加密处理能力",
+    "内容审核": "[不确定]v0.5.x起支持通过GEMINI_SAFETY_SETTING环境变量配置Gemini原生安全过滤级别（默认BLOCK_NONE可选HARM_BLOCK_THRESHOLD等）。项目本身无内置的毒性检测、违规内容过滤或自定义安全策略功能。有社区需求（Issue #663）请求添加AI响应内容的敏感词过滤模块"
+  },
+  "ai_vs_l7_gateway": {
+    "架构层级定位": "L7+/AI应用层。One API定位为LLM API管理与分发系统，工作在HTTP/7层之上，提供AI特定的协议适配、模型路由、Token计费等AI应用层能力。不同于传统L4/L7网关（如Nginx/Envoy）的通用HTTP反向代理定位，One API深度理解LLM请求和响应的语义结构",
+    "协议感知能力": "深度LLM协议感知：理解并处理SSE流式协议（text/event-stream）、Token数量计算（tiktoken编码）、不同模型提供商的专有API格式（OpenAI/Claude/Gemini/文心一言等格式互转）、流式chunk解析与重组。传统7层网关仅做通用HTTP处理（请求/响应头、Body透传），不感知负载内容的AI语义",
+    "状态模型": "有状态设计：维护用户额度状态（已用/剩余Token额度）、令牌生命周期状态（过期时间/IP绑定）、渠道健康状态（可用性/余额）、用户分组倍率配置。跟踪会话级别的计费上下文。传统网关通常为无状态或仅维护连接级状态（如会话保持sticky session），不维护业务级状态",
+    "计费模型": "Token级计费为主：按照额度公式（分组倍率×模型倍率×(提示Token+补全Token×补全倍率)）进行计量扣费，支持按不同模型设置不同价格倍率。可配合用户分组倍率实现差异化定价。支持兑换码充值、美元计价显示。传统网关仅做请求级计费（按调用次数），无法感知单次请求内的Token消耗量",
+    "路由粒度": "基于AI语义的路由：可按模型名称路由到不同渠道、按渠道权重和优先级负载均衡、基于Token预算选择渠道（避免超过TPM/RPM限制）、基于成本优化（优先选择价格更低的渠道）、基于延迟优先的路由。支持模型映射（对用户暴露一个模型名，实际路由到不同模型）。传统网关路由基于URL路径、HTTP Header、Host等通用维度",
+    "缓存策略": "内存缓存+Redis缓存策略：缓存Token验证信息、用户分组配置、渠道列表等元数据，降低数据库查询频率。目标是在用户请求响应路径上实现零数据库访问。缓存同步频率可配置（默认600秒）。不支持基于向量嵌入的语义缓存（语义相似匹配缓存），不支持HTTP语义缓存机制（如ETag/CDN/Vary等）",
+    "安全模型": "API Key级别的访问控制安全：令牌过期/额度/IP白名单/模型访问权限四重限制。Cloudflare Turnstile人机验证。多方式OAuth认证。安全模型侧重于防止API Key滥用和越权访问。不像传统网关具备WAF（Web应用防火墙）、DDoS防护、CORS策略、通用限流等网络层/HTTP层安全能力。无Prompt注入防护、无PII数据防泄露检测、无Token级别的异常使用行为检测",
+    "内容转换": "深度AI内容转换：模型请求/响应格式双向转换（OpenAI↔Claude↔Gemini↔国产模型格式互转）、模型名称映射与重定向、请求体重构造与适配。支持降级fallback（渠道故障时自动切换到备用渠道）。传统网关仅做通用HTTP改写（Header修改、URL重写、Body微调），不涉及AI语义级别的格式转换",
+    "限流单位": "以Token消耗量（额度）为限流单位：用户/令牌配额以额度点数计量，非简单的请求数/秒。同时提供IP级别的请求频率限流（每3分钟窗口）。最核心差异：Token消耗量才是AI API的真正成本度量，传统网关的RPS（请求/秒）限流无法反映单次请求的Token消耗差异（如一次调用可能消耗10 Token或10万Token）",
+    "流量特征": "面向LLM特有的流量模式：流式长连接（SSE持续推送，连接可能持续数十秒到数分钟）、秒级延迟容忍（模型推理时间通常1-10秒）、大载荷传输（长上下文可达128K Token以上）。请求到达率和处理时长高度不均衡。传统网关面向短连接、毫秒级延迟的同步HTTP请求，流量模型差异显著",
+    "生态定位": "独立AI网关：定位为LLM API统一管理与分发系统，核心功能包括API聚合（30+厂商统一接口）、Key池化管理（多渠道Key统一配置和分发）、计费系统（多级倍率、兑换码、额度管理）。属于独立的AI网关类别，不等同于传统API网关的AI插件，也不等同于MCP专用网关或Agent治理平台。2025年初停止维护后，社区fork版New API接替演进并增加了数据看板、在线支付等更丰富的AI资产管理功能"
+  },
+  "uncertain": [
+    "缓存能力_是否支持Memcached",
+    "可观测性_是否集成Prometheus_Grafana_OpenTelemetry",
+    "提示词安全_是否有后续版本添加内容安全检查",
+    "插件扩展_是否支持Wasm_Lua脚本扩展",
+    "协议支持_是否原生支持gRPC",
+    "传统网关集成_是否原生集成Kong_APISIX_Envoy_Traefik",
+    "MCP 支持_MCP Client支持程度",
+    "Agent 框架集成_是否可通过OpenAI兼容接口间接支持",
+    "API-to-MCP 转换_是否有第三方扩展",
+    "延迟开销_精确的P50_P99延迟数据",
+    "审计日志_是否记录完整请求和响应内容",
+    "预算管理_是否有超预算告警或截断功能",
+    "数据驻留_GDPR合规功能",
+    "Prompt 注入防护_是否有内置检测机制",
+    "PII 脱敏_是否有内置脱敏功能",
+    "内容审核_是否有内置内容过滤功能"
+  ]
+}
