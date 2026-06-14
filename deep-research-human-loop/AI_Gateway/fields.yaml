@@ -1,0 +1,204 @@
+# AI 网关开源项目调研字段定义
+
+categories:
+  - name: 基本信息
+    slug: basic_info
+    detail_level: 详细
+    description: 项目基本身份信息
+    fields:
+      - name: 项目名称
+        description: 项目正式名称
+        detail_level: 极简
+      - name: GitHub 地址
+        description: 项目 GitHub 仓库 URL
+        detail_level: 极简
+      - name: Stars
+        description: GitHub Star 数量
+        detail_level: 极简
+      - name: 主要语言
+        description: 主要开发语言（Python/Go/Rust/TypeScript 等）
+        detail_level: 极简
+      - name: 开源协议
+        description: 使用的开源许可证（MIT/Apache 2.0/AGPL 等）
+        detail_level: 简要
+      - name: 背后公司/社区
+        description: 项目的主要维护方或商业实体
+        detail_level: 简要
+      - name: 首次发布
+        description: 项目首次公开发布时间
+        detail_level: 简要
+      - name: 官网
+        description: 项目官方网站 URL
+        detail_level: 简要
+
+  - name: 功能特性
+    slug: features
+    detail_level: 详细
+    description: AI 网关核心功能能力
+    fields:
+      - name: 模型提供商支持
+        description: 支持的 LLM 提供商数量及类型（OpenAI/Anthropic/Azure/Bedrock/VertexAI 等）
+        detail_level: 详细
+      - name: 负载均衡
+        description: 负载均衡策略（round-robin/least-latency/weighted 等）
+        detail_level: 简要
+      - name: 速率限制
+        description: 速率限制能力（请求数/token 级/金额级限制）
+        detail_level: 简要
+      - name: 缓存能力
+        description: 缓存机制（精确匹配缓存/语义缓存，是否支持 Redis/Memcached 等缓存后端）
+        detail_level: 详细
+      - name: 降级与重试
+        description: 故障转移（fallback）和自动重试机制
+        detail_level: 简要
+      - name: 认证与密钥管理
+        description: 认证方式、多租户 API Key 管理、虚拟密钥、密钥轮转
+        detail_level: 简要
+      - name: 可观测性
+        description: 日志/指标/追踪（Tracing）能力，是否集成 Prometheus/Grafana/OpenTelemetry
+        detail_level: 详细
+      - name: 请求/响应转换
+        description: 请求和响应格式转换能力（如 OpenAI↔Claude↔Gemini 格式互转）
+        detail_level: 简要
+      - name: 提示词安全
+        description: Prompt 注入防护、内容审核、输出过滤
+        detail_level: 详细
+      - name: 插件扩展
+        description: 是否支持自定义插件/Wasm 扩展/Lua 脚本等扩展机制
+        detail_level: 简要
+      - name: 流式处理
+        description: SSE/WebSocket/Streamable HTTP 流式响应处理方式
+        detail_level: 简要
+      - name: Token 计数与成本追踪
+        description: Token 使用量统计、成本归属、多模型价格换算
+        detail_level: 简要
+
+  - name: 部署与架构
+    slug: deployment
+    detail_level: 简要
+    description: 部署方式和架构特点
+    fields:
+      - name: 部署方式
+        description: sidecar/独立服务/插件嵌入/K8s Ingress 等部署模式
+        detail_level: 简要
+      - name: 协议支持
+        description: REST/gRPC/WebSocket/MCP 等协议支持
+        detail_level: 简要
+      - name: 传统网关集成
+        description: 可集成哪些传统 API 网关（Kong/APISIX/Envoy/Nginx/Traefik 等）
+        detail_level: 简要
+      - name: 语言运行时
+        description: 开发语言和运行时（影响性能、部署和团队技术栈匹配）
+        detail_level: 简要
+      - name: 扩展机制
+        description: 插件/中间件/自定义策略等扩展方式
+        detail_level: 简要
+
+  - name: Agent 与生态集成
+    slug: agent_ecosystem
+    detail_level: 详细
+    description: Agent 协议和框架生态集成能力
+    fields:
+      - name: MCP 支持
+        description: 是否原生支持 Model Context Protocol（MCP Server 代理/API-to-MCP 转换/MCP 工具注册发现）
+        detail_level: 详细
+      - name: A2A 支持
+        description: 是否支持 Google Agent-to-Agent 协议
+        detail_level: 简要
+      - name: Agent 框架集成
+        description: 支持哪些 Agent 框架（LangChain/LangGraph/AutoGen/OpenAI Agents SDK/CrewAI 等）
+        detail_level: 简要
+      - name: API-to-MCP 转换
+        description: 是否支持将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具
+        detail_level: 简要
+
+  - name: 性能特征
+    slug: performance
+    detail_level: 简要
+    description: 性能指标和设计特征
+    fields:
+      - name: 官方性能声明
+        description: 官方宣传的性能指标（如吞吐量对比、延迟数据）
+        detail_level: 简要
+      - name: 延迟开销
+        description: 网关自身引入的 P99/P50 延迟开销
+        detail_level: 简要
+      - name: 社区评价
+        description: 社区反馈的性能评价（优劣势）
+        detail_level: 简要
+
+  - name: 治理与合规
+    slug: governance
+    detail_level: 简要
+    description: 企业级治理和合规能力
+    fields:
+      - name: 多租户支持
+        description: 多租户隔离能力（团队/项目/用户级别，含虚拟密钥、配额管理）
+        detail_level: 简要
+      - name: 审计日志
+        description: 审计日志能力（谁/何时/调用什么模型/消耗多少 Token/执行了哪些工具）
+        detail_level: 简要
+      - name: 预算管理
+        description: 是否支持按用户/团队/项目的 Token/金额预算，超预算告警或截断
+        detail_level: 简要
+      - name: 数据驻留
+        description: 是否支持数据本地化部署/数据驻留合规（GDPR/数据安全法等）
+        detail_level: 简要
+
+  - name: 内容安全
+    slug: content_safety
+    detail_level: 简要
+    description: AI 内容安全与防护能力
+    fields:
+      - name: Prompt 注入防护
+        description: Prompt Injection 检测与防护机制
+        detail_level: 简要
+      - name: PII 脱敏
+        description: 输入和输出双侧的敏感信息检测与脱敏
+        detail_level: 简要
+      - name: 内容审核
+        description: 毒性检测/违规内容过滤/自定义安全策略
+        detail_level: 简要
+
+  - name: AI 网关 vs 传统 7 层网关对比
+    slug: ai_vs_l7_gateway
+    detail_level: 详细
+    description: 与 API Gateway/Kong/Nginx/Envoy 等传统 7 层网关的核心差异维度
+    fields:
+      - name: 架构层级定位
+        description: 在网络栈中的定位层级（L4/L7 vs L7+/AI 应用层）
+        detail_level: 详细
+      - name: 协议感知能力
+        description: HTTP 通用处理 vs LLM 协议深度感知（SSE 流/token 计算/provisioned throughput 等）
+        detail_level: 详细
+      - name: 状态模型
+        description: 传统网关无状态 vs AI 网关有状态（会话管理/上下文窗口/token 预算跟踪）
+        detail_level: 详细
+      - name: 计费模型
+        description: 请求级计费 vs token 级计费 vs 金额预算计费
+        detail_level: 详细
+      - name: 路由粒度
+        description: 基于 URL/Header/Host 的路由 vs 基于模型名/token 预算/成本优化/延迟优先的路由
+        detail_level: 详细
+      - name: 缓存策略
+        description: HTTP 缓存（ETag/CDN/Vary） vs 语义缓存（基于向量嵌入的语义相似匹配）
+        detail_level: 详细
+      - name: 安全模型
+        description: WAF/DDoS/限流/CORS vs prompt injection 防护/数据防泄露/token 级别滥用检测
+        detail_level: 详细
+      - name: 内容转换
+        description: HTTP 请求改写/响应修改 vs 请求改写/模型切换/格式互转/降级 fallback
+        detail_level: 详细
+      - name: 限流单位
+        description: 请求数/秒 vs Token/分钟 vs 金额预算/月 — 最核心的差异维度之一
+        detail_level: 详细
+      - name: 流量特征
+        description: 同步短连接 vs 流式长连接、秒级延迟、大载荷 — 影响网关架构设计
+        detail_level: 详细
+      - name: 生态定位
+        description: 独立 AI 网关 vs API 网关 AI 插件 vs 统一 API+AI 网关 vs MCP 专用网关 vs Agent 治理平台
+        detail_level: 详细
+
+uncertain:
+  description: deep 阶段由 agent 自动填充的字段列表
+  items: []

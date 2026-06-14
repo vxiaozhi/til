@@ -1,0 +1,108 @@
+topic: AI 网关开源项目及与传统 7 层网关的异同
+
+items:
+  # ===== 独立 AI 网关（核心项目）=====
+  - name: LiteLLM
+    category: 独立AI网关
+    description: Python 编写的统一 LLM API 代理，支持 100+ 模型提供商（OpenAI/Anthropic/Azure/Bedrock/VertexAI 等），提供负载均衡、fallback、速率限制、花费跟踪。社区最活跃的 AI 网关项目之一
+
+  - name: Bifrost
+    category: 独立AI网关
+    description: AI 网关组件，可作为 Kong/APISIX/Envoy 等传统网关的插件或独立部署，主打高性能（宣称 50x LiteLLM 吞吐），支持多模型路由和 token 级别计费
+
+  - name: Portkey
+    category: 独立AI网关
+    description: AI 网关平台，开源网关（Python/TypeScript）支持请求路由、语义缓存、降级回退、可观测性，提供 250+ 模型接入，同时有 SaaS 商业版
+
+  - name: Helicone
+    category: 独立AI网关
+    description: 开源 AI 可观测性 + 代理网关（TypeScript），支持日志记录、速率限制、缓存、成本追踪，以可观测性见长
+
+  - name: TensorZero
+    category: 独立AI网关
+    description: Rust 编写，统一 GPU 网关 + evals 评分 + 实验对比 + 优化闭环，是目前唯一将推理、评估、优化整合在同一栈中的开源方案，强调内置 evaluation 和 experimentation 能力
+
+  - name: Arch Gateway (katanemo/archgw)
+    category: 独立AI网关
+    description: 由 Envoy 前核心贡献者打造，Rust + Envoy + Wasm，AI 原生智能代理网关。核心理念是将 Prompt 视为新型 HTTP 请求，内置轻量意图路由 LLM，支持 Prompt 护栏、参数自动提取、API 调用链编排
+
+  - name: agentgateway (Solo.io)
+    category: 独立AI网关
+    description: Solo.io 创建的 AI 原生数据平面代理，Rust 编写，2025 年 8 月捐赠 Linux Foundation。原生支持 MCP、A2A 协议，宣称相比 retrofit 方案有 300 倍内存优化和 35 倍吞吐提升，定位为 Agent-to-Agent 和 Agent-to-Tool 通信专用基础设施
+
+  - name: OptiLLM
+    category: 独立AI网关
+    description: 开源优化推理代理（Python），实现 20+ 种推理时优化技术（MARS/Best-of-N/MCTS/PlanSearch 等），可作为透明的 AI 网关代理使用，不仅做路由还能通过 test-time compute 优化推理质量
+
+  - name: aisuite (Andrew Ng)
+    category: 独立AI网关
+    description: Python 客户端库，提供统一多模型调用接口（OpenAI 风格），支持 OpenAI/Anthropic/AWS Bedrock/Groq/Ollama 等。Library-style gateway 定位
+
+  # ===== API 网关 AI 插件（传统网关扩展）=====
+  - name: Kong AI Gateway
+    category: 传统网关AI插件
+    description: Kong 官方的 AI 网关插件，基于 Kong 生态，提供多模型路由、Prompt 模板、Token 计数、Prompt Guard 等功能
+
+  - name: Apache APISIX AI Gateway
+    category: 传统网关AI插件
+    description: Apache APISIX 的 AI 插件集（ai-proxy/ai-proxy-multi/ai-prompt-guard 等），优势在于与成熟 API 网关统一管理、插件热加载
+
+  - name: kgateway
+    category: 传统网关AI插件
+    description: Solo.io 将 Gloo Gateway 捐赠 CNCF（2025 年 3 月进入 Sandbox），v2.0 集成 AI Gateway 功能，基于 Envoy，双数据平面架构（Envoy + agentgateway），支持 Gateway API Inference Extensions
+
+  - name: Envoy AI Gateway
+    category: 传统网关AI插件
+    description: 基于 Envoy 的 AI 网关扩展，利用 Envoy 生态的 L7 过滤器架构处理 AI 流量
+
+  - name: Higress
+    category: 传统网关AI插件
+    description: 阿里云开源，基于 Envoy + Istio + Wasm 插件架构，国内率先提供大模型代理/安全防护/语义缓存/Prompt 工程能力，2025 年全面支持 MCP（API-to-MCP 零代码转换、MCP Marketplace）
+
+  - name: WSO2 AI Gateway
+    category: 传统网关AI插件
+    description: WSO2 API Manager 4.6+ 集成，Apache 2.0，支持语义缓存（向量嵌入+Zilliz/Milvus）、多模型路由、Token 计费、Prompt 护栏，全开源
+
+  - name: Gravitee Agent Mesh
+    category: 传统网关AI插件
+    description: Gravitee APIM 4.8+ AI 治理套件，包含 LLM Proxy、MCP Tool Server、A2A Proxy，2025 年 10 月新增原生 MCP Proxy 和 AI IAM（OpenFGA），定位为统一 API+AI+Agent 治理平台
+
+  # ===== 国产/中文社区项目 =====
+  - name: One API (songquanpeng)
+    category: 国产项目
+    description: 国产开源 OpenAI 接口管理 & 分发系统（Go），GitHub Stars 极高，支持多模型 Key 池化管理、用户管理、额度分配
+
+  - name: new-api
+    category: 国产项目
+    description: 基于 One API 的二次开发增强版，支持在线充值/多登录方式/数据看板/模型限制/OpenAI⇄Claude⇄Gemini 格式互转/Midjourney Proxy/Suno 音乐生成，在国内生态中已取代 One API 成为主流选择
+
+  - name: GPT-Load
+    category: 国产项目
+    description: 轻量级 key-pool 代理（Python），专注于 API Key 池化与轮转，在中文社区广泛使用
+
+  # ===== MCP 专用网关（2025 新兴方向）=====
+  - name: Docker MCP Gateway
+    category: MCP网关
+    description: Docker 官方开源的生产级 MCP 网关（Go），支持多 MCP Server 聚合、容器隔离运行、密钥管理、OAuth 认证，配合 Docker MCP Catalog（100 万+ pulls），容器原生 MCP 网关事实标准
+
+  - name: Lunar MCPX (Lunar.dev)
+    category: MCP网关
+    description: MIT 开源 MCP 网关与聚合器，零代码 JSON 配置接入多个 MCP Server，提供全局/服务级/工具级访问控制、Prometheus 指标和 OAuth 认证
+
+  - name: Gate22
+    category: MCP网关
+    description: MCP 网关治理控制平面（TypeScript，Apache 2.0），提供函数级 allow-list 权限、凭证管理、Bundle 组合、审计日志，专为团队级 AI Agent 工具治理
+
+  # ===== 其他相关 =====
+  - name: Langfuse
+    category: 其他相关
+    description: LLM 可观测性平台（TypeScript），内置 API 代理网关功能，以 Tracing/Evaluation 见长
+
+  - name: LobeChat Gateway
+    category: 其他相关
+    description: LobeChat 生态的插件网关组件（@lobehub/chat-plugins-gateway），MIT 开源，但功能范围较窄，仅服务 LobeChat 插件生态
+
+execution:
+  batch_size: 3
+  items_per_agent: 1
+  output_dir: ./AI_Gateway/results
