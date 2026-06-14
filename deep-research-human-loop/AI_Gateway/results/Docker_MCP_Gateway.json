@@ -1,0 +1,80 @@
+{
+  "basic_info": {
+    "项目名称": "Docker MCP Gateway",
+    "GitHub 地址": "https://github.com/docker/mcp-gateway",
+    "Stars": "1,452（截至 2026-06-13）",
+    "主要语言": "Go",
+    "开源协议": "MIT",
+    "背后公司/社区": "Docker, Inc.（Docker 公司官方项目，由 Docker 团队维护）",
+    "首次发布": "2025年6月6日（v0.4.0，仓库创建于2025年4月22日）",
+    "官网": "无独立官网；官方文档 https://docs.docker.com/ai/mcp-catalog-and-toolkit/mcp-gateway/"
+  },
+  "features": {
+    "模型提供商支持": "不适用（Docker MCP Gateway 是 MCP 工具网关，非 LLM API 网关，不直接路由模型提供商 API 调用。MCP 协议本身与任何 AI 客户端兼容，包括可通过 Anthropic/OpenAI/Gemini 等模型驱动的客户端）",
+    "负载均衡": "[不确定] 网关本身无内置负载均衡策略；可通过部署多个网关实例配合外部负载均衡器（如 Nginx、Traefik）实现水平扩展",
+    "速率限制": "[不确定] 无内置请求级速率限制功能；通过 Policy System 实现四层访问控制（目录/服务器/工具/提示词级别），但非速率限制",
+    "缓存能力": "不支持语义缓存或精确匹配缓存；仅提供 MCP 客户端连接池缓存（长连接复用，通过 keptClients 映射和 sync.Once 延迟初始化实现）和 OAuth 令牌缓存（含自动失效刷新）",
+    "降级与重试": "[不确定] 无内置降级（Fallback）或自动重试机制；Policy System 采用 fail-closed 模式（策略服务不可用时拒绝访问）",
+    "认证与密钥管理": "支持 OAuth 2.1 认证（含 DCR 动态客户端注册和自动令牌刷新）；Docker Desktop Secrets Engine 密钥管理（密钥存储在 OS 原生密钥链）；`docker mcp secret set` CLI 安全注入密钥；`--block-secrets` 标志扫描载荷中泄露的 API 密钥/令牌并阻断传输；密钥从不在配置文件或环境变量中暴露",
+    "可观测性": "集成 OpenTelemetry 分布式追踪（含自动 Trace Context 传播、结构化 Span 层级：gateway.run → mcp.tool.call → mcp.interceptor.*）；Prometheus 指标暴露于 /metrics 端点（含 mcp.tool.calls、mcp.tool.duration、mcp.tool.errors、mcp.gateway.starts 等直方图和计数器指标）；Zap 结构化日志（含 Trace ID 自动注入实现 Log-Trace 关联、分级日志 Debug/Info/Warn/Error、敏感 Header 自动脱敏）；中间件顺序：OTel → Metrics → Logger → Recovery → CORS",
+    "请求/响应转换": "通过 Interceptor 拦截器中间件实现 MCP 请求/响应修改，支持 Exec（Shell 脚本通过 stdin 接收 JSON）、Docker（容器化安全处理）、HTTP（集成企业安全基础设施）三种拦截器模式；支持 jq 输出转换过滤；不支持 LLM 协议格式互转（OpenAI↔Claude↔Gemini），因为网关处理的是 MCP 工具调用而非 LLM API 调用",
+    "提示词安全": "通过 Interceptor 拦截器实现多层 Prompt 注入防护：预调用参数检查和内容扫描、后调用响应扫描和 PII 清洗、跨仓库会话锁定（记录首次访问的仓库并阻断会话内跨仓库访问）、已知注入模式检测（'ignore previous instructions' 等）；`--verify-signatures` 验证容器镜像签名和 SBOM 溯源；Policy System 的 Allow/Block/Warn 三级决策",
+    "插件扩展": "支持 Interceptor 拦截器作为扩展机制，包括 Exec（Shell 脚本）、Docker（容器化）、HTTP（Web 服务）三种模式；非传统 Wasm/Lua 插件系统；通过 Policy System 可实现自定义访问控制策略",
+    "流式处理": "支持三种 MCP 传输方式：stdio（本地进程 stdin/stdout 通信，适合本地开发）、SSE Server-Sent Events（HTTP 持久连接，支持多客户端，适合生产环境）、Streamable HTTP（MCP 2025-03-26 规范新增，标准 HTTP 请求/响应 + Mcp-Session-Id 会话管理）",
+    "Token 计数与成本追踪": "[不确定] 无内置 Token 计数和成本追踪功能；网关处理的是 MCP 工具调用请求而非 LLM API 调用，因此不涉及 Token 计量；MCP 工具调用日志（--log-calls）可记录工具调用次数但无法计算 Token 消耗或成本"
+  },
+  "deployment": {
+    "部署方式": "支持四种部署模式：1) 独立服务模式（Standalone，单二进制运行或 Docker 容器运行，挂载 Docker Socket 管理 MCP Server 容器）；2) Docker Desktop 集成模式（Docker Desktop 4.59+ 后台自动运行，通过 MCP Toolkit GUI 管理）；3) Docker Compose 编排模式（将 Gateway 与 MCP Server 容器定义在 Compose 文件中一键部署）；4) Docker-in-Docker (DinD) 模式（Gateway 在容器内通过环境变量 DOCKER_MCP_IN_CONTAINER=1 运行，管理子容器）",
+    "协议支持": "MCP（Model Context Protocol，基于 JSON-RPC 2.0）；支持 stdio、SSE、Streamable HTTP 三种 MCP 传输方式；不支持 REST/gRPC/WebSocket 协议直接使用",
+    "传统网关集成": "[不确定] 无与传统 API 网关（Kong、APISIX、Envoy、Nginx、Traefik）的原生集成方案；可作为独立服务与传统网关并行部署，通过外部负载均衡器（Nginx/Traefik）进行前置流量分发",
+    "语言运行时": "Go 语言开发，编译为单二进制文件，运行时依赖 Docker Engine API 管理 MCP Server 容器，内存占用低，启动快速，适合容器化部署",
+    "扩展机制": "Interceptor 拦截器中间件（Exec 脚本/Docker 容器/HTTP 服务三种模式）；Policy System 策略系统（目录/服务器/工具/提示词四级访问控制，基于 Allow/Block/Warn 三级决策）；无传统插件系统（非 Wasm/Lua/动态加载 .so 文件）"
+  },
+  "agent_ecosystem": {
+    "MCP 支持": "原生深度支持 MCP（Model Context Protocol），作为 MCP Server 代理和聚合层：聚合多个 MCP Server 为统一入口、自动协议转换（stdio↔SSE↔Streamable HTTP）、MCP 工具注册发现（集中化工具列表和能力聚合）、动态 MCP 管理工具（`mcp-find` 运行时搜索 MCP Catalog、`mcp-add` 动态添加 Server、`mcp-remove` 移除 Server、`mcp-config-set` 配置管理、`mcp-create-profile` 创建配置文件）",
+    "A2A 支持": "[不确定] docker/mcp-gateway 自身不支持 Google Agent-to-Agent (A2A) 协议；Docker 有独立开源项目 Docker Agent 支持 A2A 协议（docker/docker-agent），该独立项目同时支持 MCP 和 A2A，但非 docker/mcp-gateway 的功能",
+    "Agent 框架集成": "通过标准 MCP 协议与任何支持 MCP 的 AI 客户端兼容：直接支持 VS Code、Cursor、Claude Desktop、Docker Desktop MCP Toolkit 等客户端；通过 langchain-mcp-adapters 包集成 LangChain/LangGraph；通过 autogen-ext-mcp 包集成 AutoGen；支持 OpenAI Agents SDK（通过 MCP 标准化工具接口）；支持 CrewAI（通过 crewai-tools 库）；支持 LlamaIndex（原生 MCP 工具集成）；由于基于标准 MCP 协议，理论上兼容所有支持 MCP 的 Agent 框架",
+    "API-to-MCP 转换": "[不确定] docker/mcp-gateway 不支持将 REST API（OpenAPI 规范）零代码转换为 MCP 工具的功能；此功能由其他社区项目（如 mcp-ecosystem/mcp-gateway、AmoyLab/Unla 等）提供"
+  },
+  "performance": {
+    "官方性能声明": "[不确定] 未找到 Docker 官方发布的性能基准数据、吞吐量对比或延迟测试报告",
+    "延迟开销": "[不确定] 未找到 P50/P99 延迟基准数据；Gateway 本身为 Go 编译的单二进制、低开销代理层；容器化 MCP Server 的按需启动会增加首次调用延迟（冷启动）；Interceptors 拦截器链可根据配置增加处理延迟；OpenTelemetry 和 Prometheus 指标采集引入可忽略的额外开销",
+    "社区评价": "优势：Go 语言编译为单二进制、内存占用低、启动快速；容器沙箱隔离提供安全性优势；MCP 协议原生兼容性好；与 Docker MCP Catalog（300+ 服务器）深度集成降低配置复杂度。局限：无内置缓存导致每次工具调用需完整往返；按需启动 MCP Server 容器引入冷启动延迟；无反压（Backpressure）机制处理 MCP Server 过载；功能聚焦于 MCP 协议层面，非通用 AI 网关"
+  },
+  "governance": {
+    "多租户支持": "通过 Profile/WorkingSet 机制实现配置级隔离（不同的 Profile 可配置不同的 MCP Server 集合和工具白名单）；支持 OAuth 2.1 服务级认证（每个 MCP Server 独立认证）和 Dynamic Client Registration (DCR)；Policy System 可在服务器/工具/提示词级别实现访问控制；但非传统多租户架构（无独立的团队/项目/用户级租户管理、无虚拟密钥、无租户级配额管理）",
+    "审计日志": "`--log-calls` 标志启用 MCP 工具调用日志（记录谁、何时、调用什么工具）；Policy System 所有评估（Allow/Block/Warn）均生成审计事件（含 Action 类型、资源标识、决策结果、时间戳）；Zap 结构化日志支持 Trace ID 关联（可将单次请求的日志、追踪、指标串联）；OpenTelemetry 分布式追踪提供完整的调用链可视化",
+    "预算管理": "[不确定] 无内置 Token 或金额预算管理功能；无超预算告警或截断机制；网关不直接处理 LLM API 调用，因此不涉及 Token/金额计量层面的预算控制",
+    "数据驻留": "支持完全自托管部署（本地物理机、私有云、混合云环境）；可配置私有 MCP Catalog（fork 官方 Docker MCP Catalog + 自有 OCI 容器注册表）；所有 MCP 工具调用和数据流经自托管 Gateway 实例；密钥存储在 OS 原生密钥链（Docker Desktop Secrets Engine）不从外部传输；支持 GDPR/中国数据安全法等数据驻留合规要求的本地化部署"
+  },
+  "content_safety": {
+    "Prompt 注入防护": "通过 Interceptor 拦截器实现多层防护：预调用拦截（参数类型检查、内容安全分类器、已知注入模式检测如 'ignore previous instructions'）；后调用拦截（响应内容扫描、输出脱敏、恶意载荷过滤）；会话锁定（跨仓库/跨资源访问阻断，记录首次访问的上下文并限制后续工具调用范围）；序列分析（检测可疑工具调用模式如 issue 枚举 → 仓库扫描 → 数据外泄）。`--verify-signatures` 验证容器镜像签名防止供应链投毒",
+    "PII 脱敏": "通过自定义 Interceptor 可实现输入和输出双侧敏感信息检测与脱敏（后调用响应扫描、正则模式匹配等），但非内置开箱即用的自动化 PII 脱敏引擎；需用户自行编写 Exec/Docker/HTTP 拦截器实现",
+    "内容审核": "通过 Interceptor 可实现毒性检测和违规内容过滤（自定义安全分类器、外部安全服务集成）；Policy System 支持 Allow/Block/Warn 三级决策实现内容级拦截；但非内置内容审核模型，依赖用户自定义拦截逻辑或企业安全基础设施集成"
+  },
+  "ai_vs_l7_gateway": {
+    "架构层级定位": "MCP 应用层网关，位于 AI 客户端与 MCP 工具服务器之间（AI Client → MCP Gateway → MCP Servers/Docker Containers），属于 L7+ AI 应用层。专注处理 MCP 协议（JSON-RPC 2.0），与传统 L4（TCP/UDP 负载均衡）和 L7（HTTP 反向代理）网关层级不同。不处理通用 HTTP 流量，仅处理 MCP 标准协议通信",
+    "协议感知能力": "深度感知 MCP 协议语义而非通用 HTTP：理解 MCP 初始化握手（Initialize → ListTools/ListPrompts/ListResources → CallTool/GetPrompt/ReadResource）；感知 MCP 能力协商（Capabilities）、工具描述（Tool Schema）、提示词模板（Prompt Templates）、资源 URI 体系；理解 MCP 传输层差异（stdio 进程通信 vs SSE 持久连接 vs Streamable HTTP 会话管理）。传统网关仅理解 HTTP Method/Header/Body",
+    "状态模型": "有状态网关：管理 MCP 客户端会话（每个 AI 客户端独立的连接池和 OAuth 令牌生命周期）、OAuth 2.1 令牌缓存和自动刷新、Profile/WorkingSet 配置状态（当前启用的 MCP Server 集合和工具白名单）、动态 MCP Server 生命周期（启动/停止容器）。但会话状态不同于 LLM 级别的上下文窗口跟踪或 Token 预算管理。传统网关通常无状态或仅维护连接级状态",
+    "计费模型": "不涉及 LLM 计费（非 LLM API 代理网关）。Docker MCP Gateway 定位为 MCP 工具调用的基础设施层代理，处理的是工具调用请求（如搜索网页、读写文件、查询数据库）而非 LLM 推理请求，因此无 Token 级计费或金额预算计费。传统 API 网关按请求数计费",
+    "路由粒度": "基于 MCP 语义的路由：按 MCP Server 名称路由（如 brave-search、github、duckduckgo）、按 MCP 工具名路由（如 brave_web_search、github.create_issue）、按 Profile/WorkingSet 配置路由（不同会话启用不同的 MCP Server 集合）、Policy System 基于目录/服务器/工具/提示词四级的策略路由。支持动态工具发现（`mcp-find`）和运行时按需加载（`mcp-add`）。传统网关基于 URL Path/Header/Host/Cookie 路由",
+    "缓存策略": "无语义缓存（基于向量嵌入的语义相似匹配）、无精确匹配响应缓存、无 HTTP 缓存（ETag/CDN/Vary）。仅提供 MCP 客户端连接池缓存（通过 keptClients 映射实现长连接复用，避免重复握手）和 OAuth 令牌缓存（带自动失效刷新）。传统 API 网关通常支持 HTTP 级缓存（基于 URL 的响应缓存）",
+    "安全模型": "以 Agentic AI 安全为核心的多层防御体系：容器沙箱隔离（受限权限、网络、资源）+ Docker Content Trust 镜像签名验证（`--verify-signatures`，含 SBOM 溯源）+ Interceptor 拦截器链（Prompt 注入检测、密钥泄露扫描 `--block-secrets`、跨仓库会话锁定）+ Policy System 四级访问控制（目录/服务器/工具/提示词、Allow/Block/Warn）+ OAuth 2.1 认证（含 DCR）+ 密钥不落盘（Secrets Engine）。传统网关安全模型为 WAF/DDoS/CORS/限流",
+    "内容转换": "基于 Interceptor 拦截器的 MCP 请求/响应修改（非 LLM 格式互转如 OpenAI↔Claude↔Gemini）。支持 jq 输出过滤、Exec（Shell 脚本处理 JSON stdin/stdout）、Docker（容器化处理）、HTTP（外部服务调用）三种拦截器模式实现内容转换。传统 API 网关支持 HTTP 请求改写/响应修改/Header 注入",
+    "限流单位": "无内置速率限制机制。不涉及请求数/秒（传统网关限流单位）或 Token/分钟（AI 网关限流单位）或金额预算/月的限流概念。Policy System 提供的是访问控制（允许/阻止/警告）而非流量控制（速率/并发/配额）",
+    "流量特征": "MCP 工具调用流量特征：stdio 模式为本地子进程通信（低延迟、单客户端）；SSE 模式为 HTTP 持久长连接（多客户端、适合远程访问）；Streamable HTTP 模式为标准 HTTP 请求/响应（带 Mcp-Session-Id 会话亲和性）。非 LLM API 典型的高并发流式大载荷场景（如数千 token 的流式生成响应）。工具调用请求负载通常较小（函数参数），响应大小因工具类型而异",
+    "生态定位": "MCP 专用网关，容器原生 MCP 网关事实标准。生态定位为：与 Docker MCP Catalog（300+ 已验证 MCP 服务器，100 万+ pulls）深度绑定的 MCP Server 聚合与安全管理平台；部署在 Docker 容器生态内（Docker Desktop/Docker Engine/Docker Compose）；非通用 AI 网关（不支持直接路由 LLM API 请求）、非传统 API 网关插件（非 Kong/APISIX 生态）、非 Agent 治理平台（无 Agent 行为监控、任务编排）。是 MCP 协议生态中的基础设施层，类似 Docker 在容器生态中的角色"
+  },
+  "uncertain": [
+    "负载均衡",
+    "速率限制",
+    "降级与重试",
+    "Token 计数与成本追踪",
+    "传统网关集成",
+    "A2A 支持",
+    "API-to-MCP 转换",
+    "官方性能声明",
+    "延迟开销",
+    "预算管理"
+  ]
+}
