@@ -1,0 +1,71 @@
+{
+  "基本信息": {
+    "项目名称": "Portkey",
+    "GitHub 地址": "https://github.com/Portkey-AI/gateway",
+    "Stars": "12,059",
+    "主要语言": "TypeScript",
+    "开源协议": "MIT",
+    "背后公司/社区": "Portkey, Inc.（总部旧金山，班加罗尔设有研发中心），2026年5月被 Palo Alto Networks 收购，估值约 1.2-1.4 亿美元",
+    "首次发布": "2023年8月（GitHub 仓库创建于 2023-08-23，公司成立于 2023 年 3 月）",
+    "官网": "https://portkey.ai"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 250+ 模型提供商，涵盖 1600+ 模型（部分资料提及 3000+），包括 OpenAI、Anthropic、Google Gemini、Azure OpenAI、AWS Bedrock、Vertex AI、Cohere、Mistral、Groq、Together AI、Fireworks、Perplexity、Ollama、DeepSeek 等主流及开源模型",
+    "负载均衡": "支持加权负载均衡（weighted load balancing），可按多目标（不同提供商/模型/API Key）配置权重分配流量；2026 年新增粘性路由（sticky routing），可将关联请求固定到同一后端；支持与 fallback 和条件路由组合使用",
+    "速率限制": "支持多维速率限制：时间窗口包括每分钟（RPM）、每小时、每天、每周（rpw，2026年4月新增）；限制维度涵盖请求数和 Token 发送量；可按端点类型（chat completions/embeddings）分别配置；通过虚拟密钥实施，入口级执行（ingress enforcement）",
+    "缓存能力": "支持精确匹配缓存（Simple Cache）和语义缓存（Semantic Cache）两种模式。语义缓存基于向量嵌入相似度匹配，可配置相似度阈值和 TTL（maxAge），增加约 10-30ms 延迟但大幅提升缓存命中率。支持 Redis 等缓存后端（自托管版），企业版支持 AWS ElastiCache 及自定义 Redis。2026年开源版已包含语义缓存功能",
+    "降级与重试": "支持多级故障转移（fallback），可定义降级链（Provider A → Provider B → 缓存）；自动重试支持指数退避（exponential backoff）；2026年开源版新增断路器（circuit breaker），可按 P99 延迟或错误率配置，通过探针请求（probe request）检测恢复后自动恢复流量",
+    "认证与密钥管理": "支持多租户虚拟密钥（Virtual Keys）管理，每密钥可关联独立的速率限制、预算上限和使用策略；支持 API Key 轮转（手动/自动）；企业版支持 JWT 认证、OAuth 2.1、SAML SSO、SCIM 自动用户配置、AWS KMS 密钥管理；RBAC 细粒度角色权限控制",
+    "可观测性": "完整的 OpenTelemetry（OTel）原生集成，支持 OTLP 协议导出追踪和日志到 Jaeger/Tempo/Honeycomb 等后端；W3C Trace Context（traceparent/baggage）分布式追踪；Prometheus `/metrics` 端点暴露 15+ 自定义指标（请求数、延迟、Token 消耗、成本累计、缓存命中率、认证延迟等）；支持 GenAI 语义约定（semconv 1.40.0）；自动注入 x-portkey-trace-id、x-portkey-cache-status、x-portkey-retry-attempt-count 响应头；日志可导出至 Loki、GCS、LangSmith 等后端",
+    "请求/响应转换": "支持通用 API 翻译层，客户端可使用 OpenAI（Chat Completions）、Anthropic（Messages）或 OpenAI Responses API 三种格式中的任意一种，Portkey 自动将请求参数和响应格式在 OpenAI↔Anthropic↔Gemini↔Bedrock 等格式间互转；支持 reasoning effort 自动映射到各提供商的 thinking budget；流式 SSE 响应在各提供商间标准化转换；缓存 JSON 响应可合成流式 SSE 输出",
+    "提示词安全": "提供 50+ 内置 AI 护栏（Guardrails），支持三种执行模式：记录（Log）、标记（Flag）、阻断（Block）；新增 AI 专用 HTTP 状态码（246 表警告通过，446 表护栏拒绝）；集成 Qualifire（SLM 检测模型）、Prisma AIRS（Palo Alto Networks）、Prompt Security、Lasso Security 等多层防护；支持正则验证器、JWT 验证器、Webhook 验证器等确定性检测机制",
+    "插件扩展": "支持自定义钩子（Hooks）中间件系统，可在请求/响应管道的多个阶段（预处理、后处理）插入自定义逻辑；支持外部护栏（External Guardrails）集成（Qualifire、Prompt Security、Lasso Security 等）；支持自定义插件（Custom Plugin）开发，可扩展网关功能",
+    "流式处理": "支持 SSE（Server-Sent Events）流式响应处理，覆盖所有对话补全提供商；支持 WebSocket 实时语音 API（OpenAI Realtime API over WebSocket，xAI Grok-2-Voice）；企业版 gRPC（Beta）支持服务端流式传输（Server-side Streaming），原生 gRPC 连接 Google Gemini；流式转换器（Stream Transformers）实时标准化各提供商的 chunk 格式",
+    "Token 计数与成本追踪": "支持实时 Token 使用量统计（输入/输出 Token），按模型和提供商维度累计；实时美元成本累加（llm_cost_sum 指标）；模型目录（Model Catalog）持续更新各模型最新定价；成本可归属到工作区、API Key、配置、团队维度；企业版提供成本管理面板和预算告警"
+  },
+  "部署与架构": {
+    "部署方式": "支持多种部署模式：（1）Portkey Cloud 托管 SaaS；（2）Docker 独立部署（docker pull portkeyai/gateway）；（3）Kubernetes Helm Chart 部署（Portkey-AI/helm）；（4）Cloudflare Workers 边缘部署；（5）Node.js 原生运行（npx @portkey-ai/gateway）；（6）AWS ECS Fargate / Marketplace；（7）GCP / Azure 混合部署；（8）完全气隙（Air-Gapped）私有部署。企业版支持 SaaS、混合部署（Hybrid）和完全气隙三种模式",
+    "协议支持": "REST/HTTP（通用可用性，OpenAI 兼容 API）；gRPC（Beta，企业自托管版，支持 gRPC→HTTP 代理模式和原生 gRPC 直连 Google Gemini）；WebSocket（通用可用性，OpenAI Realtime Voice API）；MCP（Model Context Protocol，2026年1月 GA）；SSE 流式传输",
+    "传统网关集成": "可与 Kong、Apache APISIX、Envoy、Nginx 等传统网关互补部署。典型架构：Nginx/Envoy 边缘 TLS 终结 → Kong/APISIX 通用 API 管理 → Portkey 作为 LLM 专用层处理 AI 流量（路由、护栏、成本追踪）。Kong/APISIX 可将 /ai/* 路径路由至 Portkey",
+    "语言运行时": "TypeScript / Node.js，核心网关基于 Hono 框架构建，极轻量约 122KB 体积",
+    "扩展机制": "自定义钩子（Hooks）中间件系统，可在请求前/后插入自定义处理逻辑；外部护栏集成接口（External Guardrails）；自定义插件开发支持；虚拟密钥策略引擎可扩展；Webhook 验证器集成"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生 MCP Gateway（2025年9月 Beta，2026年1月 GA）。支持集中式 MCP Server 注册与发现（MCP Registry）；统一认证（OAuth 2.1、API Key、Okta、Entra、Client Credentials）；按团队/成员的 RBAC 访问控制；完整可观测性（工具调用日志、追踪、40+ 指标）；支持 Remote MCP Server（通过 Responses API 和 Messages API 连接远程 MCP 服务器）；与 Claude Desktop、Cursor、VS Code Copilot 等 MCP 客户端兼容",
+    "A2A 支持": "支持 Google Agent-to-Agent（A2A）协议。通过 Agent Gateway 提供 A2A Agent 注册与管理（Agent Registry），为每个 A2A Agent 提供受控端点（https://agents.portkey.ai/v1/agent/<agent-slug>），自动验证 Agent Card 的传输和认证方案，提供完整的 Agent 运行追踪（含内部 MCP 调用）",
+    "Agent 框架集成": "原生集成 LangChain、LlamaIndex、CrewAI、AutoGen、Phidata、OpenAI Agents SDK、Vercel AI SDK 等主流 Agent 框架；提供 Python、Node.js SDK；支持 OpenAI SDK 和 Anthropic SDK 直接指向 Portkey 端点",
+    "API-to-MCP 转换": "[不确定] Portkey 不原生支持将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具。需搭配第三方工具（如 APIMCP.dev）完成 API-to-MCP 的转换步骤，Portkey 负责后续 MCP Server 的生产治理与访问控制"
+  },
+  "性能特征": {
+    "官方性能声明": "官方宣称 <1ms 延迟开销，~122KB 极轻量体积（基于 Hono 框架），日处理超 1 万亿 Token（2026年3月），生产环境累计管理超 1.8 亿美元 AI 支出，服务 24,000+ 组织。独立测试中单节点可达约 850 RPS（TypeScript/Node.js，Docker 部署）",
+    "延迟开销": "独立基准测试（Ferro Labs，2025年，GCP n2-standard-8）：网关自身 P50 延迟开销约 62-343ms（随并发 VU 增长），在 50 VU 时 P50 为 62.6ms（含上游 60ms 模拟延迟，实际网关开销约 2.6ms），在 500 VU 时 P50 增至 293ms（网关开销约 233ms）。Node.js 事件循环在高并发下出现拥塞，是延迟增长的主因",
+    "社区评价": "社区普遍认为 Portkey 在 TypeScript/Node.js AI 网关中性能领先，吞吐量约 5 倍于 LiteLLM（Python 实现）；但相比 Go/Rust 原生网关（如 Kong AI Gateway、Ferro Labs），单节点吞吐量低约 18-91 倍。优势在于功能完整性和易用性，平衡了性能与开箱即用体验；劣势在于高并发场景（>500 VU）延迟明显劣化，需水平扩展补偿"
+  },
+  "治理与合规": {
+    "多租户支持": "支持完整的多租户隔离：工作区（Workspace）级别组织隔离；团队（Team）级别协作；虚拟密钥（Virtual Keys）按团队/项目/用户分配，每密钥可绑定独立的速率限制、使用策略和预算上限；RBAC 细粒度角色权限（管理员/成员/只读）；企业版支持多工作区（Multi-Workspace）跨组织治理",
+    "审计日志": "企业版提供合规级审计日志，可记录：谁（用户/API Key）、何时（时间戳）、调用什么模型、消耗多少 Token、执行了哪些工具/MCP 调用；支持日志导出至外部后端；完整请求/响应负载记录与元数据关联；SOC2 Type 2 / HIPAA / GDPR 合规认证（企业版）",
+    "预算管理": "支持多级预算管理：按虚拟密钥设置 Token 或美元金额硬性上限，超预算立即返回 429 状态码；使用策略在请求入口级执行（Ingress Enforcement），确保预算在调用模型前即被检查；支持预算告警通知；企业版按团队/项目进行预算归因和追踪",
+    "数据驻留": "支持完整的数据本地化部署：完全气隙（Air-Gapped）部署模式下，100% 组件和数据留在客户环境（含指标数据）；混合部署（Hybrid）模式下数据平面在客户 VPC，控制平面由 Portkey 托管；支持 AWS/Azure/GCP/OpenShift/Kubernetes 私有化部署；企业版提供 SOC2 Type 2、HIPAA、GDPR、CCPA 合规认证；支持 AWS KMS 加密密钥管理"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "多层 Prompt Injection 防护机制：Qualifire 专用 SLM 检测模型实时检测注入/越狱/上下文篡改攻击；Prisma AIRS（Palo Alto Networks 集成）阻断角色扮演攻击、载荷拆分、混淆和对抗后缀等高级注入；Prompt Security 集成扫描和清理用户提示；Lasso Security 'Deputies' 实时行为异常检测引擎；正则表达式验证器和 JWT 验证器作为确定性防护补充",
+    "PII 脱敏": "输入和输出双侧 PII 检测与脱敏：Qualifire 原生 PII 检测作为核心护栏检查项；Prisma AIRS 防止 PII、密钥、信用卡数据、机密信息意外泄露；Prompt Security 提供敏感数据和密钥检测器，支持可选的自动脱敏（Redaction），在数据到达模型前完成 PII 清理；Lasso Security 双向检测提示和响应中的敏感数据泄露",
+    "内容审核": "多层次内容安全审核：Qualifire 护栏原生过滤不当/有毒/有害内容；Prisma AIRS 阻断模型生成恶意软件、恶意 URL、有毒内容等不安全输出；Prompt Security 包含有害内容审核器，覆盖仇恨言论、色情内容、非法活动等类别；Lasso Security 监控有害内容并执行组织策略和监管标准；Portkey 内置不安全内容过滤器（基于 LLM 分类器）；支持自定义安全策略配置"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "L7+ / AI 应用层。Portkey 位于传统 L7 API 网关之上，不替代而是互补；传统网关（Nginx/Kong/Envoy）负责 TLS 终结、通用限流、API 路由；Portkey 专注 AI 特定需求：模型路由、Token 成本追踪、提示词护栏、语义缓存等 AI 应用层治理",
+    "协议感知能力": "深度 LLM 协议感知 vs 传统 HTTP 通用处理。Portkey 理解 OpenAI/Anthropic/Gemini 三套 API 协议的完整语义：SSE 流式 chunk 标准化、Token 使用量实时计算（input/output tokens）、provisioned throughput 管理、推理参数跨模型映射（reasoning effort、thinking budget）、多模态（文本/图像/音频/视频）统一处理",
+    "状态模型": "有状态 vs 传统无状态。Portkey 需维护会话状态：多轮对话上下文窗口跟踪、Token 消耗累计计数（跨请求累积）、语义缓存状态（向量嵌入相似度匹配）、粘性会话路由（sticky routing）、断路器状态跟踪（open/half-open/closed）",
+    "计费模型": "Token 级 + 金额预算计费 vs 传统请求级计费。Portkey 的核心计费单位为 Token（精确到 input/output tokens）和美元金额（基于各模型实时定价），支持按分钟/小时/天/周的多级速率限制（RPM/TPM/TPD/TPW），以及按月的硬性金额预算。传统 7 层网关以请求数/秒（RPS）为主要计量单位",
+    "路由粒度": "基于模型名/Token预算/成本优化/延迟优先的多维路由 vs 传统 URL/Header/Host 路由。Portkey 支持：按目标模型名称路由（模型切换）、按成本预算自动选择同一能力的更便宜模型、按延迟优先选择最快响应模型、加权负载均衡以分散速率限制风险、条件路由（if-then 规则）、粘性路由保持会话一致性、降级链式 fallback",
+    "缓存策略": "语义缓存（基于向量嵌入的语义相似匹配） vs 传统 HTTP 缓存（ETag/CDN/Vary）。Portkey 核心差异在于语义缓存：对每次请求计算文本嵌入向量，在缓存中查找语义相似（非精确匹配）的历史请求，命中后返回缓存响应。可配置相似度阈值和 TTL，命中率远高于精确匹配。同时保留精确匹配缓存（Simple Cache），支持 Redis 等传统缓存后端",
+    "安全模型": "Prompt Injection 防护 + 数据防泄露 + Token 级别滥用检测 vs 传统 WAF/DDoS/限流/CORS。Portkey AI 安全模型面向 LLM 特有威胁：提示注入检测与阻断（含专用 HTTP 状态码 446）、PII/密钥/机密数据防泄露（输入输出双侧）、Token 级别滥用检测（异常 Token 消耗模式识别）、LLM 输出有害内容过滤。与传统安全（WAF/DDoS/IP黑白名单）为补充关系",
+    "内容转换": "请求改写 + 模型切换 + 格式互转 + 降级 fallback vs 传统 HTTP 请求改写/响应修改。Portkey 的内容转换面向 AI 语义：OpenAI↔Anthropic↔Gemini 三方 API 格式自动互转（参数映射和响应标准化）、reasoning effort 到 thinking budget 的智能映射、模型无感切换（用户代码不变，后端模型透明替换）、多提供商降级 fallback 链、缓存 JSON→SSE 流式合成等 AI 特有转换",
+    "限流单位": "Token/分钟 + 金额预算/月 vs 传统请求数/秒。这是 AI 网关与传统 API 网关最核心的差异维度之一。Portkey 的限流以 LLM 语义单位为基础：Token（RPM/TPM/TPD/TPW）——精确控制模型调用成本和配额；金额预算（$/月）——业务级成本控制，超限即拒绝；传统网关以 HTTP 协议层面 RPS 为限流单位，无法感知单次请求的 Token 消耗和实际成本",
+    "流量特征": "流式长连接 + 秒级延迟 + 大载荷 vs 传统同步短连接。AI 网关需处理：SSE 流式长连接（单次请求可持续数分钟）、大载荷传输（多模态：图像/音频/视频/文件上传）、Token 级别实时计数（需要在流式传输过程中累加 token 数）、WebSocket 持久连接（实时语音）、gRPC 服务端流等特殊性，深刻影响网关的连接管理、内存模型和超时策略设计",
+    "生态定位": "独立 AI 网关 → 被 PAN 收购整合为安全平台。Portkey 最初定位为独立 AI 网关（2023-2026），与 LiteLLM、Kong AI Gateway、Cloudflare AI Gateway 等竞争。2026年5月被 Palo Alto Networks 以约 1.4 亿美元收购后，重新定位为 Prisma AIRS 安全平台的核心 AI 网关，聚焦 AI Agent 安全治理、运行时防护和身份安全（Idira），从通用 AI 网关转型为企业级 AI 安全基础设施"
+  },
+  "uncertain": [
+    "API-to-MCP 转换"
+  ]
+}
