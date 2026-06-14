@@ -1,0 +1,79 @@
+{
+  "basic_info": {
+    "项目名称": "kgateway",
+    "GitHub 地址": "https://github.com/kgateway-dev/kgateway",
+    "Stars": "约 5,600",
+    "主要语言": "Go（控制平面，93.3%）；Envoy 数据面为 C++；agentgateway 数据面为 Rust",
+    "开源协议": "Apache-2.0",
+    "背后公司/社区": "Solo.io 于 2018 年创建（原名 Gloo Gateway），2024 年 11 月 KubeCon NA 宣布捐赠给 CNCF，2025 年 3 月正式成为 CNCF Sandbox 项目，由 CNCF 进行厂商中立治理，6 家以上组织参与维护（含 4 名非 Solo.io 维护者）",
+    "首次发布": "2018 年（原 Gloo 开源项目首次发布），2019 年初 GA；2025 年 4 月 1 日 kgateway v2.0.0 正式发布（CNCF 捐赠后首个大版本）；最新版本 v2.3.3（2026 年 6 月 12 日）",
+    "官网": "https://kgateway.dev"
+  },
+  "features": {
+    "模型提供商支持": "支持 OpenAI、Anthropic、Google Gemini、Google Vertex AI、AWS Bedrock，以及任何兼容 OpenAI API 格式的提供商。通过 Backend CRD（类型 AI）声明式配置模型后端点，支持多模型优先级分组和故障转移。Envoy 版 AI Gateway 支持 prompt guard、prompt enrichment 等 LLM 流量治理。agentgateway（Rust 数据面，v2.1 集成）支持更深度的 AI 协议感知（Chat Completions/Messages 路由）。注意：Envoy 版 AI Gateway 在 v2.1 中已标记弃用（deprecated），计划 v2.2 移除，建议迁移至 agentgateway",
+    "负载均衡": "Envoy 数据面：支持标准 Envoy 负载均衡算法（round-robin、least-request、random、ring-hash 等）。agentgateway 数据面：采用 P2C（Power of Two Choices）智能算法，综合健康评分（EWMA）、请求延迟（EWMA）、待处理请求数动态打分。AI 路由：支持优先级顺序分组（多组间故障转移），高优先级模型不可用时自动切换到下一优先级组。v2.1 新增加权路由和会话亲和性（一致性哈希）支持",
+    "速率限制": "支持请求级（按请求数/秒、分钟、小时、天）和 Token 级（按 Token/时间窗口）速率限制。通过 TrafficPolicy/RateLimitPolicy CRD 配置。支持按用户（X-User-ID）独立配额。Token 级限流实现成本控制（如设置为每日 Token 预算上限），到达硬上限后返回 HTTP 429。支持本地模式（进程内计数器）和全局模式（跨副本共享）",
+    "缓存能力": "Envoy 版 AI Gateway 的 AIPolicy CRD 包含语义缓存（semantic caching）字段定义，声称支持基于向量嵌入的语义相似匹配和 RAG 上下文缓存，但该版本已弃用。agentgateway 当前无内置语义缓存引擎。传统 Envoy 数据面支持标准 HTTP 缓存（ETag/Cache-Control/CDN）。可通过 Envoy WASM 插件或外部 ext_proc 服务实现自定义缓存逻辑。[不确定：agentgateway 是否计划内置语义缓存并支持 Redis/Memcached 等缓存后端]",
+    "降级与重试": "支持基于优先级分组的模型故障转移：主模型不可用、返回错误或触发限流时，自动切换至同一优先级组内其他模型，或切换至下一优先级组的备份模型。通过 Backend CRD 的 priorityGroups 配置多级故障转移链（如 gpt-4o → gpt-4-turbo → gpt-3.5-turbo）。Envoy 数据面原生支持重试策略（retry policy），可配置重试条件、次数、超时和退避策略",
+    "认证与密钥管理": "支持多种认证方式：JWT 认证（JWKS 公钥验证，支持 Auth0、Keycloak 等标准 OIDC 提供商）、API Key 认证（内联/Secret 引用两种方式）、OAuth 2.0/OIDC 认证。支持外部授权服务（extAuth，通过 GatewayExtension CRD 配置 gRPC 外部授权后端）。LLM 提供商 API Key 通过 Kubernetes Secret 集中管理（SecretRef 引用）。v2.1+ 企业级认证功能（API Key、OAuth2/OIDC、JWT 验证等）已全部开源",
+    "可观测性": "OpenTelemetry 原生集成：Traces（完整分布式追踪含请求/响应负载、Token 用量、TTFT/TPOT 指标）、Metrics（Prometheus 端点，含 GenAI 语义约定指标）、Logs（结构化 JSON 格式，支持 stdout/stderr/文件/gRPC 多种导出方式）。AI 专用 Prometheus 指标：agentgateway_gen_ai_client_token_usage（Token 用量直方图，按 token_type/model/provider 分类）。官方 Grafana 仪表板：AgentGateway Overview（ID 24590），含 Token 用量、TTFT、TPOT、MCP 工具调用、错误率等面板。支持导出至 Jaeger、Grafana Tempo、Datadog、Honeycomb 等 OTel 兼容后端。提供 OTel Stack 一键部署方案（Grafana Tempo + Prometheus + Loki + Grafana）",
+    "请求/响应转换": "Envoy 版 AI Gateway 支持 Prompt Enrichment（预置/重写系统提示词和用户提示词，支持路由级默认值和请求级覆盖），可通过 TrafficPolicy 的 promptEnrichment.prepend 配置。agentgateway 支持 OpenAI Chat Completions 与 Anthropic Messages 格式双向转换（含 streaming/non-streaming/error 路径），处理工具定义映射、多模态内容转换、角色映射等。暂不支持 Structured Output 完整路由",
+    "提示词安全": "支持多层纵深防御：第一层内置字符串/正则匹配（拦截包含敏感关键词或注入模式的请求，如 \"Ignore all previous instructions\" 等）；第二层外部审核 API（OpenAI omni-moderation-latest，检测有害内容并自动拒绝）；第三层自定义 Webhook Guardrail（pre-request 和 post-response 两个拦截点，支持 Pass/Mask/Reject 三种决策）。通过 TrafficPolicy CRD 的 promptGuard 字段配置。可作为 Kill-Switch 一键急停所有 AI 流量。agentgateway 额外支持工具投毒防护和 MCP Server 安全验证",
+    "插件扩展": "基于 Envoy 扩展机制：支持 WASM 插件（Proxy-Wasm 规范，Rust/Go/C++ 多语言开发，沙箱隔离运行）；支持 ext_authz 外部授权 gRPC 服务（GatewayExtension CRD 配置）；支持 ext_proc 外部处理 gRPC 服务（请求/响应 Body 级别的深度处理）；支持 Envoy 内嵌 Lua 脚本过滤器。通过自定义 CRD（TrafficPolicy、RateLimitPolicy、GatewayExtension、HTTPListenerPolicy 等）实现声明式策略配置。agentgateway 额外支持 CEL（Common Expression Language）策略引擎含 20+ 自定义函数，支持 xDS 动态配置零停机更新",
+    "流式处理": "全面支持 SSE（Server-Sent Events）流式响应处理。Envoy 数据面原生代理 SSE 流，处理 text/event-stream 和 application/x-ndjson 内容类型。agentgateway 原生支持 OpenAI/Anthropic Gemini 等提供商的 SSE/HTTP Stream 格式，实现流合并（多 SSE 流聚合）、反缓冲头处理。支持 Streamable HTTP（MCP 无状态传输模式）",
+    "Token 计数与成本追踪": "agentgateway 通过 Prometheus 指标 agentgateway_gen_ai_client_token_usage（直方图）自动提取 Token 用量，按 gen_ai_token_type（input/output）、gen_ai_system（openai/anthropic 等）、gen_ai_request_model、gen_ai_response_model 分类。支持 PromQL 成本计算公式：成本 = (input_tokens/1,000,000 * input_price) + (output_tokens/1,000,000 * output_price)。按用户 ID（user_id）聚合成本数据。OpenTelemetry Trace span 属性中记录 gen_ai.usage.input_tokens 和 gen_ai.usage.output_tokens。支持 Prometheus AlertManager 预算告警（如日消费超 $100）"
+  },
+  "deployment": {
+    "部署方式": "1) Kubernetes Gateway API 模式（作为 GatewayClass 实现，是主要部署方式）；2) Helm Chart 部署（控制平面 + Envoy 数据面，OCI 仓库分发）；3) Istio Ambient Mesh waypoint 代理模式（作为 waypoint 代理提供 L7 特性，包括请求转换、重试、AI 流量控制）；4) 独立服务模式（agentgateway 作为独立 AI 数据面运行）。非 Kubernetes 环境受限（需 Kubernetes API Server）",
+    "协议支持": "HTTP/1.x、HTTP/2、gRPC（通过 Envoy 代理层原生支持）；WebSocket（通过 Envoy 代理支持）；MCP（Model Context Protocol，通过 agentgateway 数据面原生支持，含 stdio/SSE/HTTP/Streamable HTTP 四种传输）；A2A（Agent-to-Agent Protocol，通过 agentgateway 原生支持）",
+    "传统网关集成": "本身就是完整的 Envoy-based API 网关，实现了 Kubernetes Gateway API 标准。可与 Istio Ambient Mesh 深度集成（作为 waypoint 代理替代 Envoy sidecar）。可与 Envoy Gateway 生态工具链集成。不可直接作为 Kong/APISIX/Nginx/Traefik 插件嵌入，但可作为前置代理（Front Proxy）或旁路部署。统一控制面同时管理 Envoy（传统 API 流量）和 agentgateway（AI/Agent 流量）",
+    "语言运行时": "控制平面：Go（基于 krt 声明式控制器框架，替换了早期的快照模型，提升可扩展性和模块化）。Envoy 数据面：C++（CNCF 毕业项目，极低延迟）。agentgateway 数据面：Rust（基于 Tokio 异步运行时、Hyper HTTP 库，借鉴 Istio Ambient ztunnel 设计经验，无 GC 暂停、内存安全）",
+    "扩展机制": "1) Envoy WASM 插件（Proxy-Wasm 规范，支持 Rust/Go/C++ 多语言开发，沙箱隔离，动态加载）；2) ext_authz 外部授权 gRPC 服务（GatewayExtension CRD 配置）；3) ext_proc 外部处理 gRPC 服务（请求/响应 Body 级深度处理）；4) Envoy 内嵌 Lua 脚本过滤器（轻量级请求/响应修改）；5) 自定义 CRD 策略框架（TrafficPolicy、RateLimitPolicy、GatewayExtension、HTTPListenerPolicy、Backend 等声明式 API）；6) agentgateway 的 CEL 策略引擎（20+ 自定义函数，条件分支策略，xDS 动态热加载）"
+  },
+  "agent_ecosystem": {
+    "MCP 支持": "通过 agentgateway 数据面原生支持 MCP（Model Context Protocol），v2.1 集成。三大能力：1) MCP 工具联邦（聚合多个后端 MCP Server 为统一端点，自动重写工具名避免冲突）；2) MCP 安全治理（JWT/OAuth 认证、细粒度工具级授权、会话管理）；3) MCP 可观测性（分布式追踪含工具调用详情）。支持 stdio/SSE/HTTP/Streamable HTTP 四种 MCP 传输。注意：Envoy 版 AI Gateway 仅有有限的 MCP 路由支持且已弃用",
+    "A2A 支持": "通过 agentgateway 原生支持 Google A2A（Agent-to-Agent）协议。支持 Agent Card 自动发现与重写、任务全生命周期管理（created/in-progress/completed/failed）、多模态协商、OAuth 2.0/JWT/mTLS 安全通信。兼容 Google ADK、LangGraph、CrewAI、Microsoft Agent Framework、BeeAI 等框架构建的 A2A Agent",
+    "Agent 框架集成": "通过 MCP 和 A2A 协议层面集成以下框架和工具：LangGraph、OpenAI Agents SDK、Claude Desktop、kagent（Solo.io 自研的 CNCF Sandbox Agent 框架）、Google ADK、CrewAI、Microsoft Agent Framework、BeeAI。作为基础设施/运维层位于框架之下，提供统一的认证、授权、限流、可观测性等横切关注点，不与特定 Agent 框架耦合",
+    "API-to-MCP 转换": "通过 agentgateway 支持 OpenAPI 规范到 MCP 工具的零代码转换。三种模式：1) 直接暴露（基于 operationId 自动生成工具，参数扁平化）；2) 自定义暴露（筛选端点、自定义工具名/描述、CEL 响应整形、多 API 链式调用）；3) Code Mode（Agent 在沙箱 JavaScript 运行时内编排多个 API 调用）。kgateway Envoy 版控制面不直接提供此功能，需通过 agentgateway 数据面实现"
+  },
+  "performance": {
+    "官方性能声明": "agentgateway（Rust）对比传统 Envoy+Go sidecar retrofit 方案：约 100 倍平均延迟降低（2.34ms vs 245.58ms）、约 100 倍吞吐提升（41,947 req/s vs 406 req/s）、P95 延迟仅 3.53ms（100 并发 MCP 请求）。性能优势源于 Rust 无 GC、零成本抽象、Tokio+Hyper 高性能异步栈设计。Envoy C++ 数据面在传统 L4/L7 代理场景下性能优异（约 50,000+ QPS、次毫秒级延迟）。独立 Gateway API Benchmark 中路由传播速度最快、零错误（最高 3,000 路由测试）。开源基准测试代码：github.com/howardjohn/gateway-api-bench",
+    "延迟开销": "Envoy 代理层自身引入的延迟极低（P99 < 1ms，传统 L4/L7 场景）。agentgateway 数据面 P95 延迟 3.53ms（100 并发 MCP initialize 请求）。额外安全护栏层叠加延迟：内置正则 < 1ms、外部 OpenAI 审核 API 50-200ms、自定义 Webhook Guardrail 视实现而定。P50 延迟未单独公布 [不确定]",
+    "社区评价": "整体正面：作为最成熟、部署最广泛的 Envoy-based Gateway 获行业广泛认可（服务 T-Mobile、BMW、ADP、SAP 等企业级客户）。统一 API+AI 网关定位获好评，单一控制面管理传统和 AI 流量的架构受认可。agentgateway Rust 重写的技术决策获社区认可。主要批评：Envoy 版 AI Gateway 弃用导致已有用户需迁移；agentgateway 当前默认有状态（SessionManager 本地存储），多实例场景下 MCP 粘性会话无保证；文档和功能仍在快速迭代中，部分已实现功能未文档化。中文社区讨论主要集中在 InfoQ/掘金/微信公众号的技术分析文章，主要结论：纯 AI 推理场景推荐 kgateway，混合微服务+AI 场景建议与 Istio 组合使用"
+  },
+  "governance": {
+    "多租户支持": "通过 Kubernetes 命名空间实现租户级资源隔离。通过独立 Gateway 实例实现流量隔离和独立配额管理。支持按用户（X-User-ID / API Key）的身份识别和配额管理。支持虚拟密钥（Virtual Key）机制按用户签发独立 API Key。CEL 策略引擎可基于租户/用户身份进行细粒度访问控制。agentgateway 联邦层允许不同团队暴露不同 MCP Server 并在统一策略管控下共享基础设施",
+    "审计日志": "Envoy 代理层访问日志：支持文件/stdout/gRPC 多种导出方式，可配置自定义 JSON 格式（含请求/响应详情、客户端/后端信息、耗时分解）。OpenTelemetry 分布式追踪：Trace span 记录用户身份、模型名称、Token 用量、请求响应内容、延迟分解、错误详情。agentgateway 额外提供按工具调用/按 MCP Server 的详细追踪。支持导出至 Langfuse/LangSmith 等 LLM 观测平台。无专用不可变审计日志存储系统（如 WORM 存储），审计日志持久化依赖外部系统（如 Loki、Elasticsearch）[不确定：是否存在内置审计日志不可变存储方案]",
+    "预算管理": "支持 Token 级硬上限（按用户/时间窗口配置 Token 配额，到达上限返回 HTTP 429）。通过 Prometheus AlertManager 设置预算阈值告警（如日消费超 $100 触发告警）。支持 PromQL 自定义成本公式实现按用户/团队的金额预算监控。流式请求中预算为软限制（当前请求即使超预算仍完成，后续请求被阻止）。响应头包含速率限制信息（x-ratelimit-limit/remaining/reset）。无原生内置的分级预算审批流程或充值机制",
+    "数据驻留": "支持完全自托管/私有化部署（控制面和数据面均可在私有网络/VPC 中运行），数据不离开用户基础设施。xDS 控制面协议支持私有网络通信。作为 CNCF 项目提供厂商中立治理。[不确定：是否存在正式的数据驻留合规文档、GDPR/数据安全法/等保合规认证或区域数据存储策略声明]"
+  },
+  "content_safety": {
+    "Prompt 注入防护": "支持多层 Prompt 注入防护：1) 内置字符串/正则匹配（拦截 \"Ignore all previous instructions\"、\"DAN mode\" 等常见注入模式，支持 REJECT 拦截返回 403）；2) 外部审核 API 集成（OpenAI omni-moderation-latest，检测有害/注入内容）；3) 自定义 Webhook Guardrail API（pre-request 拦截点，任意语言实现专用检测服务）；4) Kill-Switch 机制（一键急停所有 AI 流量）。agentgateway 额外提供工具投毒防护（工具伪造/命名冲突/影子工具检测）和 MCP Server 指纹验证",
+    "PII 脱敏": "支持输入和输出双侧敏感信息检测与脱敏。内置 PII 检测模式：CREDIT_CARD（信用卡号）、EMAIL（邮箱）、PHONE_NUMBER（电话号码）、SSN（美国社保号）。支持 MASK 操作（将检测到的敏感信息替换为占位符如 <CREDIT_CARD>）和 REJECT 操作（拦截含敏感信息的请求返回 403）。支持自定义正则模式扩展 PII 检测规则。agentgateway 额外内置凭证/密钥检测（AWS AKIA、OpenAI sk-、JWT Token、私钥、数据库连接串等）",
+    "内容审核": "支持三层内容审核体系：1) 内置正则/字符串匹配（有害内容检测，支持 REJECT/MASK 两种操作）；2) 外部模型审核 API 集成（OpenAI omni-moderation-latest，检测暴力/自残/色情等违规内容并自动拒绝）；3) 自定义 Webhook Guardrail API（pre-request 和 post-response 两个拦截点，支持 Allow/Modify/Reject 三种决策）。agentgateway 额外支持 AWS Bedrock Guardrails、Google Model Armor 等外部审核服务集成"
+  },
+  "ai_vs_l7_gateway": {
+    "架构层级定位": "kgateway 传统定位在 OSI 第 7 层（HTTP/gRPC 应用层），通过 Envoy 数据面处理通用 API 流量。AI 能力扩展至 L7+/AI 应用层：深度理解 LLM 请求/响应 Body 语义（模型名称、Token 用量、提示词、工具调用）、MCP 协议（JSON-RPC/tools/list/tools/call）、A2A 协议（Agent Card/任务状态）。agentgateway Rust 数据面从第一性原理为有状态、双向流式 Agent 协议设计，实现协议感知路由和策略执行",
+    "协议感知能力": "传统模式仅感知 HTTP 通用协议（method/URL/headers/status code）。AI 模式深度感知：LLM 协议（OpenAI Chat Completions 格式、Anthropic Messages 格式自动识别和转换）、MCP 协议（JSON-RPC 方法路由、工具发现联邦）、A2A 协议（Agent Card 解析与重写）、流式协议（SSE/HTTP Stream 格式解析、TTFT/TPOT 延迟指标自动计算）、Token 用量自动提取（从各提供商响应体中统一提取 input/output token 计数）",
+    "状态模型": "传统 Envoy 数据面为无状态代理（请求-响应即结束，无会话上下文，无跨请求状态持久化）。agentgateway 数据面为有状态代理：MCP 会话管理（SessionManager 维护长期 SSE 连接生命周期）、Token 预算计数器跨请求持久化、Agent Card 注册和工具发现元数据有状态存储。注意：agentgateway 当前默认使用本地 SessionManager（多实例场景下需外部粘性路由保证会话一致性），社区计划支持无状态模式",
+    "计费模型": "传统模式按请求级/连接数/带宽计费（单位：RPS、并发连接数）。AI 模式支持 Token 级计费（按 input/output Token 分别计量，不同模型不同价格公式）、金额级计费（Token 数 * 模型单价 = 美元成本）、按时段聚合成本（小时/天/月级按用户/团队的消费报表）。支持 PromQL 多模型价格换算和 AlertManager 预算告警",
+    "路由粒度": "传统模式基于 URL/Header/Host/Path 的静态规则路由。AI 模式扩展至：基于模型名的路由（同一 HTTP 路径按请求 Body 中的 model 字段路由到不同后端）、基于优先级的故障转移路由（多级 fallback 链）、推理感知路由（基于 GPU 队列深度/显存利用率/KV Cache 状态等实时 Prometheus 指标智能路由至最优推理 Pod）、基于 Token 预算的路由（超预算用户直接拒绝而不消耗后端资源）",
+    "缓存策略": "传统模式使用标准 HTTP 缓存（ETag/Cache-Control 头、CDN 边缘缓存、Vary 头控制）。AI 模式：Envoy 版 AI Gateway 的 AIPolicy CRD 包含语义缓存（semantic caching）定义（基于向量嵌入的语义相似匹配），但该版本已弃用。agentgateway 当前无内置语义缓存。真正落地的差异在于：传统缓存匹配 HTTP 请求指纹，语义缓存匹配语义意图（如 \"纽约意餐推荐\" 和 \"NYC Italian restaurants\" 命中同一缓存），可大幅提升缓存命中率（生产环境报告 20-40%）[不确定：agentgateway 未来语义缓存实现方案]",
+    "安全模型": "传统模式提供 WAF/DDoS 防护/API 限流/CORS/mTLS/IP 黑白名单等通用安全能力。AI 模式扩展至 AI 特有威胁防护：Prompt 注入检测（系统覆盖/Jailbreak/提示提取/编码绕过）、PII 和凭证数据防泄露（输入输出双侧检测脱敏）、Token 级滥用检测（超预算自动拒绝）、Kill-Switch 机制（一键急停 AI 流量）、工具投毒防护（agentgateway）、MCP Server 指纹签名验证（agentgateway）",
+    "内容转换": "传统模式支持 HTTP 请求改写（Header 重写/URL 重写/路径前缀移除）和响应修改（Body 过滤/Header 注入）。AI 模式扩展至：Prompt Enrichment（系统/用户提示词自动预置和路由级默认值注入）、OpenAI↔Anthropic 格式双向转换（agentgateway，含工具定义映射/多模态内容转换/流式转换）、MCP 工具联邦（多后端工具名自动重写避免冲突、Agent Card URL 重写）、OpenAPI-to-MCP 完整协议转换（agentgateway，三种模式）",
+    "限流单位": "传统模式限流单位为请求数/秒（RPS）、连接数/并发数。AI 模式扩展至 Token/时间窗口（Token/分钟、Token/小时、Token/天），支持金额预算/月（通过 PromQL 成本公式 + Token 硬上限组合实现）。这是 AI 网关与传统网关最核心的差异维度之一：AI 服务成本主要由 Token 消耗量驱动（单次请求可消耗数万 Token），而非请求次数。流式请求无法预先得知总 Token 量（仅能在流完成后扣除），增加了限流实现的复杂性",
+    "流量特征": "传统模式处理同步短连接为主（毫秒级 RTT、小载荷 JSON、请求-响应模式）。AI 模式处理：流式长连接（SSE 持续数分钟推送 Token 流、TTFT 优化关键）、大载荷（多模态请求含图片/音频 base64 编码）、突发并发（批量 Agent 任务同时触发工具调用扇出模式）、有状态双向流（MCP server-initiated events 推送至客户端）、推理批处理（Inference Extension 基于 GPU 指标的路由调度）",
+    "生态定位": "统一 API+AI 网关：单一控制面同时管理 Envoy（传统 API 流量）和 agentgateway（AI/Agent 流量），是传统网关 AI 插件升级为统一网关的典型案例。通过 CNCF 厂商中立治理，与 Envoy、Istio、Kubernetes Gateway API、Gateway API Inference Extension 等 CNCF 项目深度整合。已加入 Agentic AI Foundation (AAIF) 与 MCP、Goose、Agents.md 共同构成 Agentic AI 基础设施栈。kubernetes 生态中的定位：kagent（Agent 框架）+ kgateway（网关基础设施）+ agentgateway（AI 数据面）= 完整的云原生 Agentic AI 基础设施方案"
+  },
+  "category_meta": {
+    "category": "传统网关AI插件",
+    "description": "Solo.io 创建并捐赠 CNCF 的 Envoy-based Kubernetes 原生 API 网关（原 Gloo Gateway），2025 年 v2.0 集成 AI Gateway，v2.1 集成 Rust agentgateway 数据面。双数据平面架构（Envoy + agentgateway），支持 Gateway API Inference Extensions、MCP/A2A 协议，统一控制面管理传统 API 流量和 AI/Agent 流量，定位为统一 API+AI 网关"
+  },
+  "uncertain": [
+    "缓存能力（agentgateway 是否计划内置语义缓存/Redis 后端支持，Envoy 版 AIPolicy 语义缓存已随 AI Gateway 弃用）",
+    "数据驻留（是否存在正式的 GDPR/数据安全法/等保合规认证或区域数据存储策略声明）",
+    "审计日志（是否存在内置不可变审计日志存储方案，当前依赖外部系统）",
+    "延迟开销（P50 延迟未单独公布，仅知 P95/P99 数据）",
+    "Stars 数量（不同数据源显示 4.2k~5.6k，以 GitHub 页面直接抓取数据为准）"
+  ]
+}

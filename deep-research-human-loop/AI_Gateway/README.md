@@ -6,6 +6,7 @@
 - [Arch Gateway (Plano)](results/Arch_Gateway.json)
 - [Bifrost](results/Bifrost.json)
 - [Helicone](results/Helicone.json)
+- [kgateway (Solo.io/CNCF)](results/kgateway.json)
 - [Kong AI Gateway (Kong 公司)](results/Kong_AI_Gateway.json)
 - [LiteLLM](results/LiteLLM.json)
 - [OptiLLM](results/OptiLLM.json)
