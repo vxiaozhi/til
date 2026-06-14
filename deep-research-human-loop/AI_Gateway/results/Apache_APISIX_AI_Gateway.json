@@ -1,0 +1,78 @@
+{
+  "基本信息": {
+    "项目名称": "Apache APISIX AI Gateway",
+    "GitHub 地址": "https://github.com/apache/apisix",
+    "Stars": "16,725",
+    "主要语言": "Lua",
+    "开源协议": "Apache-2.0",
+    "背后公司/社区": "Apache Software Foundation（Apache 软件基金会）托管的顶级项目，由支流科技（API7.ai）于 2019 年创建并捐赠，社区共同维护",
+    "首次发布": "2019 年 6 月 4 日（首个正式版本 v0.4）；项目仓库创建于 2019 年 4 月 10 日；AI 网关能力首次随 APISIX 3.12.0 于 2025 年 4 月 1 日正式发布",
+    "官网": "https://apisix.apache.org/（AI 网关专题页：https://apisix.incubator.apache.org/ai-gateway/）"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 10+ 主流 LLM 提供商，覆盖 300+ 模型。一级原生集成：OpenAI（GPT-4/GPT-4o/GPT-3.5）、DeepSeek（deepseek-chat/deepseek-reasoner）、Azure OpenAI、Anthropic Claude（原生 Messages API，自 v3.15.0 起）、AWS Bedrock（Bedrock Converse API + AWS SigV4 签名，自 v3.15.0 起）、Google Vertex AI、Google Gemini、OpenRouter、AI/ML API（单一端点覆盖 300+ 模型，含 Claude/Gemini/Mistral/Llama 3 等）。通过 openai-compatible 通用驱动支持任何 OpenAI 兼容 API（如阿里云 DashScope/Qwen、vLLM、Ollama 等自部署模型）。支持自定义端点覆盖。每个提供商有独立驱动模块实现协议转换",
+    "负载均衡": "支持 round-robin（轮询）、consistent-hash（一致性哈希）、weighted（加权）、priority-based（优先级）多种负载均衡策略。通过 ai-proxy-multi 插件实现多 LLM 实例间的负载分配，支持根据延迟、成本和稳定性动态调整权重。相同优先级内按权重分配流量（如 OpenAI 80% + DeepSeek 20%），优先级作为故障转移链",
+    "速率限制": "基于 Token 的速率限制（ai-rate-limiting 插件），支持 total_tokens（总 token）、prompt_tokens（提示 token）、completion_tokens（完成 token）、expression（自定义表达式含 cost_expr 动态成本计算）四种策略。可针对 Route/Service/Consumer/Consumer Group 多维度限流。支持单节点（local）和集群级（Redis/Redis-Cluster/Redis-Sentinel）策略。可按模型实例（如 gpt-4o 和 gpt-4o-mini 不同配额）分别配置限制。超限返回 HTTP 429 并带 X-AI-RateLimit-* 响应头",
+    "缓存能力": "具备传统 HTTP 响应缓存能力（proxy-cache 插件），支持磁盘（disk）和内存（memory）两种缓存策略，缓存键基于 Nginx 变量灵活配置，支持 PURGE 方法主动清除，返回 Apisix-Cache-Status 响应头指示缓存命中状态。可与 ai-proxy 组合使用以缓存相同 Prompt 的 LLM 响应从而降低重复调用成本。无专用的 LLM 语义缓存（基于向量嵌入的语义相似匹配）[不确定]",
+    "降级与重试": "ai-proxy-multi 插件实现完整的故障转移（fallback）链路：基于优先级的多层降级（高优先级实例不可用时自动切换至低优先级实例）；自动重试；在 HTTP 429（限流）、HTTP 5xx（服务端错误）时触发降级；支持主动和被动健康检查，自动将不健康实例从负载均衡池中移除",
+    "认证与密钥管理": "支持多种认证方式：key-auth（API Key）、JWT、OAuth2/OIDC、basic-auth、HMAC、mTLS 等。支持 HashiCorp Vault 集成管理密钥。ai-proxy-multi 支持按实例配置独立的 API Key（header/query 传递）。支持云服务商专用认证（AWS SigV4 签名、GCP OAuth）。API7 企业版额外支持 SSO（Okta/Auth0/Keycloak）、RBAC 权限控制",
+    "可观测性": "完整三大支柱覆盖。（1）日志：20+ 日志导出插件（Kafka、Elasticsearch、ClickHouse、Splunk HEC、TCP/UDP、Syslog、Google Cloud Logging 等），访问日志自动捕获模型名、Prompt Token、Completion Token、TTFT。（2）指标：Prometheus 插件（Pull 模式导出），含 AI 专属指标（llm_prompt_tokens、llm_completion_tokens、llm_latency、TTFT）；OTLP HTTP Push 模式支持；Grafana 面板含概览/吞吐量/延迟/Token 用量。（3）追踪：OpenTelemetry（OLTP over gRPC，支持 always_on/trace_id_ratio/parent_base 采样）、Zipkin、SkyWalking 插件",
+    "请求/响应转换": "ai-proxy 插件支持客户端协议格式（如 OpenAI）与目标提供商原生协议之间的自动转换（通过 provider-specific driver 实现 protocol bridging）。ai-request-rewrite 插件利用 LLM 对请求内容进行智能转换（PII 脱敏、提示词丰富、格式重构）。不提供 OpenAI↔Claude↔Gemini 之间的完整无差别格式自动互转，而是依赖 provider driver 的协议适配[不确定]",
+    "提示词安全": "多层安全防护体系。（1）ai-prompt-guard 插件：基于 PCRE 正则表达式的 allow/deny 模式匹配，可检测并阻止 Prompt Injection 攻击（如 'ignore all previous instructions'、'reveal system prompt' 等），支持仅检查最新消息或全量对话历史，违反时返回 HTTP 400。（2）ai-prompt-decorator 插件：在用户输入前后追加预定义的提示词，引导模型行为。（3）ai-prompt-template 插件：预配置模板，用户仅填充变量。（4）ai-aws-content-moderation 插件：集成 AWS Comprehend 进行 6 类毒性检测（脏话/仇恨言论/侮辱/骚扰/色情/暴力威胁），每类可配 0-1 阈值。（5）ai-aliyun-content-moderation 插件：集成阿里云内容安全。推荐部署多层防线：ai-prompt-guard → ai-request-rewrite（PII 脱敏）→ ai-aws-content-moderation → ai-proxy",
+    "插件扩展": "支持三种扩展机制。（1）Lua 原生插件：最高性能，直接在 OpenResty/Nginx 进程中运行，通过 extra_lua_path 加载自定义插件。（2）Wasm/Proxy-Wasm 插件：基于 Proxy-Wasm ABI 规范，支持 Go(TinyGo)/Rust/C/C++，在 Wasmtime/WasmEdge 沙箱 VM 中运行，插件崩溃不影响网关进程。（3）外部插件 Runner：Java/Go/Python/Node.js 通过 Flatbuffers over Unix Domain Socket 的 RPC 通信，支持 pre-req/post-req/post-resp 三个执行阶段。所有插件均支持毫秒级热加载（etcd 驱动），无需重启网关",
+    "流式处理": "原生支持 LLM 流式响应处理。ai-proxy/ai-proxy-multi 保留上游 LLM 的 SSE（Server-Sent Events）流式响应，透传 Transfer-Encoding: chunked，不缓冲完整响应体以确保实时性。追踪首 Token 延迟（TTFT）记录在 ctx.llm_summary 中。mcp-bridge 插件将 stdio MCP Server 转为 HTTP SSE 流式服务。原生支持 WebSocket 代理。自 v3.15.0 起新增 max_stream_duration_ms（流式最大时长）和 max_response_bytes（最大响应字节数）安全限制，支持客户端断开时中止上游读取",
+    "Token 计数与成本追踪": "完整的 Token 使用量统计和成本追踪。ai-proxy 自动解析 LLM 响应中的 Token 用量（llm_prompt_tokens、llm_completion_tokens），写入访问日志并通过 Prometheus 指标导出。ai-rate-limiting 的 cost_expr 字段支持通过 Lua 表达式定义自定义 Token 成本计算（如 input_tokens + cache_creation_input_tokens + output_tokens）。成本计算通过外部工具（如 Grafana + 提供商价格表）完成：estimated_cost = prompt_tokens × 单价 + completion_tokens × 单价。无内置多模型价格换算表和自动金额计算[不确定]"
+  },
+  "部署与架构": {
+    "部署方式": "独立服务（standalone gateway），平台无关架构，支持裸金属服务器、虚拟机、Kubernetes（Helm Charts）等多种环境。采用无状态网关节点 + etcd 集中配置的架构，网关节点本身无状态（配置由 etcd 毫秒级推送）。支持 Control Plane/Data Plane 分离部署（API7 Enterprise）。也可作为 Sidecar 模式部署。支持国产化环境：华为鲲鹏 ARM64、麒麟 OS、openEuler",
+    "协议支持": "REST/HTTP、HTTP/3（QUIC）、gRPC、WebSocket、TCP/UDP、MQTT、Dubbo、SSE/Streamable HTTP、MCP（Model Context Protocol，通过 mcp-bridge 插件）。AI 侧支持 OpenAI 协议、Anthropic Messages API、AWS Bedrock Converse API 等 LLM 原生协议",
+    "传统网关集成": "APISIX 本身就是成熟的传统 API 网关，AI 插件是其原生插件体系的一部分，在同一 APISIX 实例上统一管理传统 API 流量和 AI/LLM 流量，无需额外部署独立的 AI 网关。AI 插件与已有 100+ 传统插件（认证、限流、可观测性、安全等）无缝协作，即插即用",
+    "语言运行时": "核心引擎：LuaJIT on OpenResty/Nginx（C + Lua 组合）。插件扩展支持：Lua（原生）、Wasm（Go/Rust/C via Wasmtime/WasmEdge VM）、外部插件 Runner（Java/Go/Python/Node.js via RPC）",
+    "扩展机制": "插件热加载（etcd 毫秒级配置推送，无需重启）。Lua 原生插件（最高性能，直接运行在 Nginx 生命周期中）。Proxy-Wasm SDK 插件（沙箱安全隔离，支持 Go/Rust/C）。外部插件 Runner（进程隔离，支持 Java/Go/Python/Node.js 通过 Flatbuffers RPC）。自定义上游负载均衡算法。自定义 SSL 证书管理和密钥存储集成"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生支持 Model Context Protocol。（1）mcp-bridge 插件：将基于 stdio 的本地 MCP Server 转换为 HTTP SSE 流式服务，支持子进程生命周期管理、Session 管理（session id + ping 保活）、多 worker 间 Session 共享。（2）apisix-mcp：npm 包（@iflow-mcp/apisix-mcp），AI 客户端可通过自然语言管理 APISIX（创建/修改路由、上游、插件、消费者、SSL 证书等），支持自动验证配置是否生效。（3）MCP 客户端流量代理：支持 MCP Streamable HTTP（无状态模式）和 SSE 模式间的代理转换。（4）API7 企业版提供 openapi-to-mcp 插件，将 OpenAPI 3.x 规范零代码转换为 MCP 工具，支持工具自动发现和透明代理",
+    "A2A 支持": "无原生 Google Agent-to-Agent（A2A）协议支持。通过第三方开源项目 LibreAgent AI Server 可间接集成 A2A 协议，LibreAgent 使用 APISIX 作为其 API 网关层代理 A2A 和 MCP 协议的 Agent 流量[不确定]",
+    "Agent 框架集成": "无专门针对 LangChain/LangGraph/AutoGen/OpenAI Agents SDK/CrewAI 等 Agent 框架的专用 SDK 或直接集成。通过 ai-proxy 提供的 OpenAI 兼容 API 接口，任何支持 OpenAI API 的 Agent 框架均可透明接入 APISIX 管理 LLM 流量[不确定]",
+    "API-to-MCP 转换": "API7 Enterprise（企业版）提供 openapi-to-mcp 插件，支持将现有 REST API 的 OpenAPI 3.x 规范零代码转换为 MCP 工具，AI Agent 可通过 MCP 协议动态发现和调用。支持 SSE 和 Streamable HTTP 两种传输模式。开源版 APISIX 不内置此功能（为企业版特性）[不确定]"
+  },
+  "性能特征": {
+    "官方性能声明": "单核 QPS 18,000（含 limit-count 和 prometheus 插件），单核平均延迟 0.2ms。16 核 vCPU（AWS EKS c5.4xlarge）全量基准：无插件 + 1 条路由：167,019 QPS（P99 延迟 2.30ms）；含 key-auth + limit-count + 100 条路由：133,782 QPS（P99 延迟 2.48ms）；Mock 模式（无上游转发）：310,392 QPS（P99 延迟 1.16ms）。与 Kong 对比吞吐量约为 10 倍，延迟约为 1/10。已用于支撑 1 万亿+ 日 API 调用量（Zoom、Airwallex、vivo 等用户）",
+    "延迟开销": "单核基准下网关自身引入的平均延迟约 0.2ms。16 核环境下 P99 延迟约 2.3-2.5ms（含插件和上游转发）。AI 插件（ai-proxy/ai-proxy-multi）的额外延迟增加主要来自 LLM 上游响应时间，网关自身处理开销极小。未找到针对 AI 插件单独的性能隔离基准测试数据[不确定]",
+    "社区评价": "LuaJIT 引擎性能被广泛认可为 APISIX 的核心竞争力之一。毫秒级配置热加载（etcd 驱动）是其与 Kong（PostgreSQL 轮询）相比的显著架构优势。插件生态丰富（100+ 插件）且性能开销极小（插件组合仅降低 10-20% 吞吐量）。Apache 基金会顶级项目治理增强企业信心。AI 插件集从 3.12.0 起快速迭代（3.15.0 已覆盖主流 LLM 提供商），社区活跃度高。劣势：Lua 作为主要语言对不少团队构成技术栈门槛；AI 语义缓存等高级功能目前缺失"
+  },
+  "治理与合规": {
+    "多租户支持": "开源版 APISIX 不具备原生多租户隔离能力。API7 Enterprise（企业版）提供完整的多租户方案：Gateway Groups（逻辑分组，完全隔离的数据平面配置，可按环境/区域/租户划分）、Workspaces（超级管理员可创建多个工作空间并分配细粒度用户权限）、RBAC（基于角色的访问控制，支持组织/网关组/资源级别）。Consumer/Consumer Group 机制提供用户级别的认证和配额管理",
+    "审计日志": "开源版 APISIX 无内置审计日志功能。API7 Enterprise（企业版）提供完整审计日志：记录所有 CREATE/UPDATE/DELETE 操作（操作者/时间/操作类型/目标资源/前后差异对比），敏感数据（密码等）自动脱敏后保存，默认保留 60 天（可配置），日志防篡改，支持导出到 SIEM 平台进行集中分析。企业版已通过 SOC 2 Type 1 审计",
+    "预算管理": "通过 ai-rate-limiting 插件实现 Token 级别预算控制（按 Consumer/Route/模型实例维度配置 Token 配额和时间窗口）。通过 Prometheus + Grafana 面板实现预算使用监控和阈值告警。无原生的金额（货币）预算管理功能（即不支持按用户/团队设置「每月 $500 额度」），需通过外部系统结合 Token 计数和提供商价格表实现[不确定]",
+    "数据驻留": "开源 APISIX 支持本地化部署（裸金属/VM/K8s on-premise），数据不出本机/本地集群，满足基础数据驻留需求。API7 Enterprise 额外提供：Multi-Layer Network 按地域路由流量（根据 Cookie/Header 将不同地区用户路由到对应区域的数据平面，确保数据驻留合规）；通过 GDPR 合规审核、SOC 2 Type 1 审计、FIPS 140-2 标准；数据加密（AES-256 加密敏感字段、mTLS 保护 CP-DP 通信）；支持国产化部署（华为鲲鹏 ARM64、麒麟 OS、openEuler），满足中国数据安全法合规要求"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "ai-prompt-guard 插件提供基于 PCRE 正则表达式的 Prompt Injection 检测与防护。支持 allow 白名单模式（仅允许以 what/how/why/explain/summarize/translate 等开头的查询）和 deny 黑名单模式（拦截 'ignore all previous instructions'、'reveal system prompt'、'bypass guardrails'、'developer mode' 等已知注入和越狱短语）。可配置 match_all_roles（是否检查所有角色消息，默认仅检查用户消息）和 match_all_conversation_history（是否检查全量对话历史，默认仅检查最新消息）。违规请求在网关层直接返回 HTTP 400 拒绝",
+    "PII 脱敏": "ai-request-rewrite 插件提供双向（请求侧 + 响应侧）PII 检测与脱敏。利用配置的下游 LLM（支持 OpenAI/DeepSeek/Anthropic/Gemini/Vertex AI 等）对用户输入中的敏感信息进行识别和脱敏：邮箱 → [REDACTED_EMAIL]、电话号码 → [REDACTED_PHONE]、支付卡号 → [REDACTED_CARD]、政府 ID（SSN/护照/驾照等）→ [REDACTED_ID]。在请求到达上游 LLM 前完成脱敏，同时在 LLM 输出返回前进行响应侧过滤。API7 Enterprise 额外提供 data-mask 插件进行日志级别的 PII 脱敏（脱敏 Header/Body/Query 参数）但不修改实际流量",
+    "内容审核": "提供两个内容审核插件。（1）ai-aws-content-moderation：集成 AWS Comprehend，对 Prompt 内容进行 6 类毒性评分：PROFANITY（脏话）、HATE_SPEECH（仇恨言论）、INSULT（侮辱）、HARASSMENT_OR_ABUSE（骚扰霸凌）、SEXUAL（色情内容）、VIOLENCE_OR_THREAT（暴力威胁）。每类可独立配置 0-1 阈值，另有全局 moderation_threshold 提供总体毒性截断。（2）ai-aliyun-content-moderation：集成阿里云内容安全服务。推荐与其他安全插件组合形成多层防线"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "传统 API 网关定位在 L7（HTTP/应用层）或 L4（TCP/UDP 传输层）。APISIX 作为统一 API+AI 网关，在传统 L4/L7 代理能力之上叠加 AI 应用层感知：通过 AI 插件解析 LLM 请求/响应中的 Token 用量、模型标识、流式进度（TTFT），实现 LLM 协议层面的深度感知。定位为 L7+ AI 应用层网关",
+    "协议感知能力": "传统网关仅处理 HTTP 通用语义（Method/URL/Header/Body/Status Code）。APISIX AI 插件深度感知 LLM 协议：解析 SSE 流式响应（不缓冲、保持 chunked 传输）、提取 Token 用量（prompt/completion tokens）、追踪首 Token 延迟（TTFT）、识别模型名、处理 Provider 特定协议（OpenAI Chat Completions、Anthropic Messages API、AWS Bedrock Converse API），并在不同协议格式间进行转换",
+    "状态模型": "传统网关通常以无状态方式运行（每个请求独立处理）。APISIX AI 网关本身仍为无状态架构（通过 etcd 集中管理配置，网关节点不存储状态），但通过 Redis 支持分布式 Token 计数器（ai-rate-limiting cluster 模式）实现跨节点的 Token 预算追踪。MCP 协议场景下通过 mcp-bridge 管理有状态 Session（session id + ping 保活）。SSE 长连接场景下网关需要维持客户端连接直到流结束或超时",
+    "计费模型": "传统网关按请求数计费（如 QPS、RPM）。APISIX AI 网关扩展到 Token 级别计费：通过 ai-rate-limiting 的 cost_expr 支持自定义 Token 计费公式（如区分缓存命中 Token 和新 Token）、按模型实例差异化配额、通过访问日志和 Prometheus 指标导出 Token 用量，由外部系统结合模型价格表完成金额换算。不是原生金额预算系统",
+    "路由粒度": "传统网关路由基于 URL/Header/Host/Method 等 HTTP 属性。APISIX AI 网关在传统路由基础上提供 AI 特有的路由维度：基于模型名称路由（同一路由可配置多个模型实例）、基于优先级和权重的多 LLM 实例负载均衡、基于 Token 配额消耗和成本的动态路由选择、基于延迟优化的路由（动态权重调整）、基于故障状态的自动降级路由",
+    "缓存策略": "传统网关使用 HTTP 语义缓存（proxy-cache 插件：基于 URL/Header 的精确匹配缓存、磁盘或内存存储、ETag/Cache-Control 支持、可配置的 TTL 和清除策略）。APISIX AI 网关可将 proxy-cache 用于 LLM 响应缓存（相同 Prompt 精确匹配时直接返回缓存结果），但无专用的语义缓存能力——即不支持基于向量嵌入的语义相似度匹配缓存（如两个语义相近但措辞不同的 Prompt 无法命中同一缓存）[不确定]",
+    "安全模型": "传统网关安全模型：API Key 认证、JWT/OAuth2/OIDC、CORS、CSRF、IP 黑白名单、WAF、DDoS 限流、请求校验。APISIX AI 网关在传统安全之上增加 AI 专属安全层：Prompt Injection 防护（ai-prompt-guard 正则模式匹配）、数据防泄露（ai-request-rewrite PII 脱敏，阻止敏感数据发送到外部 LLM）、内容审核（ai-aws-content-moderation 毒性检测）、Token 级别滥用检测（ai-rate-limiting 按 Token 消费限流）",
+    "内容转换": "传统网关的内容转换能力：HTTP 请求改写（URL Rewrite/Redirect）、Header 增删改、响应体修改。APISIX AI 网关的增强内容转换：基于 LLM 的智能请求改写（ai-request-rewrite：PII 脱敏、内容丰富、格式重构）、多模型协议自动转换（ai-proxy provider driver 实现 OpenAI↔Anthropic↔Bedrock 协议桥接）、多模型故障切换（ai-proxy-multi 基于优先级的自动降级到备用模型）",
+    "限流单位": "传统网关限流单位：请求数/秒、并发连接数、带宽。APISIX AI 网关最核心的差异维度——支持混合限流模型：传统请求级限流（limit-count/limit-conn/limit-req 插件）与 Token 级限流（ai-rate-limiting 插件）共存。Token 级限流细分为 total_tokens（总 Token）/prompt_tokens/completion_tokens 以及基于 Lua expression 的自定义成本表达式，可按 Route/Service/Consumer/Consumer Group 和模型实例多维度配额管理。集群级别支持 Redis 分布式计数",
+    "流量特征": "传统 API 流量特征：同步短连接为主、请求-响应模式、载荷通常较小（KB 级）、延迟敏感度中等。AI/LLM 流量特征：流式长连接（SSE/WebSocket 持续数秒至数分钟）、对首 Token 延迟（TTFT）极度敏感、响应载荷可能很大（自 v3.15.0 起支持 max_response_bytes 限制）、客户端可能随时断开连接（自 v3.15.0 起支持 abort upstream read on client disconnect）。这些特征影响网关架构设计：需要避免缓冲响应体、需管理长连接生命周期、需追踪流式指标（TTFT）",
+    "生态定位": "APISIX 定位为统一 API+AI 网关。不是独立的纯 AI 网关（如 Portkey/Helicone/LiteLLM），也不是 MCP 专用网关，而是将 AI 插件（ai-proxy/ai-proxy-multi/ai-prompt-guard/ai-rate-limiting/ai-rag 等）作为原生扩展叠加在成熟 API 网关之上。同一 APISIX 实例同时服务传统 REST API 和 AI/LLM 流量，实现统一控制平面管理。在生态中位于传统 API Gateway 向 AI-aware Gateway 演进的中间地带"
+  },
+  "uncertain": [
+    "缓存能力-语义缓存",
+    "请求/响应转换-OpenAI与Claude与Gemini完整格式互转",
+    "A2A 支持-原生支持",
+    "Agent 框架集成-专用SDK或直接集成",
+    "API-to-MCP 转换-开源版内置",
+    "延迟开销-AI插件单独开销基准",
+    "预算管理-原生金额预算管理",
+    "Token 计数与成本追踪-内置多模型价格换算"
+  ]
+}

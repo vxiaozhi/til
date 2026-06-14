@@ -2,6 +2,7 @@
 
 - [agentgateway (Solo.io)](results/agentgateway.json)
 - [aisuite (Andrew Ng)](results/aisuite.json)
+- [Apache APISIX AI Gateway](results/Apache_APISIX_AI_Gateway.json)
 - [Arch Gateway (Plano)](results/Arch_Gateway.json)
 - [Bifrost](results/Bifrost.json)
 - [Helicone](results/Helicone.json)
