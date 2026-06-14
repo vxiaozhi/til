@@ -1,0 +1,80 @@
+{
+  "基本信息": {
+    "项目名称": "New API",
+    "GitHub 地址": "https://github.com/QuantumNous/new-api",
+    "Stars": "38,688（截至2026年6月14日）",
+    "主要语言": "Go（后端 99.8%）+ React/Next.js（前端）",
+    "开源协议": "AGPL-3.0（GNU Affero General Public License v3.0），附加强制署名保留条款",
+    "背后公司/社区": "QuantumNous 团队维护，最初由 Calcium-Ion 基于 One API Fork 创建（2023年11月），2024年Q3由 QuantumNous 团队接手并更名",
+    "首次发布": "2023年11月10日（GitHub 仓库创建）；最早 Release v0.0.4 发布于 2023年12月5日；品牌独立并正式发布为 New API 可追溯至 2024年Q3",
+    "官网": "https://www.newapi.ai / https://docs.newapi.pro"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 30-40+ 家 AI 服务提供商、100+ 模型，涵盖：国际主流（OpenAI 全系列、Anthropic Claude、Google Gemini、DeepSeek、Azure OpenAI、AWS Bedrock、Mistral AI、Groq、Together AI、Fireworks、Cohere）及国内厂商（阿里通义千问 Qwen、智谱 GLM、百度文心一言、字节豆包、腾讯混元、讯飞星火、硅基流动）。同时支持图像生成（DALL·E、Midjourney Proxy、Stable Diffusion）、音频（Whisper TTS、Suno API）、向量嵌入与重排序（Cohere/Jina Rerank）、Dify ChatFlow 及完全自定义渠道。统一封装为 OpenAI 兼容格式调用",
+    "负载均衡": "优先级 + 权重随机选择机制：渠道按 Priority 分层，同优先级内按 Weight 加权随机选择；支持平滑因子使零权重渠道仍有选中概率；同一渠道支持多 API Key 轮询分发；核心函数为 CacheGetRandomSatisfiedChannel",
+    "速率限制": "多层速率限制体系，支持三种算法：令牌桶（Redis + Lua 脚本原子操作）、漏桶（中间件层）、滑动窗口（内存/Redis 双实现）。限制层级包括全局 API 限流、全局 Web 限流、关键操作限流、按模型/用户组级别区分总尝试次数与成功次数的限流、搜索/上传/下载操作限流",
+    "缓存能力": "双层缓存架构：Redis 缓存（用户配额、Token 信息、系统配置、限流计数器，采用 Cache-Aside 模式，未命中自动回退数据库）+ 内存缓存（渠道配置与能力映射表，启动时加载并定期同步刷新）。Redis 不可用时自动降级到数据库查询并异步更新缓存。支持缓存命中计费折扣（OpenAI/Azure/DeepSeek/Claude/Qwen 等模型可按设定比例折扣计费）。不支持语义缓存和 Memcached",
+    "降级与重试": "完整降级与重试机制：请求失败自动重试（最多 RetryTimes 次），优先级回退重试（从高到低依次尝试渠道优先级），渠道自动禁用（AutoBan，持续失败后自动禁用），Redis 不可用时自动回退数据库，节点类型支持 slave 模式（仅处理请求转发、禁用数据库迁移和后台任务），失败时自动回滚已预扣配额",
+    "认证与密钥管理": "多租户 API Key 管理体系：令牌分组管理 + 模型白名单/黑名单 + IP 白名单 + 配额上限/有效期控制 + 用户组级别隔离。支持多种认证登录方式：Discord 授权登录、LinuxDO 授权登录、Telegram 授权登录、OIDC 统一认证（OpenID Connect）。每个 Token 独立配置权限和额度；支持 neko-api-key-tool 工具查询密钥额度",
+    "可观测性": "自定义日志系统（消费日志、错误日志、管理日志，含 UserId、Username、RequestId、UpstreamRequestId、Token 消耗、配额点数、耗时等完整字段）。性能指标追踪（pkg/perf_metrics 包）：追踪延迟、TTFT（首 Token 时间）、TPS（每秒 Token 数）、成功率，使用内存 hotBuckets 热数据 + 定时刷入 perf_metrics 表。内置数据看板（仪表盘、统计图表、模型排名）。不支持 Prometheus/Grafana/OpenTelemetry 标准可观测性协议集成 [不确定]",
+    "请求/响应转换": "完整的跨厂商格式互转矩阵：OpenAI Compatible ↔ Claude Messages 双向完整转换（含思考模式 thinking 的 thinking-to-content 处理）、OpenAI Compatible → Google Gemini 格式、Google Gemini → OpenAI Compatible（文本双向，函数调用仅支持单向 OpenAI→Gemini）、OpenAI Compatible ↔ OpenAI Responses 格式互转（开发中）。特殊功能：推理力度分级（模型名称后缀 -high/-medium/-low/-thinking 动态调整算力，支持 OpenAI/Coulde/Gemini 三系）、思考转内容（thinking-to-content）、System Prompt 注入覆写",
+    "提示词安全": "内置敏感词检测机制，通过 ShouldCheckPromptSensitive 配置开关启用，调用 CheckSensitiveText 扫描用户 Prompt。检测到敏感词后返回 ErrorCodeSensitiveWordsDetected 错误码直接拦截请求。支持自定义敏感词列表。无专门的 Prompt 注入防护（如越狱检测、系统提示保护等）机制 [不确定]",
+    "插件扩展": "无通用动态插件系统。采用 Adaptor 模式（固定渠道适配器集合）扩展不同厂商支持：TextHelper（文本/Chat）、ClaudeHelper（Claude 专用逻辑）、GeminiHelper（Gemini 专用逻辑）、ImageHelper（DALL·E 等图像）、ResponsesHelper（OpenAI Response/Compact 端点）。支持 JSON-path 参数覆写系统（ApplyParamOverride）在运行时修改请求。中间件管道基于 Gin 框架路由。不支持 Wasm 扩展、Lua 脚本插件 [不确定]",
+    "流式处理": "SSE（Server-Sent Events）处理 Chat Completions 流式、Embeddings、Image 生成，使用 StreamScannerHandler 处理流数据输入，可扩展缓冲（StreamScannerMaxBufferMB），超时控制默认 300s，支持可选的 Keep-Alive SSE 注释。WebSocket 处理 OpenAI Realtime API（含 Azure 渠道）双向音频/文本低延迟交互，自动转换 https→wss，支持会话前后配额扣减。不支持 gRPC 和 Streamable HTTP 协议",
+    "Token 计数与成本追踪": "输入/输出 Token 区分计数（PromptTokens/CompletionTokens），预消费 + 后消费双机制（预估 Token 预扣减 → 实际 Token 结算 → 差额自动调整）。三级倍率计费体系：模型倍率 × 补全倍率（输出 Token 额外乘数） × 分组倍率（用户组差异化倍率）。配额点数制（1 USD = 500,000 配额点）。支持分段计费（Token Tier Pricing，按 Token 数量范围设置不同倍率）。完整日志记录（每次请求的 Token 消耗、配额点数、耗时、请求 ID）"
+  },
+  "部署与架构": {
+    "部署方式": "独立服务（Docker/Docker Compose 一键部署，推荐方式）；裸机部署（Node.js ≥18，支持 SQLite/MySQL/PostgreSQL）；生产环境推荐 Nginx 反向代理 + HTTPS。支持多实例集群部署（需共享相同的 SESSION_SECRET、CRYPTO_SECRET、Redis 和数据库）。不支持 sidecar 模式、K8s Ingress 控制器原生集成和 Helm Chart 官方支持",
+    "协议支持": "REST（HTTP，标准请求/响应，主要协议）、SSE（Server-Sent Events，流式响应，Chat Completions/Embeddings/Image）、WebSocket（OpenAI Realtime API，双向音频/文本低延迟）。不支持 gRPC、MCP 原生协议",
+    "传统网关集成": "可与 Nginx（推荐，反向代理 + SSL 终止 + 基础限流 + 流式响应透传）、Kong（企业级 API 生命周期管理 + 插件生态）、APISIX（云原生高性能动态配置 + 流式路由）集成使用。典型架构为传统网关处理通用流量管理层（TLS/WAF/全局限流），New API 作为后端 AI 聚合网关层（模型路由/格式转换/计费）。分层解耦、各司其职的组合部署模式",
+    "语言运行时": "Go（后端核心，基于 Gin 框架）；React/Next.js（前端 UI，基于 Base UI 完全重写）",
+    "扩展机制": "Adaptor 渠道适配器模式（按 APIType 加载不同处理逻辑）；Gin 中间件管道架构（请求解析→上下文生成→预扣费→重试循环→结算）；JSON-path 参数覆写系统（ApplyParamOverride 运行时修改请求参数）；不支持动态插件系统、Wasm 扩展、Lua 脚本扩展、Webhook 策略触发等通用扩展机制"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "无原生 MCP（Model Context Protocol）支持。项目未实现 MCP Server 代理、API-to-MCP 转换或 MCP 工具注册发现功能。但有 new-api-skills 插件协议，支持在 Claude Code、Codex、Cursor、Windsurf、Cline 等 AI 编辑器中通过技能命令（如查询模型、管理令牌、查看余额等）调用 New API 端点 [不确定]",
+    "A2A 支持": "不支持 Google Agent-to-Agent（A2A）协议。项目定位为 API 网关与资产管理系统，不涉及 Agent 间协作协议 [不确定]",
+    "Agent 框架集成": "作为 OpenAI 兼容 API 网关，可被任何支持 OpenAI API 格式的 Agent 框架通过 HTTP 调用，但无针对特定 Agent 框架（如 LangChain、LangGraph、AutoGen、OpenAI Agents SDK、CrewAI）的专门集成插件、回调钩子或中间件 [不确定]",
+    "API-to-MCP 转换": "不支持将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具。项目为 API 分发网关定位，非 MCP 协议转换工具 [不确定]"
+  },
+  "性能特征": {
+    "官方性能声明": "无官方发布的性能基准数据（如吞吐量 QPS 对比、延迟 SLO 保证等）。官方功能中内置了性能追踪指标（延迟、TTFT、TPS、成功率），但用于模型排名和渠道质量评估，非网关自身性能宣传",
+    "延迟开销": "网关层额外延迟约 5-20ms（同地域部署场景），与上游 One API 处于同一量级。因新增功能（数据看板、阶梯定价、格式转换、推理力度分级等），同等条件下 CPU 和内存占用略高于 One API（约 5-10% 资源增量），实际使用中通常可忽略。最低内存需求 512MB-1GB",
+    "社区评价": "优点：功能极其丰富（格式互转、Midjourney/Suno 媒体接口、在线支付、数据看板），社区活跃（38k+ Stars），在国内生态中已取代 One API 成为主流选择，适合搭建商业化 AI API 运营平台。缺点：更新激进偶尔引入版本不稳定问题（部分版本存在 bug，需关注 Release Notes 后升级），功能丰富带来代码路径更长，极端高并发下理论开销略大于 One API；AGPLv3 协议对闭源商业使用有限制；社区规模虽大但遇到冷门问题可参考的解决方案可能少于 One API"
+  },
+  "治理与合规": {
+    "多租户支持": "完整多租户管理体系：令牌分组隔离（不同 Token 绑定不同用户组）、用户组级别模型白名单/黑名单、独立配额与有效期控制、IP 白名单限制、用户级个体倍率（优先级高于分组倍率）。支持管理员全局视图与用户自身视图分离。三级倍率体系实现不同租户差异化计费",
+    "审计日志": "完整审计日志能力：记录每次 API 请求的 UserId、Username、CreatedAt（Unix 时间戳）、Content（摘要/错误文本）、RequestId、UpstreamRequestId、PromptTokens、CompletionTokens、Quota（消耗配额点数）、UseTime（请求耗时秒数）。日志类型分类：消费日志（LogTypeConsume）、错误日志（LogTypeError）、充值日志（LogTypeTopup）、退款日志（LogTypeRefund）。管理员可全局查看（GetAllLogs），用户可查看自身日志（GetUserLogs）。支持按时间戳清理历史日志（DeleteHistoryLogs）以管理数据库大小",
+    "预算管理": "支持按用户/令牌级别的配额预算控制。三级倍率体系（模型倍率 × 分组倍率 × 补全倍率）实现差异化预算分配策略。在线充值（EPay 支持微信/支付宝、Stripe 支持国际信用卡）、兑换码充值、管理员直接分配。令牌状态自动管理：启用→已禁用→已过期→已耗尽。无明确的超预算告警推送或自动截断功能，预算用尽后令牌自动标记为已耗尽状态 [不确定]",
+    "数据驻留": "完全私有化部署架构（Docker/Docker Compose），所有数据存储在自建数据库中（可选 SQLite 本地文件存储、MySQL 或 PostgreSQL）。无数据经过第三方服务。项目声明要求面向公众提供服务时，使用者须自行完成《生成式人工智能服务管理暂行办法》等法规要求的备案、许可、内容安全审核、实名认证、日志留存、税务及上游 API 授权等合规义务。不提供 GDPR/数据安全法等特定法规的内置合规工具"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "无专门的 Prompt Injection 检测与防护机制（如越狱检测、系统提示保护、角色劫持检测等）。内置的通用敏感词过滤功能可间接拦截部分已知注入模式，但非专门的 Prompt 注入防护方案 [不确定]",
+    "PII 脱敏": "无内置的输入和输出双侧敏感信息（姓名、电话、邮箱、身份证号、信用卡号等）自动检测与脱敏机制。用户需自行通过自定义敏感词列表或外部工具实现 PII 防护 [不确定]",
+    "内容审核": "内置可配置的敏感词检测机制。通过系统设置中的 ShouldCheckPromptSensitive 开关启用，调用 CheckSensitiveText 扫描用户 Prompt 输入。检测到敏感词后返回 ErrorCodeSensitiveWordsDetected 错误码直接拦截请求，并在日志中记录被拒绝的详细原因。支持自定义敏感词列表。不支持基于机器学习的内容毒性检测和多类别内容评分（如色情/暴力/仇恨言论等细分）"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "New API 定位为 L7+ AI 应用层网关，与传统 L7 网关（Nginx/Kong/APISIX）是不同层级的互补组合。传统 L7 网关负责通用 HTTP 流量管理（反向代理/TLS终止/全局限流/WAF），New API 在之上处理 AI 特有逻辑（模型路由/格式转换/Token计费）。典型部署为前端 L7 网关 → 后端 New API 的分层架构",
+    "协议感知能力": "New API 具有深度 LLM 协议感知能力：理解 OpenAI、Claude Messages、Gemini 三种原生 LLM 协议格式，能进行语义级别的格式互转；感知 SSE 流式事件的 Token 边界，能从流中提取 usage 数据和 thinking 内容；理解 OpenAI Realtime API 的 WebSocket 协议；基于 Token 消耗而非请求数计费。传统 L7 网关仅做 HTTP 层面通用处理，无法理解 LLM 特有的协议语义、SSE 事件解析、Token 计算和 provisioned throughput 等概念",
+    "状态模型": "New API 具有有状态管理能力：会话亲和性（多轮对话尝试使用同一渠道 Affinity）、Token 配额跟踪（预扣减→实际结算的状态机）、令牌预算生命周期管理（启用/禁用/过期/耗尽状态自动流转）、用户余额与消费历史跟踪。传统 L7 网关基本上是无状态的（或仅维持简单的连接级会话粘性）",
+    "计费模型": "New API 采用 Token 级 + 金额级组合计费模型：配额点数制（1 USD = 500,000 配额点）、三级倍率计费（模型倍率 × 补全倍率 × 分组倍率）、预消费+后消费差额调整、缓存命中折扣计费、分段计费（Token Tier Pricing）、按次计费（Midjourney/Suno 等固定价格接口）。传统 L7 网关通常是请求级计费或无计费功能",
+    "路由粒度": "New API 路由基于 AI 语义维度：模型名称路由（按模型能力匹配渠道）、优先级+权重选择（按成本/延迟优化渠道选择）、推理力度后缀路由（-high/-medium/-low）、会话亲和性路由（多轮对话保持同一渠道）。传统 L7 网关路由基于 URL/Header/Host/Path 等 HTTP 通用维度",
+    "缓存策略": "New API 缓存为传统键值缓存（Redis 配额/Token/配置缓存 + 内存渠道缓存），缓存命中时按比例折扣计费。不支持基于向量嵌入的语义缓存（语义相似匹配）。传统 HTTP 缓存策略基于 ETag/CDN/Vary/Cache-Control 等标准 HTTP 缓存头",
+    "安全模型": "New API 安全模型侧重 AI 场景：敏感词内容过滤、令牌级访问控制（模型白名单/IP白名单/配额限制）、自动化渠道滥用检测与禁用。传统 L7 网关安全模型侧重通用 Web 安全：WAF（Web Application Firewall）、DDoS 防护、IP/请求级限流、CORS 跨域控制。New API 缺乏专门的 Prompt 注入防护和数据防泄露能力",
+    "内容转换": "New API 内容转换为语义级别的 AI 协议转换：OpenAI ↔ Claude Messages ↔ Gemini 格式双向互转（含 thinking 模式/推理力度/函数调用等高级特性转换）、thinking-to-content 转换（思考过程转为内容输出）。传统 L7 网关内容转换为语法级别：HTTP 请求/响应头改写、请求体重写/JSON 字段修改、响应改写。New API 的转换是跨 LLM 协议的深度语义转换，传统网关不具备此能力",
+    "限流单位": "New API 限流单位为多维组合：请求次数/分钟（全局 API 限流）、Token/分钟（模型级别 TPM 限流）、配额点数/生命周期（用户/令牌预算总额）。传统 L7 网关限流单位以请求数/秒（RPS）为基本单位。这是 AI 网关与传统网关最核心的差异之一——AI 网关需要理解 Token 维度的消耗与限制",
+    "流量特征": "New API 处理的流量特征为 AI 典型模式：流式长连接（SSE 持续 30-300s）、大载荷（多模态请求可达 32MB）、秒级延迟容忍（LLM 推理本身需数秒），需要网关支持代理缓冲关闭（proxy_buffering off）、长超时配置（proxy_read_timeout 300s）、WebSocket 协议升级。传统 L7 网关主要处理同步短连接、毫秒级延迟、小载荷的 REST API 流量，连接模型与 AI 流量有本质差异",
+    "生态定位": "New API 定位为独立 AI 网关 + AI 资产管理平台，形态上属于统一 API+AI 网关。与传统 API 网关是互补关系而非替代（共同构成前端 L7 网关 + 后端 AI 网关的分层架构）。非 MCP 专用网关、非 Agent 治理平台、非 AI 插件嵌入传统网关形态。在生态中主要解决多模型统一接入、格式转换、运营计费三大核心问题"
+  },
+  "uncertain": [
+    "可观测性（Prometheus/Grafana/OpenTelemetry 集成）",
+    "提示词安全（Prompt 注入防护）",
+    "插件扩展（Wasm/Lua 动态扩展机制）",
+    "MCP 支持（原生 MCP Server 代理）",
+    "A2A 支持（Google Agent-to-Agent 协议）",
+    "Agent 框架集成（LangChain/LangGraph/AutoGen 等专门集成）",
+    "API-to-MCP 转换（OpenAPI 零代码转 MCP 工具）",
+    "预算管理（超预算告警或截断功能）",
+    "Prompt 注入防护（专门机制）",
+    "PII 脱敏（自动检测与脱敏机制）"
+  ]
+}
