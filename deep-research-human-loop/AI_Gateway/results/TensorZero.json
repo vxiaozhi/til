@@ -1,0 +1,79 @@
+{
+  "基本信息": {
+    "项目名称": "TensorZero",
+    "GitHub 地址": "https://github.com/tensorzero/tensorzero",
+    "Stars": "约 11,595（截至 2026 年 6 月归档时，仓库已设为只读）",
+    "主要语言": "Rust（79.4%），辅以 TypeScript（14.7%）、Python（4.0%）",
+    "开源协议": "Apache 2.0（完全开源，无企业版功能保留）",
+    "背后公司/社区": "TensorZero 公司（总部纽约），由 CEO Gabriel Bianconi（前 Ondo Finance CPO，斯坦福 CS 学士及硕士）和 CTO Viraj Mehta（CMU 强化学习博士，斯坦福数学学士及 CS 硕士）联合创立。2025 年 8 月获 FirstMark 领投、Bessemer 和 Bedrock 跟投的 730 万美元种子轮融资。2026 年 6 月 12 日仓库归档、公司停止运营，剩余资金退还投资人。现有社区分支 Agentify Gateway（agentify-sh/gateway）继承代码继续开发",
+    "首次发布": "2024 年 9 月 9 日（v2024.09.0，GitHub 仓库创建于 2024 年 7 月 16 日）",
+    "官网": "https://www.tensorzero.com"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 20 家 LLM 提供商：OpenAI、Anthropic、AWS Bedrock、AWS SageMaker、Azure、DeepSeek、Fireworks、GCP Vertex AI（Anthropic/Gemini）、Google AI Studio（Gemini API）、Groq、Hyperbolic、Mistral、OpenRouter、SGLang、TGI、Together AI、vLLM、xAI（Grok），以及任意 OpenAI 兼容 API（如 Ollama）。统一提供 Chat Completions、工具调用（Tool Use）、结构化输出（JSON）、批量推理（Batch）、嵌入（Embeddings）、多模态（图像/文件）、缓存透传接口",
+    "负载均衡": "支持静态路由（Static Routing）与回退链（Fallback Chain）：在 tensorzero.toml 中定义 routing 数组，按顺序尝试提供商，失败时自动切换到下一提供商。支持跨提供商 Fallback（如 OpenAI → Azure → Anthropic）。实验模块支持加权流量分配（静态权重和自适应自适应概率）。注意：TensorZero 官方文档明确承认不支持基于实时延迟、成本或剩余速率限制的动态路由（这是与 LiteLLM 的关键差异）。高可用场景下支持在 variants 间重新采样失败候选项",
+    "速率限制": "支持精细的三级速率限制体系，资源维度：1）model_inferences（模型调用次数）；2）tokens（Token 消耗量，先按 max_tokens 预估借用，调用完成后按实际值归还差额）；3）cost（成本/美元，先按 default_cost 预估，调用后按提供商实际报价调整）。时间窗口覆盖每秒/分钟/小时/天/周/月。支持优先级规则（高优先级规则覆盖低优先级），多规则同时匹配时全部生效。作用域支持按标签（tag_key=user_id，支持 tensorzero::each 和 tensorzero::total）和 API 密钥（sk-t0-xxx 的公钥部分）隔离。后端可选 Valkey/Redis（高性能，<1ms P99 截止 10k+ QPS）或 Postgres（耐久性回退）。支持令牌桶自定义容量和补充速率，速率限制键享有 48 小时最小 TTL 防驱逐保护",
+    "缓存能力": "支持推理结果缓存（Inference Caching），基于精确匹配（非语义缓存）。缓存后端默认使用 ClickHouse（若无 Valkey），推荐使用 Valkey/Redis 获得最佳性能。默认 TTL 为 24 小时（86,400 秒），可通过 gateway.cache.valkey.ttl_s 配置。支持独立缓存实例（TENSORZERO_VALKEY_CACHE_URL）与速率限制实例分离。缓存是性能优化层（非正确性保证），驱逐仅导致缓存未命中而重新请求提供商。不支持和 LiteLLM/Portkey 类似的基于向量嵌入的语义缓存（Semantic Cache）",
+    "降级与重试": "支持多级 Fallback 故障转移：在 routing 数组中按顺序尝试提供商，失败时自动回退到下一提供商。实验层面：当选中的 variant 调用失败时，首先从剩余候选 variants 中重新采样，候选耗尽后按 fallback_variants 列表顺序尝试。支持细粒度超时配置：non_streaming.total_ms、streaming.ttft_ms（首 Token 超时）、streaming.total_ms，以及全局 global_outbound_http_timeout_ms 上限。支持可配置的自动重试逻辑。注意：Fallback 导致的变体切换会从自适应 A/B 测试计算中排除以保持统计完整性",
+    "认证与密钥管理": "多层次认证体系：1）API 密钥认证（格式 sk-t0-xxxxxxxxxxxx-yyy...，12 位公钥 ID 用于速率限制作用域标识）；2）可通过 UI（localhost:4000/api-keys）或 CLI（--create-api-key）管理密钥创建/禁用，支持可选过期时间；3）动态凭证（dynamic::arg_name）：在每个推理请求中传递不同的提供商 API 密钥，支持多租户密钥隔离；4）凭证回退（credential fallbacks）：配置 default 和 fallback 多级凭证选择；5）环境变量凭证（env::MY_VAR）：静态全局密钥；6）Gateway Relay 中继架构：边缘网关使用 TensorZero API 密钥对中继网关认证，中继网关集中持有所有提供商密钥，实现组织级统一认证控制。支持通过命名空间（Namespace）限制模型/凭证仅服务于特定租户",
+    "可观测性": "全面的三支柱可观测性：1）分布式追踪（Tracing）：支持 OTLP 协议通过 gRPC 导出到任何兼容 OpenTelemetry 的后端（Jaeger/Datadog/Grafana 等）；创建层级化 Span 覆盖 HTTP 请求 → 函数调度 → 变体执行 → 模型推理 → 提供商通信；支持 W3C Trace Context（traceparent header）分布式传播；支持 OpenInference 语义约定和 OpenTelemetry GenAI 语义约定；可自定义请求级 Headers、Span 属性和资源属性。2）指标（Metrics）：暴露 /metrics 端点供 Prometheus 抓取；指标类型包括按端点/状态码的请求计数、持续时间直方图、进行中请求仪表盘、按函数名的推理计数与延迟分布、缓存命中/未命中率、Token 使用量（tensorzero_input_tokens_total / tensorzero_output_tokens_total）、错误类型计数、活跃连接数和数据库连接池状态、TensorZero 自身处理延迟（tensorzero_inference_latency_overhead_seconds 直方图）。3）日志与持久化（Logging）：使用 Rust tracing 框架的结构化日志；推理和反馈数据持久化到 ClickHouse（推荐 >100 RPS）或 Postgres；支持同步、异步（默认）和批量（按 flush_interval_ms 和 max_rows 阈值）三种写入策略；调试模式下可记录与提供商的原始请求/响应载荷；每次推理/反馈记录附带确定性 config snapshot hash 实现完整配置溯源。存储推理和反馈数据的数据库为用户自有基础设施，不经过第三方",
+    "请求/响应转换": "通过 Provider Abstraction Layer（提供商抽象层）实现统一格式与各提供商 API 之间的转换：1）出站请求标准化：将 TensorZero 统一的 RequestMessage 格式转换为各提供商的具体 API 请求格式（Message 翻译、Tool 翻译、推理参数映射，不支持的参数触发警告）；2）入站响应标准化：将所有提供商的响应统一为 ProviderInferenceResponse 结构，支持 Text/ToolCall/Thought/Unknown 四种内容块类型；3）用量标准化：DeepSeek（prompt_cache_hit/miss_tokens）、xAI（合并 reasoning tokens 到 output）、Mistral 等提供商的特定 Token 计数格式统一为标准 Usage 结构；4）流式标准化：各提供商的 SSE 事件通过 infer_stream() 方法转换为统一的 TextChunk/ToolCallChunk/ThoughtChunk/UnknownChunk 流。注意：TensorZero 的转换是归一化（normalization），侧重于将各提供商统一到内部格式；与 LiteLLM/Portkey 的 OpenAI ↔ Anthropic ↔ Gemini 全格式互转不同",
+    "提示词安全": "[不确定] 未发现 TensorZero 原生支持 Prompt Injection 防护、Guardrails 集成或内容审核功能。TensorZero 定位为 LLMOps 平台（网关 + 可观测性 + 评估 + 实验 + 优化），不包含传统 AI 网关的提示词安全/护栏模块。相比 LiteLLM（集成 20+ Guardrail 提供商）和 Portkey（50+ 内置护栏），TensorZero 在安全防护维度存在明显空白。其安全模型主要依赖 API 密钥认证和速率限制，而非 AI 特有的攻击面防护",
+    "插件扩展": "[不确定] TensorZero 没有传统意义上的插件/中间件/Wasm/Lua 扩展系统。其可扩展性主要通过以下方式实现：1）声明式配置（tensorzero.toml，支持热重载）实现行为修改而无需改代码；2）Autopilot 系统内置工具框架（Tool System），但这是内部机制非用户扩展接口；3）可自定义的评估器（Evaluators，如启发式/LLM 裁判）；4）客户端 SDK（Rust/Python/Node.js）允许程序化集成。官方文档中未发现 CustomLogger、Hook、Middleware 或 Plugin 等扩展点",
+    "流式处理": "全面支持 SSE（Server-Sent Events）流式推理：客户端设置 stream: true 后，网关以增量方式逐块返回模型输出，以 [DONE] 消息结束。统一的流式内容块类型包括：TextChunk（增量文本输出）、ToolCallChunk（增量工具/函数调用，含 name/arguments/id）、ThoughtChunk（推理/思考输出，如 DeepSeek/o1 的思维链）、UnknownChunk（保留提供商特定数据用于调试）。最终块包含 usage 统计和 finish_reason。支持 JSON 函数流式调用（各块含部分 JSON，需拼接后解析）。每个提供商通过 impl InferenceProvider trait 的 infer_stream() 方法实现 SSE 事件处理。不支持 WebSocket / WebRTC / Streamable HTTP 等其他流式协议",
+    "Token 计数与成本追踪": "完整的 Token 和成本追踪体系：1）每请求 input_tokens 和 output_tokens 自动提取；2）tensorzero.toml 中按模型配置每百万 Token 价格（支持 JSON Pointer 提取提供商响应中的价格字段）；3）支持负成本（如 Anthropic 缓存 Token 折扣）和批量/嵌入模型的独立价格配置；4）推理响应自动包含 tensorzero_cost 字段（或 SDK 中的 cost 字段）；5）UI 仪表盘可按单次推理和按模型提供商的聚合统计数据浏览成本；6）速率限制支持 cost 维度（cost_per_hour/day/month）进行预算控制；7）预借用（pre-borrowing）机制：先按 max_tokens × default_cost 预估借用成本额度，调用完成后按提供商实际报价调整。所有成本和用量数据存储于用户自有的 ClickHouse/Postgres 数据库"
+  },
+  "部署与架构": {
+    "部署方式": "支持四种部署模式：1）独立 HTTP 网关服务（Standalone Gateway）：通过 Docker Compose 一键部署（含网关 + UI + ClickHouse + PostgreSQL + Valkey），或 Kubernetes Helm Chart 生产级部署（含 Deployment/Service/ConfigMap/Secret/Ingress/ServiceMonitor，默认资源限制 gateway: 2000m CPU/4096Mi 内存）；2）Sidecar 容器模式：官方推荐用于高吞吐/低延迟场景，网关可作为与应用容器同 Pod 的 sidecar 部署，利用 Rust 的 <1ms P99 延迟优势消除网络跳转；3）嵌入模式（Embedded Mode）：通过 Rust 客户端的 ClientMode::EmbeddedGateway 在应用进程内运行网关逻辑；4）Gateway Relay 多层中继架构：边缘网关（团队各自管理 prompts/functions）→ 中继网关（集中管控认证、速率限制、凭证），适用于大型组织的多团队场景",
+    "协议支持": "以 REST/HTTP 为核心协议（基于 Rust Axum HTTP 框架）。支持 SSE（Server-Sent Events）流式传输。内置 MCP 端点（/mcp，使用 rmcp Rust crate，Streamable HTTP 传输）。支持 OpenTelemetry OTLP 协议（gRPC 传输，HTTP 不支持）。不支持 gRPC 推理接口、WebSocket 或 WebRTC",
+    "传统网关集成": "Kubernetes Helm Chart 支持 Nginx/Traefik 作为 Ingress 控制器。未发现与 Kong、APISIX、Envoy 等传统 API 网关的原生插件或深度集成文档。典型部署拓扑为：客户端 → Nginx/Traefik Ingress（TLS 终结）→ TensorZero Gateway（AI 层推理路由）→ LLM 提供商。TensorZero 作为独立 AI 网关层部署在传统网关之后",
+    "语言运行时": "Rust（核心网关基于 Axum HTTP 框架），运行时特点：编译为原生二进制，无 GC，内存安全且性能极高。官方基准测试在 c7i.xlarge（4 vCPU/8GB RAM）上实现 <1ms P99 延迟开销和 10,000+ QPS 稳定吞吐。TypeScript 用于 UI 前端（React Dashboard），Python 和 Go 用于客户端 SDK",
+    "扩展机制": "主要通过声明式配置驱动（tensorzero.toml 文件，支持热重载），遵循 GitOps 理念。可扩展点包括：1）自定义评估器（启发式规则、LLM 裁判）；2）自定义指标（metrics 配置）；3）Autopilot 工具框架（供 Autopilot AI 工程师内部使用）；4）客户端 SDK 程序化集成。不支持传统插件/中间件/Wasm/Lua 等扩展机制"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "内置 MCP Server 端点（/mcp），通过 rmcp Rust crate 实现，基于 Streamable HTTP 传输提供服务。核心能力：向 AI 编码 Agent（如 OpenCode、Cursor、Claude 等 MCP 兼容客户端）暴露 TensorZero 内部工具，包括查询可观测性数据、获取推理性能指标（如平均响应时间）、管理数据集、访问 Autopilot 工具。支持可选 API 密钥认证。注意：TensorZero 的 MCP 实现是'自身作为 MCP Server'，让 Agent 可以编程查询 TensorZero 的运行状态，而非'作为 MCP Gateway'托管和代理外部的第三方 MCP Server。不支持 MCP Server 注册、发现或管理外部 MCP Server 的功能",
+    "A2A 支持": "[不确定] 未发现 TensorZero 支持 Google Agent-to-Agent（A2A）协议。TensorZero 的核心架构聚焦于 LLM 推理网关和 LLMOps 平台，而非 Agent 间通信协议",
+    "Agent 框架集成": "[不确定] TensorZero 作为协议无关的 HTTP API 网关，理论上可与任何 Agent 框架配合使用（通过 OpenAI 兼容 API 调用），但未发现与 LangChain、LangGraph、AutoGen、OpenAI Agents SDK、CrewAI 等框架的原生集成或专用适配器。官方客户端 SDK（Rust/Python/Node.js）提供基础编程接口，但未提供面向特定 Agent 框架的 Callback/Handler 集成",
+    "API-to-MCP 转换": "[不确定] 未发现 TensorZero 支持将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具的功能。TensorZero 的 MCP 能力仅限于暴露自身内部工具"
+  },
+  "性能特征": {
+    "官方性能声明": "官方基准测试（c7i.xlarge，4 vCPU/8GB RAM）：P99 延迟开销 <1ms（实测 0.94ms @ 10,000 QPS），平均延迟开销 0.37ms @ 10,000 QPS，最大吞吐量 10,000+ QPS 稳定运行，100% 成功率。与 LiteLLM 对比：相同硬件下 LiteLLM 在 1,000 QPS 时完全失败（大量请求超时），TensorZero 在 10,000 QPS 时延迟比 LiteLLM 在 100 QPS 时的延迟低 25-100 倍。Docker 官方镜像：tensorzero/gateway 和 tensorzero/ui",
+    "延迟开销": "P50 延迟开销：<0.37ms（10,000 QPS 下均值）；P99 延迟开销：<1ms（0.94ms @ 10,000 QPS）；延迟直方图（tensorzero_inference_latency_overhead_seconds）可精确度量网关自身处理时间（不含模型调用时间），支持自定义桶配置。得益于 Rust 的原生编译、Axum 异步运行时和无 GC 特性，延迟极低且高度稳定。在 sidecar 模式下几乎感觉不到网关的存在",
+    "社区评价": "优势：1）性能业界领先 — Rust 编译的网关在 AI 网关性能基准测试中远超 Python/TypeScript 实现，是所有开源 AI 网关中延迟最低的项目之一；2）统一平台理念 — 将网关、可观测性、评估、实验、优化五大功能整合于同一代码库，减少了工具链碎片化；3）数学严谨的实验系统 — Track-and-Stop 多臂老虎机算法和 anytime-valid 统计检验避免了传统 A/B 测试的 p-hacking 问题，识别最优变体速度快 37%；4）Learning Flywheel 闭环 — 生产数据 → 评估 → 优化 → 实验 → 更优模型的正反馈循环；5）完全开源（Apache 2.0）无企业版功能保留；6）创始人负责任地在公司停止运营时退还剩余资金。劣势：1）项目已于 2026 年 6 月 12 日归档，不再维护，仅有社区分支 Agentify Gateway 维持；2）功能覆盖偏窄 — 缺少动态路由、语义缓存、Guardrails 集成、Agent 框架适配等 LiteLLM/Portkey 常见功能；3）UX 受到社区批评 — 有用户反馈'数据模型和 UI 繁琐且不直观'；4）无托管服务 — 纯自托管，运维负担较重（需管理 ClickHouse + PostgreSQL + Valkey + 网关 + UI 五个组件）；5）公司运营仅约 2.5 年后关闭，商业可持续性未验证；6）约 20 家提供商支持远少于 LiteLLM 的 140+ 家。综合评价：适合追求极致推理性能和内置实验优化能力的团队，但项目已停止维护，需评估社区分支的活跃度或考虑其他替代方案"
+  },
+  "治理与合规": {
+    "多租户支持": "支持三级多租户隔离：1）命名空间（Namespaces）：可为特定租户（如客户）限制可访问的模型和凭证，非匹配命名空间的推理请求将被拒绝；2）API 密钥作用域（Key Scoping）：每个 API 密钥可独立配置速率限制、模型访问权限；3）Gateway Relay 多团队架构：各团队运行独立边缘网关（管理各自的 prompts/functions/metrics/experiments），中继网关集中执行组织级认证和速率限制。支持按标签（tags）的多维度使用量追踪和速率限制隔离。不包含传统的 Team/Organization/User 层级 RBAC 角色权限管理",
+    "审计日志": "[不确定] TensorZero 未提供专门的审计日志模块（如管理操作日志、实体变更记录等）。但所有推理请求和反馈事件均持久化到 ClickHouse/Postgres，每条记录包含：API 密钥标识、时间戳、模型名称、输入/输出 Token 数、成本、config snapshot hash（配置版本溯源）。这些推理记录可作为操作审计的基础数据，但缺少传统审计日志的'谁/何时/执行了什么管理操作/变更了什么配置'等完整审计字段",
+    "预算管理": "通过速率限制系统实现预算控制：1）cost_per_hour / cost_per_day / cost_per_week / cost_per_month：按美元成本的硬性限制，超限立即拒绝请求；2）预借用（pre-borrowing）机制：使用 max_tokens × default_cost 预估消耗并预占额度，调用完成后按实际成本调整；3）按 API 密钥和标签（如 user_id）的作用域独立设置预算；4）always = true 规则无条件执行全局预算限制。注意：TensorZero 的预算管理本质上是速率限制的 cost 维度，而非独立的、含告警通知、临时提升、多级审批的预算管理系统。超预算行为是请求被拒绝（返回错误），而非发送邮件告警或软限制",
+    "数据驻留": "完全支持数据本地化部署：所有组件（网关 + UI + ClickHouse + PostgreSQL + Valkey）均在用户自有基础设施上运行，无任何数据经过 TensorZero 公司或第三方服务器。支持 ClickHouse 和 Postgres 两种数据库选择，数据完全由用户控制。支持气隙（Air-Gapped）部署。但未发现 TensorZero 宣称或取得 SOC 2、HIPAA、GDPR、PCI DSS 等正式合规认证。无按地理区域的数据路由或数据驻留策略配置功能"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "[不确定] 未发现 TensorZero 原生支持 Prompt Injection 检测与防护机制。其核心架构不包含 Guardrails 集成、注入检测模型或 pre-call/post-call 安全拦截点。TensorZero 的安全模型聚焦于 API 密钥认证和速率限制，而非 AI 专有攻击（如注入/越狱/载荷拆分）的防护",
+    "PII 脱敏": "[不确定] 未发现 TensorZero 支持输入或输出双侧的 PII（个人身份信息）检测与脱敏功能。无集成 Microsoft Presidio 或第三方 PII 检测服务的记录。无数据脱敏/遮盖/redaction 的配置选项",
+    "内容审核": "[不确定] 未发现 TensorZero 支持毒性检测、违规内容过滤或自定义安全策略等 AI 内容审核功能。无集成 Google Cloud Model Armor、Azure Content Safety、AWS Bedrock Guardrails 或其他内容审核服务的记录"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "L7+/AI 应用层。TensorZero 作为 AI 推理网关位于传统 L7 网关（Nginx/Envoy）之上，不替代传统网关而是互补。典型部署中 Nginx/Traefik 负责边缘 TLS 终结和通用 HTTP 路由，TensorZero 负责 LLM 特定的模型选择、变体实验、速率限制、Token 成本追踪。TensorZero 理解 LLM 推理语义（函数调度、变体采样、反馈循环），是 AI 应用层的治理平台而非通用 HTTP 代理",
+    "协议感知能力": "深度 LLM 协议感知 vs 传统 HTTP 通用处理。TensorZero 理解：1）SSE 流式协议并实现统一的 TextChunk/ToolCallChunk/ThoughtChunk 内容块拆分和标准化；2）各提供商的 Token 计数格式差异（DeepSeek 缓存 Token、xAI reasoning Token、Mistral usage 等）并统一标准化；3）推理参数（temperature/max_tokens/structured output JSON schema）的提供商级映射和验证；4）TTFT（首 Token 时间）独立的超时控制。传统网关仅看到 HTTP 字节流，不理解 LLM 协议语义",
+    "状态模型": "有状态 AI 网关 vs 传统无状态。TensorZero 维护多维状态：1）速率限制状态（令牌桶、预借用额度，通过 Valkey/Redis 分布式存储）；2）缓存状态（推理响应缓存，Valkey/ClickHouse 持久化）；3）实验状态（变体权重、采样概率、Bandit 算法收敛状态，持久化到 Postgres）；4）配置状态（tensorzero.toml 变体的 snapshot_hash 溯源）；5）优雅关闭状态（进行中请求计数和最终数据库刷新）。传统 L7 网关的请求间通常无状态共享",
+    "计费模型": "Token 级 + 请求级 + 成本级计费 vs 传统请求级计费。TensorZero 计费维度：1）model_inferences（请求次数）；2）tokens（input + output tokens 实际消耗，含缓存 Token 折扣）；3）cost（美元成本，基于可配置的模型价格表自动计算）。三级计费可同时生效且通过预借用机制实施。传统网关仅以请求数/秒（RPS）作为计费和限流单位，无法感知单次请求的 Token 消耗差异（1 token vs 100k tokens 成本差异可达数千倍）",
+    "路由粒度": "基于模型名和变体策略的路由 vs 基于 URL/Header/Host 路由。TensorZero 路由决策基于：1）模型名（model 参数匹配 routing 配置）；2）变体实验策略（静态权重/自适应 Bandit 算法选择最优变体）；3）命名空间覆盖（tenant-specific 路由规则）；4）静态回退链（故障时自动切换提供商）。不支持基于实时延迟/成本/剩余速率限制的动态路由。传统网关仅基于 URL 路径、HOST Header、HTTP 方法等做路由匹配",
+    "缓存策略": "精确匹配推理缓存 vs 传统 HTTP 缓存（ETag/CDN/Vary）。TensorZero 的推理缓存基于请求体的精确匹配，缓存 LLM 的完整推理响应，使用 Valkey/Redis 作为高性能缓存后端，默认 TTL 为 24 小时。不支持基于向量嵌入的语义缓存（相似但不完全相同的提示词无法命中缓存）。传统 HTTP 缓存关注 HTTP 语义（ETag/If-None-Match/Cache-Control/Vary），缓存粒度是整个 HTTP 响应，不感知 LLM 语义",
+    "安全模型": "API 密钥认证 + 速率限制 vs 传统 WAF/DDoS/CORS。TensorZero 的安全模型以访问控制和资源保护为核心：API 密钥认证（sk-t0-xxx）、命名空间隔离、多层速率限制、凭证集中管理（Gateway Relay）。传统 L7 网关安全覆盖 WAF 规则、DDoS 防护、IP 黑白名单、mTLS、OAuth/JWT 等通用 Web 安全。二者为互补关系：传统网关防护网络层和 HTTP 层攻击，TensorZero 防护 API 滥用和 Token 过度消耗。注意：TensorZero 缺少 AI 特有安全防护（Prompt 注入检测、PII 脱敏、有害内容过滤），这在 AI 网关 vs 传统网关对比中是一个显著空白",
+    "内容转换": "请求/响应的提供商归一化 vs 传统 HTTP 请求改写/响应修改。TensorZero 的内容转换面向 LLM 语义：将统一的内部格式（RequestMessage）转换为各提供商的 API 特定格式，再将提供商响应标准化回统一格式（ProviderInferenceResponse）。涵盖 Message 翻译、Tool Schema 映射、推理参数验证、Token 用量标准化、流式事件翻译。传统网关的转换操作在 HTTP 层（Header 注入、URL 重写、Body 正则替换、gzip 压缩）。TensorZero 不支持 OpenAPI ↔ Anthropic ↔ Gemini 等面向用户的全格式互转",
+    "限流单位": "Token/分钟 + 请求/小时 + 成本/月 vs 传统请求数/秒。这是 AI 网关与传统 L7 网关最核心的差异之一。TensorZero 的三级限流单位：1）model_inferences_per_second/minute/hour/day/week/month（请求数）；2）tokens_per_second/minute/hour/day/week/month（Token 消耗）；3）cost_per_hour/day/week/month（美元成本）。每个维度可独立配置，多规则可同时生效。传统网关以 RPS（请求/秒）和并发连接数为限流单位，无法区分 1 token 与 100k tokens 请求的资源消耗差异",
+    "流量特征": "流式长连接 + 低延迟 + 批量推理 vs 传统同步短连接。TensorZero 处理的 AI 流量特征：1）SSE 流式长连接（单次请求可持续数十秒甚至数分钟，逐 Token 推送）；2）极低延迟要求（TTFT 直接影响用户体验）；3）批量推理（Batch Inference）大批量异步处理；4）多模态大载荷传输（图像/文件上传在请求体内）；5）配置驱动的热重载（修改 tensorzero.toml 无需重启即生效）。传统网关面向 HTTP 短连接 + 小载荷 + 高并发短连接池，流量特征根本不同",
+    "生态定位": "独立 AI 网关 + LLMOps 平台（已归档）。TensorZero 在生态光谱中定位为'统一 AI 推理与优化平台'——不仅是网关，还整合了可观测性、评估、实验和优化（微调/RLHF/DICL/GEPA）五个模块。与传统 AI 网关定位的差异：1）vs Kong AI Plugin / APISIX AI Plugin：TensorZero 是独立部署的 AI 专用层，非传统网关的插件扩展；2）vs LiteLLM：两者均为独立 AI 网关，但 TensorZero 核心差异化在于内置实验系统和优化闭环，LiteLLM 则在提供商覆盖和网关运维功能（动态路由/Guardrails）方面更丰富；3）vs Portkey：Portkey 为 SaaS 优先的托管网关（后转向安全平台），TensorZero 纯自托管；4）vs Langfuse/Weights & Biases：TensorZero 整合了 LLMOps 平台功能但以网关为入口而非仅作为可观测性工具。2026 年 6 月项目归档后，生态定位转为社区维护的遗产项目，社区分支 Agentify Gateway 尝试延续其方向"
+  },
+  "uncertain": [
+    "提示词安全",
+    "插件扩展",
+    "A2A 支持",
+    "Agent 框架集成",
+    "API-to-MCP 转换",
+    "审计日志",
+    "Prompt 注入防护",
+    "PII 脱敏",
+    "内容审核"
+  ]
+}

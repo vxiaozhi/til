@@ -5,3 +5,4 @@
 - [Helicone](results/Helicone.json)
 - [LiteLLM](results/LiteLLM.json)
 - [Portkey](results/Portkey.json)
+- [TensorZero](results/TensorZero.json)
