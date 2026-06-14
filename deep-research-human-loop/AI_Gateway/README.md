@@ -5,6 +5,7 @@
 - [Apache APISIX AI Gateway](results/Apache_APISIX_AI_Gateway.json)
 - [Arch Gateway (Plano)](results/Arch_Gateway.json)
 - [Bifrost](results/Bifrost.json)
+- [Envoy AI Gateway](results/Envoy_AI_Gateway.json)
 - [Helicone](results/Helicone.json)
 - [kgateway (Solo.io/CNCF)](results/kgateway.json)
 - [Kong AI Gateway (Kong 公司)](results/Kong_AI_Gateway.json)

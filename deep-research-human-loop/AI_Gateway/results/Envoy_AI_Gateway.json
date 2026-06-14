@@ -1,0 +1,71 @@
+{
+  "basic_info": {
+    "项目名称": "Envoy AI Gateway",
+    "GitHub 地址": "https://github.com/envoyproxy/ai-gateway",
+    "Stars": "约 1,748（截至 2026 年 6 月）",
+    "主要语言": "Go（控制面和外置处理器），C++（Envoy 数据面代理）",
+    "开源协议": "Apache 2.0",
+    "背后公司/社区": "Tetrate 与 Bloomberg 联合发起开源，CNCF Envoy 生态社区维护，贡献者来自 Tetrate、Bloomberg、WSO2、RedHat、Google 及独立开发者",
+    "首次发布": "2025 年 2 月 25 日（v0.1.0），项目仓库创建于 2024 年 10 月 21 日",
+    "官网": "https://aigateway.envoyproxy.io"
+  },
+  "features": {
+    "模型提供商支持": "支持 16+ 家 LLM 提供商：OpenAI、Anthropic（原生 + AWS Bedrock）、Azure OpenAI、Google Gemini、Google Vertex AI、AWS Bedrock、Mistral、Cohere、Groq、DeepSeek、Together AI、DeepInfra、Hunyuan（混元）、SambaNova、Grok、Tetrate Agent Router Service。通过统一的 OpenAI 兼容 API 接入，支持 Chat Completions、Embeddings、Rerank 等端点，以及原生 Anthropic Messages API",
+    "负载均衡": "底层基于 Envoy 的加权轮询（Weighted Round Robin）、加权最少请求（Weighted Least Request/P2C）、后端利用率（ORCA 指标驱动）等通用策略；v0.3+ 集成 Gateway API Inference Extension（Endpoint Picker），支持推理感知路由：基于 GPU 队列深度、KV-cache 占用、LoRA 适配器、延迟等 AI 特定指标的智能负载分配",
+    "速率限制": "支持基于 Token 的速率限制（区别于传统的请求数/秒），可配置输入 Token、输出 Token、总 Token 及自定义 CEL 表达式计费模型的限流（如 input_tokens * 0.5 + output_tokens * 1.5）。支持按用户、按模型、按时间窗口（小时/天）的精细化策略。超限返回 HTTP 429。需 Redis 作为全局速率限制后端存储",
+    "缓存能力": "语义缓存（Semantic Caching）处于社区讨论阶段（GitHub Issue #10），尚未实现为正式功能。v0.5.0 起支持提供商原生 Prompt Caching（AWS Bedrock Claude、GCP Claude），通过统一 cache_control API 启用。Redis 被提议作为语义缓存元数据和嵌入向量存储后端，但目前无生产级语义缓存实现",
+    "降级与重试": "支持基于优先级的跨提供商故障转移（Provider Fallback），通过 AIGatewayRoute 的 backendRefs 定义优先级列表。底层使用 Envoy 复合集群（Composite Cluster）机制实现重试感知的集群选择。BackendTrafficPolicy 支持配置重试次数（numRetries）、每优先级尝试次数（numAttemptsPerPriority）、指数退避（exponential backoff with jitter）、重试触发条件（5xx、connect-failure 等）。当主提供商不可用时自动切换至备选（如 OpenAI → AWS Bedrock → Anthropic）",
+    "认证与密钥管理": "上游认证凭据注入（Upstream Auth/Credential Injection）：应用使用单一内部认证 Token，网关自动为不同 AI 提供商注入对应的 API Key。支持 API Key、OIDC、AWS Credential Chain、Azure Entra ID 等多种认证方式。MCP 网关支持 OAuth 2.0 和 JWT 认证。提供集中化的多租户密钥管理、凭据轮转和访问控制",
+    "可观测性": "完整的 OpenTelemetry 集成：支持 GenAI Semantic Conventions 指标（gen_ai.client.token.usage、gen_ai.server.request.duration 等）；v0.3+ 集成 OpenInference Tracing，自动记录完整提示词、模型参数、Token 用量、流式事件（TTFT 作为 Span Event）；支持 Jaeger、Arize Phoenix、Apache SkyWalking 等后端。输出 Prometheus 格式指标，可集成 Grafana 预建仪表盘。提供结构化 JSON 访问日志，包含模型名、提供商、Token 用量、延迟、重试次数等字段",
+    "请求/响应转换": "内置多提供商格式互转，以 OpenAI API 格式为统一入口。支持 OpenAI → AWS Bedrock（Converse API）、OpenAI → GCP Vertex AI（Gemini API）、OpenAI → Anthropic（Messages API）等路径的双向 Schema 转换。转换内容包括角色映射、Token 参数字段映射、路径重写、流式 SSE 响应归一化。支持跨提供商的统一 Thinking/Reasoning 配置。错误码自动映射为标准 OpenAI 错误格式",
+    "提示词安全": "Prompt Injection 防护和内容审核通过 Envoy 外部处理（ext_proc）扩展机制实现，Gateway 层面支持自定义 ext_proc 过滤器接入外部审核服务（如 OpenAI moderation endpoint），但 Envoy AI Gateway 本身不内置专用的 Prompt Injection 检测模型或 PII 脱敏引擎，需依赖外部集成",
+    "插件扩展": "支持通过 EnvoyExtensionPolicy CRD 挂载 Wasm 插件（Rust/C++/Go 编译）、Lua 脚本（LuaJIT）、External Processor（ext_proc gRPC 外部处理器）、External Authorization（ext_authz）等多种扩展机制。支持 OCI 镜像和 HTTP URL 加载 Wasm 模块。可配置多扩展的执行顺序（Phase 和 Priority）。[不确定]：当前 Lua 和 Wasm 过滤器在 AI 网关 ext_proc 之后的执行顺序存在兼容性问题（GitHub Issue #1469 进行中）",
+    "流式处理": "完整支持 SSE（Server-Sent Events）流式响应。对不同提供商的原生流式格式（Gemini SSE、Bedrock eventstream、Anthropic SSE）自动归一化为 OpenAI 兼容的 SSE 格式。支持 MCP Streamable HTTP 传输协议（2025 年 6 月 MCP 规范）。流式处理过程中实时提取 Token 用量并更新速率限制计数器",
+    "Token 计数与成本追踪": "自动从 LLM 响应中提取 Input Token、Output Token、Total Token，存储为 Envoy 动态元数据（io.envoy.ai_gateway 命名空间）。支持 CEL 表达式自定义成本计算公式（如加权定价）。Token 用量通过 OpenTelemetry 指标和访问日志暴露，可集成 Apache SkyWalking、Arize Phoenix 等工具进行多模型成本分析和归属"
+  },
+  "deployment": {
+    "部署方式": "主要部署模式：Kubernetes Gateway（Ingress 模式，通过 Envoy Gateway GatewayClass + AIGatewayRoute CRD 管理）；Sidecar 模式（ExtProc 通过 MutatingWebhook 注入 Envoy Pod）；独立模式（aigw run CLI，本地开发/测试，无需 K8s）；Standalone Sidecar 模式（EPP + Envoy 代理，用于批量推理场景）。支持多层级部署：中心化 Tier-1 网关 + 内部 Tier-2 网关的两层架构",
+    "协议支持": "REST（HTTP/HTTPS，OpenAI 兼容 API + Anthropic 原生 API）；gRPC（ExtProc 外部处理器与 Envoy 之间的通信）；SSE（Server-Sent Events 流式响应）；MCP Streamable HTTP（2025 年 6 月 MCP 规范）；[不确定]：WebSocket 协议无明确文档支持说明",
+    "传统网关集成": "深度集成 Envoy Proxy 和 Envoy Gateway（CNCF 毕业项目）生态。可集成 Kubernetes Gateway API、Istio Service Mesh。通过 ext_proc 和 ext_authz 标准化接口可与现有 Envoy 架构共存。基于 Envoy 生态，可与 APISIX（同源 Envoy）、Kong（不直接集成）架构共存但非插件嵌入模式。[不确定]：尚未发现与 Nginx、Traefik 的直接集成方案",
+    "语言运行时": "控制面（Controller + ExtProc 外置处理器）：Go 语言，编译为静态二进制；数据面（Envoy Proxy）：C++；CLI 工具（aigw）：Go 语言；性能关键路径在 C++ 数据面处理，AI 业务逻辑在 Go ExtProc 中处理",
+    "扩展机制": "基于 Envoy 生态的多层扩展机制：Wasm 插件（EnvoyExtensionPolicy CRD，支持 Rust/C++/Go 编译为目标代码，OCI 镜像分发）；Lua 脚本（LuaJIT，请求/响应头修改、路由逻辑）；External Processor ext_proc（gRPC 协议，全请求/响应体访问，用于 AI 特定处理）；External Auth ext_authz（gRPC/REST，认证授权）；Dynamic Modules（实验性，Rust 动态加载）；C++ 原生过滤器（需自定义编译 Envoy）"
+  },
+  "agent_ecosystem": {
+    "MCP 支持": "是，第一级（First-Class）支持。v0.4.0（2025 年 11 月）引入 MCP Gateway。支持 MCP Streamable HTTP 传输协议（2025 年 6 月规范）；支持 OAuth 2.0/JWT 认证和授权；支持多 MCP 服务器复用（Server Multiplexing，聚合多个后端 MCP 服务器到单一端点）；支持工具过滤（Tool Filtering，精确匹配和正则表达式）；支持无状态会话管理（会话信息加密编码到客户端 Session ID，无需 Redis 共享存储），水平扩展简便；提供 OpenTelemetry 追踪和 Prometheus 指标；支持 MCPRoute CRD 进行声明式配置",
+    "A2A 支持": "否，尚无 Google Agent-to-Agent（A2A）协议的原生支持。A2A 协议（2025 年 4 月 Google 发布）用于 Agent 间协作通信，与 MCP（Agent 到工具）互补。Envoy AI Gateway 当前聚焦于 LLM 流量路由和 MCP 协议，A2A 可作为未来演进方向但无官方公告或路线图",
+    "Agent 框架集成": "间接支持，未直接集成。Envoy AI Gateway 提供 OpenAI 兼容 API 端点，任何使用 OpenAI SDK 的 Agent 框架（LangChain、LangGraph、CrewAI、AutoGen、OpenAI Agents SDK 等）均可通过设置 OPENAI_BASE_URL 指向网关实现透明代理。网关层面自动注入凭据、执行速率限制、记录审计日志，无需 Agent 框架层面修改代码。原生支持 Tetrate Agent Router Service（TARS）作为后端",
+    "API-to-MCP 转换": "否，Envoy AI Gateway 本身不支持将 REST API（OpenAPI 规范）零代码转换为 MCP 工具。该能力由生态项目提供：ING Bank 开源了 envoy-mcp-openapi-processor（Envoy 外部处理器，将 MCP 请求转换为基于 OpenAPI 规范的 HTTP API 调用）；Higress（阿里云，基于 Envoy 的 AI 网关）内置 openapi-to-mcp 工具。AutoMCP 学术项目实现了 OpenAPI → MCP Server 的编译器（99.9% 成功率）"
+  },
+  "performance": {
+    "官方性能声明": "未发布独立的综合性基准测试报告。官方博客提供了以下性能数据：MCP 流量路由基准测试（MacBook Pro M1）：Envoy AI Gateway 经 KDF 迭代调优后延迟约 380-400 微秒（基线无代理约 80 微秒），与 Rust 实现的 Agent Gateway（约 380 微秒）差距可忽略不计（~0.2ms）。控制面扩展基准测试：2,000 条 AIGatewayRoute 规则下，路由就绪延迟约 5 秒（配置轮询间隔），推理延迟无退化，Envoy 代理内存稳定在约 430 MiB",
+    "延迟开销": "通用 HTTP/REST 路由：P50 约 8.2ms，P99 约 45ms（Envoy Proxy 基准，来自第三方博主 Kirito 测试）。MCP 路由（默认安全配置，100K KDF 迭代）：P50 约 241ms，P90 约 328ms（第三方 SegmentFault 测试），主要瓶颈是 Go ExtProc 侧的 PBKDF2 会话加密。MCP 路由（调优配置，100 次 KDF 迭代）：开销降至约 0.3-2ms，与 Rust 代理差距仅约 0.2ms。流式 ChatGPT API 场景：网关延迟远小于 LLM 推理延迟（秒级），实际影响可忽略",
+    "社区评价": "优势：基于 CNCF 毕业项目 Envoy 的成熟代理基础设施（十年生产验证），数据面 C++ 性能可靠；无状态 MCP 会话架构（无共享存储依赖）带来运维简洁性和水平扩展能力；功能迭代快速（约每 2-3 个月一次大版本）。劣势：项目相对年轻（2025 年初首次发布），企业级大规模生产案例仍在积累；默认安全配置下的 MCP 会话加密开销较高（需手动调优 KDF 参数）；ExtProc + Go Sidecar 架构相比纯 Rust 数据面有天然延迟开销；核心部署依赖 Kubernetes（CLI 模式仅限开发测试）。第三方评论（SegmentFault）指出默认配置下性能与 Rust 方案差距约 100 倍（调优后可缩小至 15 倍差距）"
+  },
+  "governance": {
+    "多租户支持": "支持多租户隔离。每个 API 密钥解析为对应的所有者、项目和团队；支持 100+ 租户的独立配置；各租户拥有独立的 Token 配额（按用户、按模型、按时间窗口）；支持基于角色的模型和提供商访问控制（每个租户仅可见被授权的模型）；租户间策略和配置完全隔离",
+    "审计日志": "支持完整的审计日志能力。每条请求输出结构化 JSON 访问日志，记录：团队、Agent、模型、提供商身份，Token 用量（输入/输出），延迟（含 TTFT），重试次数，最终状态码，请求与响应模型（追踪原始请求模型与实际后端服务模型的差异）。OpenTelemetry 原生：每个请求自动生成 Trace Span，无需 Agent 代码插装。支持 OpenInference 格式，可对接 Arize Phoenix、Kibana、Elastic 等合规审计工具。日志输出到可配置的 Sink（Prometheus、Grafana、Elastic 等）",
+    "预算管理": "支持按用户/团队/项目的 Token 和成本预算管理。通过 Usage-based Rate Limiting 实现消费硬限制（超预算请求返回 HTTP 429，在实际调用前拦截）。支持预算模板（标准化配置，可分配给不同团队/场景）；支持使用量告警（团队接近预算阈值时通知）；支持成本归属（花销归属到特定团队、项目）；支持按用户/API 密钥的细粒度限制；支持时间窗口配额（日/周/月）。通过结构化日志聚合实现花销汇总报告",
+    "数据驻留": "架构层面支持数据本地化部署，但不作为一级功能明确文档化。通过两层网关架构（Tier-1 中心化 + Tier-2 内部集群）实现：Tier-2 网关可部署在私有云/本地数据中心，将敏感流量路由到自托管模型（通过 KServe 集成 vLLM、HuggingFace TGI），确保推理数据不离开组织控制的基础设施。支持在任何云环境或本地部署。Tetrate 治理页面提到支持 GDPR 等法规合规框架的风险管理，但数据驻留相关配置需组织根据具体合规要求自行实施"
+  },
+  "content_safety": {
+    "Prompt 注入防护": "通过 Envoy external processor（ext_proc）扩展机制实现，支持将提示词数据传入外部审核端点（如 OpenAI omni-moderation-latest 模型）进行检查。支持自定义正则表达式规则拒绝含危险模式的请求。Envoy AI Gateway 本身不内置专用的 Prompt Injection 检测模型，安全防护依赖外部审核服务集成和 ext_proc 管道配置。OWASP LLM Top 10（2025）中 Prompt Injection 排名第一，网关层的多层防护架构（正则 + AI 审核 + 应用层检测）提供防御纵深",
+    "PII 脱敏": "通过 Envoy ext_proc 和 Wasm/Lua 扩展机制可实现 PII 检测和脱敏。支持内置正则匹配器（信用卡号 CREDIT_CARD、电话号码 PHONE_NUMBER、SSN 等）。集成第三方安全平台（如 Pangea AI Guard）后可支持 50+ 种 PII 类型检测，提供脱敏（Masking）、部分脱敏、替换、哈希、格式保留加密（FPE）等转换选项。但 Envoy AI Gateway 核心项目不内置这些脱敏引擎，需通过扩展机制集成",
+    "内容审核": "支持多层内容审核：正则规则层（可配置模式和拒绝动作/自定义响应消息）；外部 AI 审核层（通过 ext_proc 将内容传入外部审核服务，如 OpenAI moderation API）；第三方集成（Pangea AI Guard 等，覆盖暴力/仇恨言论/色情/武器/恶意代码/知识产权违规等类别）。自定义安全策略通过 BackendSecurityPolicy CRD 声明式配置。[不确定]：Envoy AI Gateway 核心项目是否内置开箱即用的内容审核模型"
+  },
+  "ai_vs_l7_gateway": {
+    "架构层级定位": "L7+ / AI 应用层网关。Envoy AI Gateway 构建在 Envoy Proxy 的 L7 HTTP 过滤器之上，通过 ext_proc 外部处理器扩展出 AI 应用层语义感知能力（解析请求体中的模型名称、Token 计数、提示词内容），实现 L7 HTTP 协议处理与 AI 业务逻辑的分离架构。底层 Envoy 处理标准 L4/L7 流量代理（TLS 终结、连接池、HTTP 路由），AI 逻辑由 Go ExtProc Sidecar 处理（Schema 转换、凭据注入、Token 追踪）",
+    "协议感知能力": "超越传统 HTTP 通用处理，具备 LLM 协议深度感知能力：自动解析 OpenAI/Anthropic/AWS Bedrock 等 16+ 提供商的专有 API Schema；实时提取 Token 用量（Input/Output/Total Token 及 CEL 自定义计费公式）；处理 SSE 流式响应（逐 Token 输出场景下的格式转换和 Token 累计）；归一化不同提供商的流式事件格式为统一的 OpenAI SSE 格式；感知 Streamable HTTP 长连接（MCP）的会话管理；不感知 provisioned throughput 概念（此为提供商侧资源预配能力，非网关范畴）",
+    "状态模型": "有状态 AI 网关。区别于传统网关的无状态设计（每个 HTTP 请求独立处理），Envoy AI Gateway 维护：会话状态（MCP Streamable HTTP 会话，通过加密编码到客户端 Session ID 实现无共享存储的状态管理）；Token 预算状态（全局速率限制需 Redis 存储累计 Token 消耗量，跨代理副本共享）；上下文窗口追踪（通过 OpenInference 分布式追踪关联多轮对话的 Session ID）；KV-cache 亲和状态（通过 Endpoint Picker 维护 Pod 与缓存状态的路由关联）",
+    "计费模型": "Token 级计费 + 金额预算计费。区别于传统网关的请求级计费（按请求次数），Envoy AI Gateway 支持：Token 级计费（自动提取 Input/Output/Total Token，支持按用户/模型/时间窗口累计）；金额预算计费（通过 CEL 表达式自定义成本公式，如加权计费 input_tokens * 0.5 + output_tokens * 1.5）；Token 消耗实时追踪和超预算 429 拦截（在向昂贵提供商发起实际调用前拒绝）；支持不同模型的差异化配额（GPT-4 严格限制 1,000 Token/小时 vs GPT-3.5 宽松 5,000 Token/小时）",
+    "路由粒度": "基于模型名 / Token 预算 / 成本优化 / 延迟优先的多维路由。区别于传统网关基于 URL/Header/Host 的路由，Envoy AI Gateway 支持：从请求体中提取模型名称路由（modelNameOverride 模型虚拟化）；基于优先级的跨提供商故障转移路由（Provider Fallback）；基于推理端点实时指标的智能路由（GPU 队列深度、KV-cache 占用、LoRA 适配器、延迟）；基于 Token 预算的限流路由（超预算请求在网关层 429 拒绝，不路由到后端）。[不确定]：基于成本优化的自动路由选择（自动选择最便宜提供商的等价模型）",
+    "缓存策略": "混合缓存策略。提供商原生 Prompt 缓存（v0.5.0+）：通过统一 cache_control API 启用 AWS Bedrock Claude 和 GCP Claude 的 Prompt 缓存，针对重复前缀的请求减少 Token 消耗，但此缓存由提供商侧管理。语义缓存（社区讨论中）：基于向量嵌入的语义相似匹配，复用相似请求的响应，预计可降低 API 成本 40-65%，Redis + Vector DB 作为缓存后端。差异对比：传统网关使用 HTTP 缓存（ETag/CDN/Vary）基于 URL/Header 匹配，AI 网关语义缓存基于内容语义相似度匹配，可命中字面不同但含义相同的请求",
+    "安全模型": "AI 专用安全扩展。区别于传统网关的 WAF/DDoS/限流/CORS 安全模型，Envoy AI Gateway 扩展了：Prompt Injection 防护（通过 ext_proc 接入审核服务）；数据防泄露（通过扩展机制实现 PII 检测和脱敏）；Token 级别滥用检测（Token 消耗模式异常检测，关联用户行为）；集中化的多提供商凭据管理（凭据注入而非透传，减少密钥泄露面）。与传统安全模型属于互补叠加关系，非替代。Envoy 的 DDoS、WAF、限流能力在底层 L4/L7 层面仍然可用",
+    "内容转换": "AI 语义转换。区别于传统网关的 HTTP 请求改写/响应修改（Header 修改、URL 重写、Body 正则替换），Envoy AI Gateway 执行：多提供商 API Schema 互转（OpenAI ↔ Anthropic ↔ Gemini ↔ Bedrock 格式的双向转换）；角色映射（system/developer ↔ system_instruction）；路径重写（/v1/chat/completions → provider-specific 路径）；流式格式归一化（不同 SSE 流格式统一输出）；模型名称虚拟化（客户端使用统一模型名，网关映射到提供商实际模型名）；跨提供商降级 Fallback（自动切换备选提供商并重新执行 Schema 转换和认证注入）",
+    "限流单位": "Token/分钟 + 金额预算/月 + 请求数辅助限制。最核心的差异维度之一：传统网关限流单位为请求数/秒或并发连接数，Envoy AI Gateway 的限流单位为 Token/时间窗口（Input Token、Output Token、Total Token 分别配置额度），支持 CEL 自定义金额预算（如每月每团队 $500 等价 Token 额度），保留请求数限制作为辅助维度。使得超预算拦截发生在实际调用前，避免昂贵的无效调用",
+    "流量特征": "流式长连接 + 大载荷 + 秒级延迟的 AI 流量特征。区别于传统网关的同步短连接（请求-响应在毫秒内完成、固定响应大小），Envoy AI Gateway 处理：流式 SSE 长连接（持续数秒至数分钟的 Token 逐字输出）；大载荷请求（提示词可达数万 Token，远大于传统 API JSON Body）；高延迟容忍（LLM 推理延迟秒级，网关延迟开销意义不同）；流式连接的中间状态处理（TTFT 作为延迟关键指标，TPOT 作为吞吐指标）；MCP 的持久化 Streamable HTTP 连接（Agent 与工具间长会话）。流量特征差异驱动了 ExtProc + Sidecar 的分离架构设计（避免 AI 处理阻塞高吞吐数据面）",
+    "生态定位": "传统网关 AI 插件（基于 Envoy 生态的 AI 网关扩展）。Envoy AI Gateway 不是独立 AI 网关，而是深度嵌入 Envoy Gateway 生态的 AI 扩展层：它利用 Envoy 成熟的 L7 过滤器架构、xDS 配置管理、Redis 全局速率限制等基础设施；通过 CRD 和 Admission Webhook 注入 AI 处理逻辑（ExtProc Sidecar）；聚焦于 LLM 流量管理而非替代通用 API 管理。市场定位介于纯独立 AI 网关（如 LiteLLM、Portkey）和统一 API+AI 网关（如 Kong AI、APISIX AI 插件）之间——它属于传统网关的 AI 插件生态定位，且因其 CNCF Envoy 背景具有独特的社区中立性和可移植性优势"
+  },
+  "uncertain": [
+    "ws协议支持"
+  ]
+}
