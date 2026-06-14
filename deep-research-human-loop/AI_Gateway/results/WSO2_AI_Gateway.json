@@ -1,0 +1,78 @@
+{
+  "基本信息": {
+    "项目名称": "WSO2 AI Gateway（WSO2 AI 网关）",
+    "GitHub 地址": "https://github.com/wso2/api-platform",
+    "Stars": 48,
+    "主要语言": "Go",
+    "开源协议": "Apache 2.0",
+    "背后公司/社区": "WSO2 LLC（成立于 2005 年，总部位于美国加州山景城，专注于开源 API 管理和集成中间件）",
+    "首次发布": "2024 年 11 月 5 日（WSO2 API Manager 4.4.0 首次引入 AI Egress API 管理功能）；独立 AI Gateway 组件 v0.9.0 于 2026 年 2 月 18 日发布，v1.0.0 GA 于 2026 年 4 月 2 日发布",
+    "官网": "https://wso2.com/api-platform/ai-gateway/"
+  },
+  "功能特性": {
+    "模型提供商支持": "内置支持 7 家 LLM 提供商：OpenAI（v2.0.0）、Azure OpenAI（v2.0.0）、AWS Bedrock、Anthropic（Claude）、Google Gemini、Mistral AI、Azure AI Foundry；支持通过自定义 AI 服务商连接器（Custom AI Service Provider）框架扩展任意第三方 LLM 提供商，提供接入引导文档",
+    "负载均衡": "支持轮询（round-robin）、故障转移（failover）和加权（weighted）三种负载均衡策略；可在同一服务商内的多个模型之间以及跨服务商之间进行请求分发",
+    "速率限制": "支持三层速率限制：（1）请求数级限制，（2）Token 级限制（max prompt tokens / max completion tokens / max total tokens 三项独立配置），（3）金额级成本上限；时间窗口支持按分钟/小时/天；支持后端级别和订阅级别的分布式限流（基于 Redis/Valkey CRDT）",
+    "缓存能力": "支持语义缓存（Semantic Caching）：基于向量嵌入（Embedding）的语义相似度匹配缓存，非传统精确匹配缓存。使用 L2 欧氏距离度量相似度，可配置相似度阈值（推荐保守起步 0.95）和 TTL 过期时间。向量嵌入提供商支持 OpenAI、Azure OpenAI、Mistral。向量数据库后端支持 Zilliz（云托管 Milvus）和 Milvus（开源自托管）。官方宣称可减少 40%-60% 的 API 调用",
+    "降级与重试": "支持自动故障转移（Failover）：主服务商不可用时自动切换到备用服务商；支持多模型降级路由策略；内置自动重试机制",
+    "认证与密钥管理": "支持多种认证方式：OAuth2（含 audience binding、PKCE、资源指示符 RFC 8707）、API Keys、Basic Auth、双向 mTLS、JWT 令牌验证、PAT（个人访问令牌）；支持多租户虚拟密钥管理、密钥轮转、令牌过期与吊销、加密 OAuth2 令牌、多个活跃访问令牌、证书绑定访问令牌",
+    "可观测性": "日志：支持 ELK Stack（Elasticsearch/Logstash/Kibana）、Datadog、OpenSearch、Choreo 分析；提供关联日志、HTTP 访问日志、审计日志、API 日志、WebSocket 日志。追踪：支持 OpenTelemetry 和 OpenTracing 分布式追踪。指标：JMX 指标监控，支持 Prometheus/Grafana 集成。AI 专用：Moesif 驱动的 AI API 分析仪表盘（Token 用量、成本估算、模型流量占比、Guardrail 触发统计、错误类型分布）",
+    "请求/响应转换": "支持 Regex 模式匹配与内容转换、JSON Schema 强制输出结构校验、PII 双向脱敏与还原（请求侧脱敏后发送给 LLM，响应侧将占位符还原为原始值）；[不确定] 是否支持 OpenAI/Claude/Gemini 之间的请求格式互转（未在文档中找到明确说明）",
+    "提示词安全": "内置多层护栏体系：（1）语义提示护栏（Semantic Prompt Guardrail）：基于语义相似度检测有害/不当输入；（2）Regex 护栏：基于正则表达式的输入输出验证；（3）URL 验证护栏：检测链路中的幻觉 URL；（4）内容长度/词数/句子数护栏：控制输入输出规模；（5）JSON Schema 护栏：强制响应结构化合规；（6）语义工具过滤护栏：按语义相关性选择和排序可用 MCP 工具。外部集成：Azure Content Safety（仇恨言论/暴力/色情/自残/越狱检测）、AWS Bedrock Guardrails（内容安全验证和 PII 防护）",
+    "插件扩展": "支持自定义 AI 服务商连接器（Custom AI Service Provider Connector）框架，用于接入第三方 LLM 提供商；支持 Synapse 中介器（Mediator）策略体系进行请求/响应处理链编排；[不确定] 当前版本不支持 Wasm 或 Lua 脚本扩展（官方文档未提及，但 WSO2 APK 项目有 Wasm/Lua 支持的 Issue #3207 正在开发中）",
+    "流式处理": "原生支持 SSE（Server-Sent Events）流式响应代理，可代理 OpenAI 等提供商的 streaming 模式（stream=true）；支持 WebSocket 全双工实时通信；MCP Gateway 基于 Streamable HTTP 运行；Event Gateway 支持 WebSub/Webhook/Kafka 事件流；支持 AsyncAPI 定义的流式 API 管理",
+    "Token 计数与成本追踪": "支持 Token 用量统计（prompt tokens / completion tokens 分项追踪）；多模型价格换算和成本估算；Moesif 驱动的 AI API 变现分析（可在仪表盘查看 Token 用量趋势、成本趋势、模型流量占比）；支持后端级别和消费者级别的成本上限配置；按时间窗口（每分钟/每小时/每天）追踪 Token 消耗"
+  },
+  "部署与架构": {
+    "部署方式": "支持多种部署模式：（1）独立服务：AI Gateway 作为独立组件运行；（2）插件嵌入：内嵌于 WSO2 API Manager（v4.4+ 控制面）；（3）Docker/Docker Compose：快速启动；（4）Kubernetes：通过 Helm Charts 部署（Gateway Helm Chart v1.1.3），支持 Gateway Operator 自动化管理；（5）SaaS：Bijira 云控制台（console.bijira.dev）；（6）本地/混合部署：数据面可完全本地化运行",
+    "协议支持": "REST、gRPC、GraphQL、WebSocket、SSE（Server-Sent Events）、MCP/JSON-RPC（Model Context Protocol）、Webhooks/WebSub、Kafka；AsyncAPI 规范支持",
+    "传统网关集成": "原生集成 WSO2 Universal Gateway（内嵌于 WSO2 API Manager）；WSO2 Kubernetes Gateway 基于 Envoy Proxy 作为数据面；支持网关联邦（Gateway Federation），可统一管理以下第三方网关：Kong、AWS API Gateway、Azure API Management、Envoy Gateway",
+    "语言运行时": "Go（AI Gateway 数据面 + WSO2 APK 网关）+ Java（WSO2 API Manager 控制面，要求 JDK 21）；基于 Envoy Proxy（数据面热重载，无连接中断更新配置）",
+    "扩展机制": "自定义 AI 服务商连接器框架（接入新的 LLM 提供商）；Synapse 中介器（Mediator）策略编排体系（实现 Guardrails、PII 脱敏、转换逻辑）；KServe Inference 协议集成；[不确定] 无 Wasm/Lua 脚本扩展机制（WSO2 APK 项目有相关规划但尚未落地到 AI Gateway）"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "全面原生支持 Model Context Protocol：（1）MCP Gateway 模式：作为 MCP 客户端与 MCP 服务器之间的治理代理，提供认证、访问控制、速率限制、可观测性；（2）MCP Hub：集中式工具发现目录，作为企业 AI 能力的'黄页'，提供工具文档、输入输出 Schema、预格式化配置片段；（3）API-to-MCP 零代码转换：指向已有 REST API 或 OpenAPI 规范，自动生成 MCP 工具定义（将 REST 端点映射为 MCP tools）；（4）MCP Authorization 规范合规：OAuth2 scope 级工具访问控制，支持 PKCE、audience binding、资源指示符；（5）MCP Inspector/Playground：交互式测试环境，在上线前验证工具交互；（6）外部 MCP Server 代理：代理第三方 MCP 服务器，统一施加认证和限流；（7）工具生命周期管理：创建→测试→发布→版本化全流程",
+    "A2A 支持": "[不确定] 官方文档和博客中未提及 Google Agent-to-Agent（A2A）协议支持；WSO2 AI Gateway 的 Agent 互操作能力目前聚焦于 MCP 协议",
+    "Agent 框架集成": "[不确定] 通过 MCP 协议间接兼容任意 MCP 客户端（已确认支持 Claude Desktop、VS Code Copilot、OpenAI Codex CLI）；未发现与 LangChain、LangGraph、AutoGen、OpenAI Agents SDK、CrewAI 等框架的直接 SDK 集成或专用适配器；在 Dev.to 文章中提及 LangChain 和 CrewAI 作为 MCP Hub 的潜在消费者，但无具体集成细节",
+    "API-to-MCP 转换": "是，支持将现有 REST API（OpenAPI 规范或已有 API 代理）零代码自动转换为 MCP 兼容的工具服务器：自动从 OpenAPI 定义提取工具定义（将 GET/POST/PUT/DELETE 映射为 MCP 工具），无需编写包装器或自定义集成代码，转换后的 MCP 服务器继承所有网关策略（安全、限流等），通过 MCP Hub 发布供 Agent 发现和调用"
+  },
+  "性能特征": {
+    "官方性能声明": "[不确定] 未在官方文档或公开资料中找到量化的性能基准数据（无具体吞吐量对比、延迟数值或压力测试报告）；官方定性描述为通过语义缓存降低重复调用延迟、避免速率限制瓶颈",
+    "延迟开销": "[不确定] 未找到 P99/P50 延迟开销具体数据；由于 AI Gateway 在数据面基于 Go + Envoy Proxy 构建，理论延迟开销较低，但缺乏官方或第三方基准测试验证",
+    "社区评价": "[不确定] 项目较新（独立 AI Gateway 组件于 2026 年上半年 GA），公开社区反馈极为有限；GitHub Stars 48（api-platform 仓库），社区规模较小；在 Reddit、Hacker News、Stack Overflow 等平台未见显著讨论"
+  },
+  "治理与合规": {
+    "多租户支持": "是，完整多租户隔离：支持租户级隔离、按租户使用量计费、租户自定义策略；支持订阅级配额管理和虚拟密钥；租户可通过 API 控制面独立管理 AI 服务订阅和应用；支持团队/项目/用户多级隔离",
+    "审计日志": "是，完整审计日志体系：记录谁（用户/Agent 身份）、何时（时间戳）、调用什么模型/工具、消耗多少 Token、执行了哪些操作；支持 ELK Stack、Splunk、Prometheus 集成；API 变更审计追踪；WebSocket 访问日志和调试日志可路由到集中式监控系统",
+    "预算管理": "是，支持多层预算管控：（1）后端级别成本上限（单次请求 max prompt/completion/total tokens）；（2）消费者级别 Token/金额预算；（3）订阅级别配额；（4）团队/项目级别 Token 智能分配；（5）时间窗口预算（每分钟/每小时/每天）。支持趋势分析和消费预测，防止失控 LLM 支出",
+    "数据驻留": "是，支持完全本地化部署：数据面（含 AI 流量和可观测性数据）可在自有基础设施运行，确保数据不离开组织网络边界；GDPR 合规：内置伪名化映射系统，支持'被遗忘权'；HIPAA/PSD2 合规框架支持；可通过部署区域控制数据处理地理位置；WSO2 公开次级处理商列表供合规审查"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "是，多层防护机制：（1）语义提示护栏（Semantic Prompt Guardrail）：通过语义相似度模型检测有害/越狱输入；（2）Regex 护栏：自定义正则模式黑名单匹配；（3）外部集成：Azure Content Safety（含越狱/ Jailbreak 检测）、AWS Bedrock Guardrails；（4）语义工具过滤护栏（Semantic Tool Filtering Guardrail）：防止 Agent 调用不相关的工具",
+    "PII 脱敏": "是，内置 Regex PII 脱敏护栏：（1）支持两种模式：Masking（可逆脱敏，占位符还原）和 Redaction（不可逆脱敏，永久替换为 *****）；（2）内置检测器：EMAIL、PHONE、SSN（美国社会安全号）；（3）支持自定义 PII 正则实体（信用卡号、IP 地址、姓名、地址等）；（4）输入输出双侧脱敏：请求侧对发往 LLM 的内容脱敏，响应侧将占位符还原为原始值；（5）通过 JSONPath 精确指定扫描目标字段",
+    "内容审核": "是，多层内容审核能力：（1）Azure Content Safety 集成：检测仇恨言论、暴力、色情、自残等违规内容；（2）AWS Bedrock Guardrails 集成：实时内容安全验证；（3）内置护栏：内容长度/词数/句子数控制、URL 验证（检测和过滤幻觉 URL）、JSON Schema 输出校验；（4）Regex 自定义内容过滤规则；（5）语义意图检测：评估输入提示的语义意图是否符合安全策略"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "L7+ AI 应用层：WSO2 AI Gateway 构建于 WSO2 API Manager（传统 L7 网关）之上，形成 AI 专用治理层。数据面基于 Envoy Proxy（WSO2 Kubernetes Gateway）提供高性能代理，控制面由 WSO2 API Manager 提供全生命周期管理。本质上是在传统 L7 网关基础上叠加 AI 语义感知层的融合架构",
+    "协议感知能力": "传统 HTTP 通用处理（继承自 WSO2 API Manager）+ LLM 协议深度感知：能够解析和代理 SSE 流式响应、统计 Token 计算（prompt/completion）、管理 provisioned throughput、理解 LLM 请求-响应语义结构；额外原生支持 MCP JSON-RPC 协议用于 Agent 工具交互；具备 gRPC/WebSocket 等多协议处理能力",
+    "状态模型": "有状态设计：AI Gateway 需要维护 Token 预算累积状态（跨请求追踪 Token 消耗）、语义缓存状态（向量嵌入索引 + 缓存条目 TTL）、会话上下文（请求-响应关联、占位符映射用于 PII 还原）、MCP 连接桥接状态（Streamable HTTP 会话）。相比传统网关的无状态请求-响应模型有本质区别",
+    "计费模型": "Token 级计费为核心，提供三层计费模型：（1）请求级计费（传统请求计数）；（2）Token 级计费（prompt tokens + completion tokens 分别计量）；（3）金额预算计费（基于多模型价格换算的成本估算和上限）。支持按时间窗口（每分钟/小时/天）聚合和多模型价格换算，区别于传统网关的纯请求计数模型",
+    "路由粒度": "基于 AI 语义的路由决策，粒度远超传统网关：（1）基于模型名路由（选择特定 LLM 模型）；（2）基于 Token 预算路由（消费预算接近上限时切换到低成本模型）；（3）基于成本优化路由（简单查询→低成本模型，复杂任务→高性能模型）；（4）基于延迟优先路由；区别于传统网关基于 URL/Header/Host 的简单路由",
+    "缓存策略": "语义缓存（Semantic Caching）：基于向量嵌入（Embedding）的语义相似匹配，使用 L2 欧氏距离而非精确 URL 匹配。'如何重置密码'和'密码更换流程'被视为相同语义，命中同一缓存。配置项包括：嵌入提供商选择、向量数据库后端（Zilliz/Milvus）、相似度阈值、TTL。官方宣称减少 40%-60% 的 API 调用。区别于传统 HTTP 缓存（ETag/CDN/Vary/精确 URL 匹配）",
+    "安全模型": "AI 原生安全模型，超越传统 WAF/DDoS/CORS：（1）Prompt Injection 防护（语义护栏检测越狱和恶意注入）；（2）数据防泄露（输入输出双侧 PII 脱敏）；（3）Token 级别滥用检测（异常 Token 消耗模式识别）；（4）语义意图检测；（5）工具调用级访问控制（MCP scope 粒度）；（6）幻觉 URL 检测（URL 护栏验证 URL 可达性）。同时继承传统 WAF/DDoS/限流/CORS 能力",
+    "内容转换": "AI 感知的内容转换能力：（1）请求改写：通过 Regex 护栏和提示模板统一格式化请求；（2）模型切换：基于路由策略动态切换 LLM 模型；（3）PII 双向脱敏还原：请求侧脱敏 → LLM 处理 → 响应侧还原；（4）Guardrails 格式校验：JSON Schema 输出强制、内容长度/词数控制；（5）降级 Fallback：自动切换到备用模型或返回缓存。区别于传统 HTTP 请求改写/响应修改",
+    "限流单位": "核心差异维度之一，WSO2 AI Gateway 支持多维度限流：（1）请求数/秒（传统维度）；（2）Token/分钟（prompt tokens + completion tokens 分离限流）；（3）金额预算/月（基于多模型价格换算的成本上限）。传统网关仅有请求数/秒维度",
+    "流量特征": "AI 网关需处理与传统网关迥异的流量特征：（1）流式长连接：SSE/WebSocket 持久连接，响应时间可能长达数十秒；（2）秒级延迟敏感：LLM 推理延迟叠加网关处理延迟需要优化；（3）大载荷：LLM 请求/响应体可能包含大量上下文（数十 KB 至数 MB）；（4）突发性：Agent 可能在短时间内发起大量 MCP 工具调用。这些特征要求网关在连接管理、缓冲策略、背压控制等方面做专门设计",
+    "生态定位": "统一 API + AI 网关模式（传统 API 管理平台 + AI 插件扩展）：WSO2 AI Gateway 不是独立 AI 网关，也不是纯传统 API 网关，而是将 AI 治理能力内嵌于 WSO2 API Manager 这个成熟的 API 全生命周期管理平台中。其定位是'AI 就绪的 API 平台'——在同一控制面下统一管理传统 API（REST/GraphQL/gRPC）、LLM 调用（出向）和 MCP 工具（入向），实现 API 管理与 AI 治理的融合。区别于纯 AI 网关（如 Portkey、Helicone）和 AI 插件网关（如 Kong AI Gateway 插件），WSO2 的优势在于完整的 API 生命周期 + AI 治理 + MCP Hub 三合一"
+  },
+  "_source_file": "WSO2_AI_Gateway.json",
+  "uncertain": [
+    "请求/响应转换（LLM 格式互转）",
+    "插件扩展（Wasm/Lua 支持）",
+    "A2A 支持",
+    "Agent 框架集成（直接 SDK）",
+    "官方性能声明",
+    "延迟开销",
+    "社区评价"
+  ]
+}
