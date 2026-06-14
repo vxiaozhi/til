@@ -1,0 +1,85 @@
+{
+  "基本信息": {
+    "项目名称": "Higress",
+    "GitHub 地址": "https://github.com/higress-group/higress",
+    "Stars": "8,643（截至 2026-06-14）",
+    "主要语言": "Go（80.3%），辅以 Rust、C++、TypeScript（Wasm 插件）",
+    "开源协议": "Apache-2.0",
+    "背后公司/社区": "阿里巴巴/阿里云，2026年3月加入 CNCF Sandbox 项目，由阿里云 API 网关团队维护",
+    "首次发布": "2022-11-01（GitHub v0.5.0 首次 Release）；2022-11-05（杭州云栖大会正式宣布开源）；2023-05-22（v1.0.0 GA 版本）",
+    "官网": "https://higress.io / https://higress.cn"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 25+ 家国内外模型提供商。涵盖：OpenAI、Azure OpenAI、Anthropic Claude、AWS Bedrock、Google Vertex AI、Google Gemini、通义千问（Qwen）、DeepSeek、智谱 AI（Zhipu）、月之暗面（Moonshot）、百川（Baichuan）、零一万物（Yi）、MiniMax、Groq、Grok（xAI）、OpenRouter、Fireworks AI、文心一言（ERNIE Bot / 百度）、360 智脑、Mistral、Ollama（自托管）、混元（腾讯）、阶跃星辰（Stepfun）、讯飞星火（Spark）、Cloudflare Workers AI、DeepL、Cohere、Together AI、Dify、豆包（Doubao / 字节跳动）、GitHub Models、NVIDIA Triton。通过 ai-proxy 插件统一 OpenAI 协议接入，同时原生支持 Claude Messages API 和 Gemini API 协议，并实现自动协议检测与互转。支持自定义 OpenAI 兼容端点（通配模式），可对接任意 OpenAI-compatible 后端。",
+    "负载均衡": "支持多种通用负载均衡策略：轮询（Round-Robin）、加权轮询、最小连接数、加权最小连接数、最短响应时间、一致性哈希（基于 IP/Header/Cookie）、随机。针对 LLM 场景还提供三种 Wasm 插件级高级策略：① 全局最小请求数负载均衡（基于 Redis 全局视野，避免单节点过载）；② 前缀匹配负载均衡（将同会话请求路由到同一 Pod，充分利用 KV Cache，实测首 Token 延迟下降 50%）；③ GPU 感知负载均衡（根据 vLLM Prometheus Metrics，按 LoRA Adapter 亲和性、队列长度、KV Cache 使用率调度）。配置生效粒度支持实例级、域名级、路由级、服务级。",
+    "速率限制": "支持三层速率限制能力：① 通用 key-rate-limit 插件（基于消费者 API Key 的 QPS 限制）；② ai-token-ratelimit 插件（Token 级速率限制，按 TPM - Token Per Minute 粒度，基于 Redis 分布式存储）；③ ai-quota 插件（硬配额管理，消费者配额耗尽即拦截，提供管理 API 用于查询/刷新/增减配额）。配合 key-auth 插件实现消费者级差异化限制策略。",
+    "缓存能力": "支持 AI 语义缓存能力。Higress 提供 ai-cache 插件，可对 AI 推理结果进行缓存以减少重复请求成本和延迟。缓存机制支持精确匹配和语义相似匹配（基于向量嵌入），可通过插件配置缓存策略（TTL、缓存键规则）。缓存后端 [不确定 - 是否支持 Redis/Memcached 等外部缓存后端的具体实现方式在公开文档中描述不够详细]。在 AI 网关场景中，结合前缀匹配负载均衡实现 KV Cache 亲和性路由，实测 KV Cache 命中率从 40%+ 提升至 80%+。",
+    "降级与重试": "支持模型级降级（Fallback）：当主模型返回 4xx/5xx 错误（如限流或访问失败）时，可自动切换至备用模型（如 DeepSeek 失败后降级到通义千问）。ai-proxy 插件支持多 API Key 轮转和健康检查，当某个 Key 不可用时自动 Failover。支持非流式请求的自动重试，可配置重试状态码和最大重试次数。流式请求 [不确定 - 流式请求的重试机制处理细节]。",
+    "认证与密钥管理": "支持多种认证方式：key-auth（API Key 认证）、jwt-auth（JWT 令牌认证）、hmac-auth（HMAC 签名认证）、basic-auth（基础认证）、OIDC（OpenID Connect）、OAuth2。ai-proxy 插件支持多 API Key 池管理（虚拟密钥机制）：网关层为每个租户/消费者分配独立虚拟 Key，后端实际使用统一真实 API Key，实现多消费者密钥隔离。支持 Token 轮转（随机选择或故障转移）和健康检查。自身提供消费者管理系统（key-auth consumers 配置）。",
+    "可观测性": "提供 AI 专属可观测能力。核心组件：① ai-statistics 插件（自动采集 input_token/output_token/reasoning_tokens/cached_tokens，按网关/路由/模型/消费者四维度标记，支持 OpenAI/Claude/Gemini/自定义协议格式）；② 内置 AI Dashboard 控制台（http://localhost:8001），实时展示 Token 吞吐量、各提供商/模型用量、消费者用量、TTFT 和总延迟；③ Prometheus Metrics 暴露（含 irate 聚合查询支持，可对接 Grafana）；④ 分布式追踪集成（SkyWalking、Zipkin、OpenTelemetry / ARMS，注入 gen_ai.* span attributes）；⑤ Agent Session Monitor（会话级监控，重建多轮对话，按 session_id 关联，提供 Token 分解、工具调用追踪、成本估算及 Web UI / CLI FinOps 报告）；⑥ 结构化 JSON 访问日志（含完整对话历史、模型、Token、延迟等字段）。",
+    "请求/响应转换": "支持三层转换能力：① ai-proxy 插件自动协议检测与转换（Claude ↔ OpenAI ↔ Gemini 格式互转，零配置，含工具调用/推理参数/多模态内容/流式格式等双向映射）；② transformer 插件通用 HTTP 字段级转换（支持请求/响应头、查询参数、请求体 JSON 的增删改查 rename/replace/map/append/dedupe 操作）；③ ai-transformer 插件（通过 LLM 自身对请求/响应进行智能转换）。参数映射覆盖：max_tokens、temperature、top_p、top_k、seed、stop、safety settings 等。v2.2.2 新增 Bedrock Mantle Endpoint 直连 Claude 原生协议，避免双层转换数据丢失。",
+    "提示词安全": "提供多层 Prompt 安全防护：① ai-data-masking 插件（请求侧敏感信息检测与脱敏+响应侧还原，支持手机号/邮箱/IP/身份证/API Key 等 PII 类型，基于 GROK 正则规则和内置敏感词库，支持自定义敏感词列表和 hash 脱敏还原）；② 内容安全/敏感词拦截（基于 jieba 分词 + double-array trie 高效匹配，检测到敏感词直接拦截返回预设错误消息）；③ 可集成阿里云内容安全服务 API 实现涉黄涉暴等违规内容实时检测；④ WAF 防护能力（Web 应用防火墙）。已开源「ai-guard」插件用于 prompt injection 检测与防护 [不确定 - 具体的 Prompt Injection 检测算法的技术细节]。",
+    "插件扩展": "以 Wasm（WebAssembly）插件作为核心扩展机制，遵循 Proxy-Wasm ABI 规范。支持 Go（最主流，v2.x 升级至 Go 1.24 + 标准 Go WASI 编译）、Rust（性能最优，接近原生）、C++、AssemblyScript/JavaScript 等多语言开发。提供全流程开发工具链：Wasm 插件 SDK、构建工具（Go tinygo/std-wasi、Rust cargo-higress）、沙箱内存隔离、独立版本升级、流量无损热更新（无需重启网关）。插件通过 OCI 容器镜像分发，使用 WasmPlugin CRD 在 K8s 中部署。2025 年新增原生 Go 插件模式（双扩展路径）。插件分为三种 Filter 类型：Http Filter、Network Filter、Wasm Service。官方提供插件市场（Plugin Marketplace）。",
+    "流式处理": "支持完整的流式处理能力：SSE（Server-Sent Events）完整流式处理请求/响应体，支持 HTTP/1.1 和 HTTP/2 的流式传输。ai-proxy 插件原生支持 OpenAI SSE 流式 chunk 解析（delta 增量），并支持 Claude event-stream、Gemini 流式等异质协议间的流式格式互转。v2.2.1 修复了流式响应 Token 泄露（断连时实时记录 Token 用量）、Claude 流式响应工具调用信息丢失、Bedrock/Vertex 流式截断等问题。MCP 支持 Streamable HTTP（2025-03-26 协议）和 POST+SSE（2024-11-05 协议）双模式，原生支持 WebSocket。",
+    "Token 计数与成本追踪": "提供完整的 Token 使用量统计与成本追踪：① ai-statistics 插件自动采集标注 input_token/output_token/reasoning_tokens/cached_tokens 四个维度的 Token 指标，支持自定义 JSONPath 提取非标准响应格式；② Agent Session Monitor 按 session_id 重建多轮对话，实现会话级成本聚合（基于各模型定价计算预估费用），提供 Web UI 成本仪表板和 CLI FinOps 报告导出；③ Prometheus Metrics 支持按路由/模型/消费者维度聚合的 Token 用量 PromQL 查询。v2.2.1 修复了流式连接断开时 Token 用量漏记的问题。成本追踪不内置模型价格表 [不确定 - 是否需要用户手动配置各模型价格]，需通过 Agent Session Monitor 的外部价格配置或阿里云商业化版本实现自动价格换算。"
+  },
+  "部署与架构": {
+    "部署方式": "支持三种部署模式：① K8s Ingress 模式（云原生，推荐生产使用）：Helm 一键部署，作为 K8s Ingress Controller 运行，兼容 Gateway API v1.4.0 和 Inference Extension，支持 Nginx Ingress 注解平滑迁移；② Standalone 独立部署模式（脱离 K8s）：基于 Docker Compose 或 All-in-One 单容器部署（含 apiserver/controller/pilot/gateway/console 五个组件），不使用 K8s 资源作为配置来源，改用 Nacos 或文件系统存储配置，适用于本地开发和测试；③ Sidecar 模式：在 K8s 云原生部署中，Controller 和 Pilot 本身以 Sidecar 容器形式运行在同一 Pod 内。架构为控制面（Istio Pilot xDS 协议动态下发）+ 数据面（Envoy C++ 高性能代理）分离。",
+    "协议支持": "REST（HTTP/1.1、HTTP/2）、gRPC（通过 Envoy gRPC 代理）、WebSocket（原生支持，用于 MCP 全双工通信）、MCP（Model Context Protocol，支持 2024-11-05 版 POST+SSE 模式和 2025-03-26 版 Streamable HTTP 模式，跟进 2025-06-18 版 Output Schema + Structured Content）、SSE（Server-Sent Events 完整流式处理）、Dubbo（协议转换支持 HTTP 转 Dubbo）。",
+    "传统网关集成": "基于 Envoy 内核 + Istio 控制面构建，原生兼容 Envoy 生态系统（xDS 协议、EnvoyFilter CRD）。可作为：Kubernetes Ingress Controller（兼容 Nginx Ingress 注解迁移）、Gateway API 实现、微服务网关（对接 Nacos/Zookeeper/Consul/Eureka，集成 Dubbo/Sentinel）、安全网关（WAF + 多种认证鉴权）。不与 Kong/APISIX/Traefik 作为传统网关层直接集成，而是作为独立替代方案。与 Nacos 3.0 MCP Registry 深度集成形成完整方案。",
+    "语言运行时": "控制面：Go 语言开发（higress-controller、配置翻译、CRD 处理）。数据面：基于 Envoy（C++ 内核），Wasm 插件运行时支持 Go（编译为 wasip1/wasm）、Rust（编译为 wasm32-wasi）、C++（编译为 Wasm）、JavaScript/AssemblyScript。控制台：前后端分离（前端 React，后端 Go）。整体架构为 Go + C++(Envoy) + Wasm 多语言栈。",
+    "扩展机制": "以 Proxy-Wasm 规范（ABI 标准）为核心扩展机制。插件可在三种生命周期中运行：Http Filter（HTTP 请求/响应处理）、Network Filter（TCP/UDP 底层流量处理）、Wasm Service（单例跨请求服务）。支持 Go（proxy-wasm-go-sdk）、Rust（higress crate）、C++（Proxy-Wasm C++ SDK）、JS/AssemblyScript 多语言。插件通过 OCI 镜像分发，WasmPlugin CRD 部署，支持沙箱隔离和流量无损热更新。2025 年新增原生 Go 插件模式作为双扩展路径。官方提供 Wasm 插件市场和 Higress AI 网关开发挑战赛（20 万奖金池）推动插件生态建设。"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生支持 Model Context Protocol（MCP），是 Higress 在 2025 年的核心战略方向。具体能力包括：① MCP Server 托管（通过 Wasm 插件或直接路由代理已有 MCP 后端服务）；② API-to-MCP 转换（提供 openapi-to-mcp 工具，基于 OAS 3.0 规范零代码将存量 REST API 转换为 MCP Server，支持 Go Template + GJSON 模板化调优，配置变更时 SSE 连接不中断）；③ MCP Marketplace（2025 年 4 月上线，一期上线近 50 款 MCP Server，入选 MCPMarket.com 全球 Top 100，上线 Product Hunt）；④ 企业自建私有 MCP 市场解决方案（2025 年 7 月 v2.1.5 开源 MCP 服务管理模块）；⑤ MCP 协议卸载与版本兼容（同时支持 2024-11-05 和 2025-03-26 两个 MCP 版本，POST+SSE 和 Streamable HTTP 双模式，原生 WebSocket，跟进 2025-06-18 版）；⑥ 三种接入方式（OpenAPI 转换 MCP / DB 转换 MCP - MySQL/PostgreSQL/ClickHouse/SQLite / MCP 直接路由代理 SSE/Streamable 后端）；⑦ 企业级 MCP 管控（认证授权 OAuth2、按用户/工具粒度的流量控制和配额管理、全链路可观测性、审计日志）。同时提供 MCP OPS Server（hgctl MCP 管理工具）。企业版 MCP 支持 Tool 粒度鉴权/限流/可观测/安全护栏 [不确定 - 开源版是否已支持 Tool 粒度管控]。",
+    "A2A 支持": "支持 Google Agent-to-Agent（A2A）协议。通过 AgentScope 框架的 A2A 集成实现 Agent 间标准化双向通信（Java AgentScope A2A Spring Boot Starter），结合 Nacos 作为智能体注册中心管理 AgentCard 元数据。提供 hgctl CLI 工具（hgctl agent add）支持 a2a 类型 API 的部署和发布。通过 HiMarket 平台实现 A2A Agent 上线发布和管理。Python Agent A2A 支持 [不确定 - Python Agent 的 A2A 支持阶段，官方文档标注为「即将支持」]。",
+    "Agent 框架集成": "作为 MCP 托管平台和 AI 网关，Higress 本身不直接内置特定 Agent 框架的集成插件，而是通过 MCP 协议作为通用桥梁，使任何支持 MCP 的 Agent 框架均可对接。已验证和合作的框架包括：AgentScope（A2A 协议集成）、LangChain/LangGraph（通过 MCP Adapters 间接对接，Higress OPS MCP Server 即是基于 LangChain MCP Adapters + LangGraph 构建的 MCP Client 实现）。其他框架如 AutoGen、OpenAI Agents SDK、CrewAI 等 [不确定 - 因通过 MCP 标准协议可间接支持，但无官方集成文档或验证]。Higress v2.2.1 新增 HiClaw 模式支持多 Agent 协作。",
+    "API-to-MCP 转换": "完整支持。核心能力：① 零代码转换（仅需提供符合 OAS 3.0 规范的 OpenAPI 文档即可自动生成 MCP Server）；② 三种接入路径（OpenAPI→MCP、Database→MCP 支持 MySQL/PostgreSQL/ClickHouse/SQLite、直接路由已有 MCP 后端）；③ Go Template + GJSON 模板化调优（对请求/响应模板做精细化定制，配置变更流量无损、SSE 连接不中断）；④ 统一 MCP 入口（所有转换后的 MCP 服务通过 Higress 网关统一接入，享受认证/限流/可观测/审计等企业级能力）。2025 年 4 月正式发布 MCP Marketplace，加速存量 API 跨入 MCP 时代。"
+  },
+  "性能特征": {
+    "官方性能声明": "官方宣称：① 基于 Envoy C++ 内核支持 100k+ RPS 吞吐量（数十万请求/秒的大规模场景）；② 配置变更毫秒级生效（相比 Nginx Ingress 路由变更生效速度提升十倍）；③ Wasm 空插件性能损耗约 3.8%，限流插件约 15.2%（与原生 Nginx C 模块对比）；④ 结合前缀匹配负载均衡，实测首 Token 延迟（TTFT）下降 50%（240ms→120ms），KV Cache 命中率从 40%+ 提升至 80%+。",
+    "延迟开销": "具体量化的 P99/P50 延迟开销数字未公开。基于 Envoy C++ 内核的网关代理延迟通常为亚毫秒到数毫秒级别。Wasm 插件额外开销：空插件约 3.8%，功能插件（如限流）约 15.2% [不确定 - 此为技术文章中的测试数据，非官方正式基准测试报告]。",
+    "社区评价": "社区总体评价正面：优点方面，高性能（Envoy 内核、C++ 数据面）、云原生深度集成（K8s Ingress 替代方案、Gateway API 支持）、三合一网关（流量+微服务+安全统一）、多注册中心支持、Dubbo 协议转换被评价为「业界完成度最高」、国内社区活跃（钉群/微信群讨论积极）。不足方面：国际社区规模和影响力有限、插件生态相比 Kong 等成熟网关仍偏少（建设中）、架构较重（Envoy 学习门槛高）、多租户/RBAC 企业级能力待完善、与阿里云 MSE 商业化版本绑定较深存在供应商锁定风险、控制台功能相对基础、非 K8s 独立部署（Docker Compose 模式）仅适合测试非生产使用。"
+  },
+  "治理与合规": {
+    "多租户支持": "提供基础多租户隔离能力：① key-auth 插件支持多消费者独立 API Key（虚拟密钥），按消费者实现差异化流控和 ACL 控制；② K8s Namespace 级别的资源隔离（watchNamespace 限制 + ResourceQuota + LimitRange）；③ ai-quota 插件实现消费者级 Token 配额管理（支持查询/刷新/增减配额的管理 API）；④ ai-token-ratelimit 插件按消费者 API Key 设置 Token 级速率限制；⑤ 网关/Controller/Sidecar 各组件可独立设置 CPU/内存的 requests 和 limits。企业级多租户 RBAC 能力 [不确定 - 开源版的具体 RBAC 实现程度]。",
+    "审计日志": "支持：① ai-statistics 插件配置 use_default_attributes 后，记录完整对话历史（question、answer、reasoning、tool_calls、messages）到结构化 JSON 访问日志；② 日志字段含模型名、Token 数（输入/输出/推理/缓存）、延迟、自定义属性等，支持按 session_id 关联多轮对话重建；③ 分布式追踪 Span 注入 gen_ai.span.kind、gen_ai.model_name、gen_ai.usage.* 等语义属性；④ Agent Session Monitor 提供会话级成本分解和 FinOps 报告导出。阿里云商业化版（MSE）额外提供管控操作审计（无开源版独立审计日志模块 [不确定]）。",
+    "预算管理": "开源版通过 ai-quota 插件支持硬配额管理：消费者配额耗尽后请求被拦截，提供管理 API 用于查询剩余配额、刷新配额、增减配额。ai-token-ratelimit 插件支持 Token 级流量限制（TPM）。Agent Session Monitor 提供成本估算和 FinOps 报告。预算超支告警或通知机制 [不确定 - 开源版是否内置告警通知能力]。阿里云商业化版提供更完善的用量观测分析和预警功能。",
+    "数据驻留": "支持完全私有化部署，网关所有组件均可部署在用户自有基础设施上（K8s 集群或 Docker 环境），数据（日志、指标、配置、流量）不出用户环境。2026 年 3 月加入 CNCF Sandbox，采用 Apache-2.0 开源协议，无厂商强制数据上传。提供 Standalone 模式完全脱离云基础设施。GDPR/数据安全法等具体合规认证 [不确定 - 是否有官方合规认证声明]。数据脱敏插件（ai-data-masking）在网关层实现敏感数据不出域（敏感信息在发送到外部模型前脱敏，响应后还原），是企业数据驻留的基础能力补充。"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "基于 ai-data-masking 插件提供多层防护：① 敏感词拦截（检测到预设敏感词即拦截请求返回错误）；② 敏感信息脱敏（手机号/邮箱/IP/身份证/API Key 等 PII 在输入大模型前脱敏处理，防止通过 prompt 泄露）；③ 可集成阿里云内容安全 API 实现异常检测；④ 开源 a「ai-guard」 插件用于特定安全策略 [不确定 - 「ai-guard」是否专门针对 Prompt Injection 攻击模式（如忽略系统指令、角色转换等检测），还是仅覆盖通用敏感词过滤]。v2.2.2 强化了安全网关能力，含 WAF 防护和 Nginx 安全迁移支持。",
+    "PII 脱敏": "完整支持：① ai-data-masking 插件提供输入双侧检测与脱敏+输出双侧还原，支持手机号、电子邮箱、IP 地址、身份证号、API Key 等 PII 类型；② 使用 GROK 正则规则（%{MOBILE}、%{EMAILLOCALPART}、%{IP}、%{IDCARD} 等预定义模式）和自定义正则；③ 支持 replace（替换）和 hash（哈希+还原）两种脱敏策略；④ 基于 jieba 分词 + double-array trie 实现高效敏感词匹配；⑤ 内置敏感词库（源自 github.com/houbb/sensitive-word）；⑥ 支持 JSONPath 精确字段脱敏；⑦ 开源插件源码为 Rust 语言 Wasm 实现。限制：流式模式下若脱敏词被多个 SSE chunk 拆分可能影响还原效果。",
+    "内容审核": "支持：① 内置敏感词库自动检测拦截（涉政/涉恐/涉黄/广告等）；② 可自定义敏感词列表；③ 可对接阿里云内容安全服务 API 实现涉黄涉暴等违规内容的实时检测；④ ai-proxy 插件支持 Gemini Safety Settings 配置（内容安全过滤参数）；⑤ 与 WAF 集成提供 Web 应用防火墙层面的恶意流量检测。LangFuse/LangSmith 等外部内容安全平台 [不确定 - 是否有直接集成]。"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "Higress 定位在 L7 应用层到 AI 应用层的完整覆盖。数据面基于 Envoy（L4/L7 网络代理），控制面基于 Istio（L7 流量管理），在此之上构建 AI 原生能力层（LLM 协议解析、Token 感知路由、语义缓存、MCP 服务托管等），形成 L7 传统网关 + L7+ AI 应用网关的统一架构。与传统网关（如 Nginx/Kong/Envoy 原生）的最大区别是 Higress 将 AI 流量视为一等公民，在 L7 处理层面对 LLM 协议深度感知（SSE 流解析、Token 计算、provisioned throughput 感知），而非仅作为通用 HTTP 流量透明代理。",
+    "协议感知能力": "传统 7 层网关：仅感知 HTTP/1.1、HTTP/2、gRPC 等通用 L7 协议，对请求体内容不感知，将 LLM 请求视为普通 HTTP POST。Higress AI 网关：① 深度解析 OpenAI Chat Completions、Anthropic Messages、Gemini Generative AI 等 LLM 专属协议格式；② 实时解析 SSE 流式 chunk 进行 Token 计数（delta 增量）；③ 自动识别并转换跨 LLM 协议（Claude→OpenAI→Gemini 双向互转）；④ 感知模型特有参数（max_tokens/temperature/top_p/thinking/reasoning 等）并在路由和流控中使用；⑤ 计算 provisioned throughput（TPM/QPM/并发数），实现模型级别的精确流控和负载调度；⑥ 支持 MCP 协议深度解析（Tool Call 发现/路由/管控）。",
+    "状态模型": "传统 7 层网关：主要无状态（stateless），基于 HTTP 请求-响应模型，一次请求完成后即释放上下文。Higress AI 网关：有状态处理（stateful），需要维护：① 会话管理（基于 session_id 关联多轮对话上下文）；② 上下文窗口跟踪（多轮对话的 Token 累计消耗计入同一会话预算）；③ Token 预算跟踪（消费者/API Key 级别的累计 Token 配额状态，基于 Redis 持久化）；④ KV Cache 亲和状态（前缀匹配负载均衡将同一会话路由到同一 Pod，保持 Prompt KV Cache 预热状态）；⑤ 实时连接状态（流式 SSE 长连接管理，断连时确保 Token 用量正确结算）；⑥ MCP 会话状态（SSE/Streamable HTTP 连接生命周期管理）。",
+    "计费模型": "传统 7 层网关：请求级别计费（按请求次数/并发连接数/带宽流量计费）。Higress AI 网关：三维度计费模型：① 请求级（QPM - Query Per Minute 限制）；② Token 级（TPM - Token Per Minute 限制，区分 input_token/output_token/reasoning_tokens/cached_tokens）；③ 金额预算级（基于模型定价×Token 用量的消费金额估算，Session 级成本聚合）。传统网关完全无法做到 Token 级计费，因为需要深度解析 LLM 协议响应体中的 usage 字段并进行实时累计。",
+    "路由粒度": "传统 7 层网关：基于 URL/Header/Host/Cookie/Query 等 HTTP 元数据进行路由。Higress AI 网关：在上述基础上增加 AI 专属路由粒度：① 基于模型名路由（gpt-4o→azure/gpt-4o→local-llm 模型名映射和前缀/正则匹配）；② 基于 Token 预算路由（消费者剩余 Token 配额不足时路由到限速或降级模型）；③ 基于成本优化路由（优先路由到性价比最高的模型提供商）；④ 基于延迟优先路由（根据各模型实例的 TTFT 响应时间选择最快路径）；⑤ 基于 KV Cache 亲和性路由（将相同 Prompt 前缀的请求路由到已缓存 KV Cache 的实例）；⑥ 基于 GPU 状态路由（根据 vLLM Prometheus Metrics 的队列长度/KV Cache 使用率/LoRA Adapter 亲和性调度）。",
+    "缓存策略": "传统 7 层网关：HTTP 层面缓存，基于 ETag/If-None-Match、Cache-Control 头、CDN 边缘缓存、Vary 头变体缓存。缓存粒度是完整 HTTP 响应（字节级匹配），无法理解语义内容相似性。Higress AI 网关：引入语义缓存：① 精确匹配缓存（相同 Prompt 请求直接返回缓存结果，降低 API 调用成本）；② 语义缓存（基于向量嵌入计算 Prompt 语义相似度，相似意图请求命中缓存）；③ KV Cache 亲和性（路由层优化而非存储缓存，将同会话请求通过一致性前缀哈希路由到同一 GPU Pod，充分利用 GPU 显存中已计算的 KV Cache，避免重复计算）；④ 缓存粒度从「完整 HTTP 响应」变为「语义对话意图」级别，大幅提升 AI 场景下的缓存命中率。",
+    "安全模型": "传统 7 层网关：WAF（SQL 注入/XSS/CSRF/DDoS 防护）、IP 黑名单/白名单、CORS、请求速率限流（req/s）、TLS 终止、认证鉴权。防护对象是 HTTP 请求本身。Higress AI 网关：在上述 WAF 基础上增加 AI 专属安全层：① Prompt Injection 防护（检测恶意 Prompt 攻击如指令覆盖/角色篡改）；② 数据防泄露（PII 脱敏-敏感信息在输入 LLM 前脱敏，防止训练数据泄露和第三方模型获取）；③ Token 级别滥用检测（基于 TPM 异常模式检测 API Key 盗用或加密货币挖矿式 LLM 滥用）；④ 内容输出安全（模型响应侧的毒性检测/违规内容过滤）；⑤ 模型安全护栏（MCP Tool 调用的输入输出参数校验和脱敏）；⑥ AI 特有攻击面防护（如 MCP Server 工具注入、多模态文件内容安全扫描）。",
+    "内容转换": "传统 7 层网关：HTTP 请求/响应改写（Header 增删改、URL 重写/重定向、请求体修改、响应体压缩）。转换操作对象是 HTTP 报文结构，不感知应用层语义。Higress AI 网关：在 HTTP 报文改写基础上增加：① 跨 LLM 模型协议格式互转（Claude Messages ↔ OpenAI Chat Completions ↔ Gemini GenerateContent）；② 模型切换（客户端无感地从一个模型切换到另一个模型，网关自动适配参数和响应格式）；③ 请求改写（基于 Prompt Template 对用户输入进行增强/模板化处理）；④ 降级 Fallback 转换（主模型不可用时自动切换到备用模型，网关完成所有协议适配）；⑤ MCP 工具协议转换（REST API ↔ MCP Tool 格式双向转换）。",
+    "限流单位": "传统 7 层网关：请求数/秒（RPS/QPS）、并发连接数、带宽流量（MB/s）。限流对象是 HTTP 连接或请求，粒度粗。Higress AI 网关：三层限流单位：① 请求数/分钟（QPM - Query Per Minute，消费者级）；② Token/分钟（TPM - Token Per Minute，区分 input/output 方向）；③ 金额预算/月（基于消费者累计 Token 消耗 × 模型价格的金额预算封顶）。从「请求维度」到「AI 消费维度」的转变是 AI 网关最核心的区别之一：传统网关无法理解一个 HTTP POST 请求实际消耗了多少 Token（需解析流式响应体），更无法将其转换为货币成本。",
+    "流量特征": "传统 7 层网关：同步短连接为主（HTTP 请求-响应，连接即释放）、微服务 RPC（gRPC 流式）、文件上传/下载（大带宽持久连接）。延迟容忍度为毫秒级，断连影响小。Higress AI 网关：流式长连接为主：① SSE 流式连接可持续数十秒至数分钟（LLM Token 逐个生成）；② 首 Token 延迟（TTFT）对用户体验影响大（亚秒级到秒级），网关架构需优化；③ 大载荷（单次 LLM 响应可达数十万 Token，JSON 响应体可能数 MB）；④ 连接生命周期管理复杂（SSE 断连时需正确结算已生成 Token，v2.2.1 修复了断连 Token 漏记问题）；⑤ MCP 全双工实时通信（WebSocket/Streamable HTTP）对网关连接管理提出更高要求。这些流量特征直接影响网关的内存管理（流式 buffer 策略）、连接池配置和服务质量保障。",
+    "生态定位": "生态定位为统一 API+AI 网关。Higress 同时具备传统 API 网关能力（K8s Ingress Controller、微服务路由、WAF 安全网关）和 AI 原生网关能力（LLM 多模型代理、Token 流控、语义缓存、MCP 服务托管与 Marketplace）。它不是纯 AI 插件的传统网关（如 Kong AI 插件），也不是独立 AI 网关（如 LiteLLM/OneAPI），而是将两者融合在同一个平台中，通过 Envoy + Wasm 架构在 L7 数据面原生执行 AI 流量处理。在生态层面同时定位为 MCP 网关（MCP Server 托管/MCP Marketplace/API-to-MCP 转换），作为 Agent 治理平台的网关层基础设施。与 Nacos 3.0 MCP Registry 深度集成形成 MCP Proxy（Higress）+ MCP Registry（Nacos）的完整解决方案。"
+  },
+  "uncertain": [
+    "缓存能力 - 是否支持 Redis/Memcached 等外部缓存后端的详细配置方式",
+    "降级与重试 - 流式请求的重试机制处理细节",
+    "提示词安全 - 「ai-guard」插件是否专门针对 Prompt Injection 攻击模式（如忽略系统指令、角色转换等检测）还是仅覆盖通用敏感词过滤",
+    "提示词安全 - Prompt Injection 检测算法的技术细节",
+    "Token 计数与成本追踪 - 是否需要用户手动配置各模型价格，还是内置价格表自动换算",
+    "MCP 支持 - 开源版是否已支持 Tool 粒度鉴权/限流/可观测/安全护栏",
+    "A2A 支持 - Python Agent 的 A2A 支持阶段（官方文档标注为「即将支持」）",
+    "Agent 框架集成 - AutoGen、OpenAI Agents SDK、CrewAI 等框架的具体集成验证",
+    "延迟开销 - 具体量化的 P99/P50 延迟开销数字，Wasm 插件额外开销测试数据是否为官方正式基准",
+    "治理与合规 - 开源版的具体 RBAC 实现程度",
+    "治理与合规 - 开源版是否内置告警通知能力用于预算超支",
+    "治理与合规 - 是否有官方 GDPR/数据安全法等合规认证声明",
+    "审计日志 - 开源版是否有独立审计日志模块",
+    "内容审核 - 是否有 LangFuse/LangSmith 等外部内容安全平台的直接集成",
+    "缓存能力 - AI 语义缓存的具体向量嵌入实现方案和缓存后端技术栈"
+  ]
+}

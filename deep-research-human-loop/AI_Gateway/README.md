@@ -7,6 +7,7 @@
 - [Bifrost](results/Bifrost.json)
 - [Envoy AI Gateway](results/Envoy_AI_Gateway.json)
 - [Helicone](results/Helicone.json)
+- [Higress](results/Higress.json)
 - [kgateway (Solo.io/CNCF)](results/kgateway.json)
 - [Kong AI Gateway (Kong 公司)](results/Kong_AI_Gateway.json)
 - [LiteLLM](results/LiteLLM.json)
