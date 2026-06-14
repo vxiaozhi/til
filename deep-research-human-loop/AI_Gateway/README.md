@@ -7,6 +7,7 @@
 - [Bifrost](results/Bifrost.json)
 - [Docker MCP Gateway](results/Docker_MCP_Gateway.json)
 - [Envoy AI Gateway](results/Envoy_AI_Gateway.json)
+- [Gate22](results/Gate22.json)
 - [GPT-Load](results/GPT_Load.json)
 - [Gravitee Agent Mesh（Gravitee AI 网关）](results/Gravitee_Agent_Mesh.json)
 - [Helicone](results/Helicone.json)

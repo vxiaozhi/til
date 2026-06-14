@@ -1,0 +1,80 @@
+{
+  "basic_info": {
+    "项目名称": "Gate22",
+    "GitHub 地址": "https://github.com/aipotheosis-labs/gate22",
+    "Stars": "177",
+    "主要语言": "TypeScript（前端 Next.js，53%）+ Python（后端 FastAPI，46.3%）",
+    "开源协议": "Apache 2.0",
+    "背后公司/社区": "Aipotheosis Labs（Aipolabs），旗下运营 ACI.dev 平台，总部位于美国 Omaha, NE，2024 年成立，已获 300 万美元融资，通过 SOC 2 合规认证",
+    "首次发布": "2025 年 10 月 1 日（v0.0.4），仓库创建于 2025 年 8 月 19 日",
+    "官网": "https://gateway.aci.dev（云端版：https://gate22.aci.dev，文档：https://gate22-docs.aci.dev）"
+  },
+  "features": {
+    "模型提供商支持": "Gate22 是 MCP 工具治理网关，非 LLM 模型网关。它不直接代理 LLM API 调用，而是治理 Agent 对 MCP 工具的访问。平台设计为 LLM 无关（LLM-agnostic），可与任何支持 MCP 协议的 Agent（基于 OpenAI/Anthropic/Google 等任意模型）配合使用。ACI.dev 平台侧支持 200+ 模型",
+    "负载均衡": "不适用。Gate22 定位为 MCP 治理控制平面，非数据平面流量网关，不提供跨模型实例的负载均衡功能",
+    "速率限制": "[不确定] 后端环境配置中提及 rate limits 和 quotas 可配置项，但具体速率限制策略（请求数/Token 级）未在公开文档中详细说明。配额与预算功能列入远期路线图",
+    "缓存能力": "后端使用 PostgreSQL + pgvector 扩展提供向量相似性搜索（语义工具发现），但未实现独立的缓存层（不支持 Redis/Memcached 等缓存后端）。无 HTTP 响应缓存或语义缓存机制",
+    "降级与重试": "[不确定] 后端架构包含 OAuth2 Token 自动刷新机制（过期 Token 自动续期后重试），但通用的故障转移（fallback）和自动重试策略未在文档中明确说明",
+    "认证与密钥管理": "三层认证体系：（1）开发者认证 — PropelAuth（用户/组织管理）；（2）Agent 认证 — API Key（64 位十六进制字符串）；（3）外部服务认证 — OAuth2 + API Key + 无认证模式。管理员可设定凭证模式为「组织共享」或「按用户独立」，同一 MCP 服务器可发布两种凭证变体。OAuth2 全生命周期管理：授权发起、安全状态管理（CSRF 防护）、Token 交换、加密存储、自动刷新",
+    "可观测性": "（1）Usage & Logs Dashboard — 开发者门户内提供使用量和日志仪表板；（2）Weights & Biases（wandb）— 用于评估流水线的实验追踪和指标记录；（3）OpenTelemetry — Docker Compose 提供可选 otel profile（`docker compose --profile otel up`）；（4）审计日志 — 每次工具调用均被审计（谁/什么/何时/结果/延迟），近期路线图包含导出功能",
+    "请求/响应转换": "Gate22 工作在 MCP 协议层面，不进行 LLM 供应商 API 格式互转（如 OpenAI↔Claude↔Gemini）。核心转换能力是将任意数量的 MCP 服务器和工具压缩为统一的 search + execute 双函数接口（Bundle 机制），即使包含 20+ MCP 和 400+ 工具也能动态解析，保持 IDE 上下文窗口精简",
+    "提示词安全": "路线图规划中，尚未实现。近期路线图包含「安全加固：对 MCP 服务器/配置的 Tool Poisoning 和 Prompt Injection 模式进行预检（pre-flight checks）」，远期路线图包含 OPA/Cedar 风格的 ABAC 策略。当前通过函数级 allow-list 权限实现最小权限控制",
+    "插件扩展": "（1）600+ 预构建集成（SaaS 平台、数据库、API），覆盖 Notion、Slack、Supabase、Render、GitHub、PostgreSQL、AWS S3 等；（2）Bring Your Own MCPs — 管理员可接入任意内部或外部远程 MCP 服务器；（3）Python SDK — 供开发者构建自定义集成",
+    "流式处理": "MCP 协议原生支持 SSE（Server-Sent Events）进行流式通信。Gate22 作为 MCP 网关代理，在 Agent 与 MCP Server 之间传输 MCP 协议流量，具体流式处理方式遵循 MCP 协议规范，未在文档中展开详细实现",
+    "Token 计数与成本追踪": "ACI.dev 平台侧集成了 Stripe 计费系统（API 版本 2025-02-24.acacia），支持 webhook 事件处理。远期路线图包含「配额与预算：按用户/团队/应用/函数」的 Token/金额预算管理，当前版本尚未实现 Token 级别的使用量统计和成本归属"
+  },
+  "deployment": {
+    "部署方式": "（1）Docker Compose 本地部署 — 后端包含 control-plane、mcp、virtual-mcp、PostgreSQL（pgvector）、LocalStack（AWS 模拟）等服务，支持 OpenTelemetry profile；（2）前端支持 Vercel 或任意支持 Next.js 15 的 Node.js 托管平台部署；（3）云端托管版 — gate22.aci.dev；（4）支持本地化部署（on-premises），适用于数据驻留需求",
+    "协议支持": "REST API（FastAPI，路由前缀 /v1/）+ MCP（Model Context Protocol，原生支持）+ Python SDK（直接函数调用）。前端通过 REST API 与后端通信，Agent 通过 MCP 协议或 Python SDK 调用工具",
+    "传统网关集成": "[不确定] 未提及与 Kong/APISIX/Envoy/Nginx/Traefik 等传统 API 网关的集成方案。Gate22 定位为独立 MCP 专用网关，非传统网关的插件或扩展",
+    "语言运行时": "前端：TypeScript（Next.js 15 App Router）；后端：Python 3.12+（FastAPI）。包管理：前端使用 pnpm，后端使用 uv。代码质量：Ruff（格式化/检查）、mypy（类型检查）、pre-commit hooks",
+    "扩展机制": "（1）ACI.dev 平台 600+ 预构建集成，按 App → Function 模型组织；（2）支持管理员接入任意远程 MCP 服务器（Bring Your Own MCPs）；（3）Python SDK 供开发者构建自定义工具集成；（4）每个集成可配置 OAuth2 / API Key / 无认证三种安全方案；（5）函数级 allow-list 权限控制作为核心扩展治理机制；（6）未提及 Wasm/Lua 脚本等自定义插件运行时"
+  },
+  "agent_ecosystem": {
+    "MCP 支持": "Gate22 是 MCP 原生网关和控制平面，MCP 支持是其核心能力：（1）MCP Server 代理 — 管理员可接入任意内部或外部远程 MCP 服务器；（2）Bundle 组合 — 开发者可将多个 MCP 配置组合为 Bundle，通过单一远程 MCP 端点暴露，统一为 search 和 execute 两个函数，即使跨 20+ MCP 和 400+ 工具也能动态解析；（3）MCP 工具列表刷新与差异视图 — 使用前查看 MCP 服务器的工具变更；（4）函数级 allow-list 权限 — 按 MCP 配置精细管控可调用的工具函数；（5）虚拟 MCP 服务器（Virtual MCP Service）— 后端独立服务组件，支持托管虚拟 MCP 服务器",
+    "A2A 支持": "[不确定] 未提及 Google Agent-to-Agent（A2A）协议支持。Gate22 专注于 MCP（Agent-to-Tool）治理，与 A2A（Agent-to-Agent）定位互补但无直接集成。文档中未出现 A2A 相关配置或接口",
+    "Agent 框架集成": "框架无关（framework-agnostic）设计。Gate22 作为 MCP 协议网关，理论上可与任何支持 MCP 协议的 Agent 框架配合使用。明确提及支持的客户端包括 Cursor、Claude Desktop 等 Agentic IDE。由于采用标准 MCP 协议，LangChain/LangGraph、AutoGen、OpenAI Agents SDK、CrewAI 等框架均可通过 MCP 客户端接入，但未提供针对特定框架的深度适配或 SDK",
+    "API-to-MCP 转换": "Gate22 本身不提供 API-to-MCP 转换功能。但 ACI.dev 生态支持 600+ 预构建集成（将 SaaS/REST API 封装为 MCP 工具），通过 App → Function 模型实现。管理员可将现有 REST API 以 MCP 服务器形式接入（Bring Your Own MCPs），但需手动构建 MCP 服务器适配层，不提供零代码 OpenAPI → MCP 自动转换"
+  },
+  "performance": {
+    "官方性能声明": "[不确定] 未找到 Gate22 官方发布的性能基准测试数据、吞吐量对比或延迟数据。项目仍处于早期阶段（v0.0.11，2025 年 10 月），更侧重于治理功能的完善",
+    "延迟开销": "[不确定] 未公开 Gate22 网关自身引入的 P99/P50 延迟开销数据。作为控制平面（配置管理和权限校验）而非数据平面（流量代理），其延迟特征与传统 AI 模型网关不同，主要开销来自权限查询而非请求转发",
+    "社区评价": "[不确定] 项目较新（2025 年 8 月创建），社区讨论非常有限。未在 Hacker News、Reddit 等主要技术社区找到实质性评价或讨论帖。GitHub 仓库有 177 Stars、22 Forks、23 个 Open Issues，社区规模较小"
+  },
+  "governance": {
+    "多租户支持": "支持多租户隔离：（1）Organizations → Projects 两级租户层级 — Organizations 为顶级隔离单元，Projects 为次级组织单元；（2）PropelAuth 提供多租户用户认证和权限管理；（3）RBAC — 基于角色的访问控制，管理员与开发者分离；（4）虚拟密钥/凭证模式 — 管理员可为同一 MCP 服务器设置「组织共享」或「按用户独立」两种凭证模式；（5）Bundle 机制 — 每个 Bundle 生成独立的远程 MCP 端点 URL，当前仅对创建者可见（私有），路线图规划团队/工作空间内共享",
+    "审计日志": "审计日志是 Gate22 的核心设计原则之一：（1）设计声称「每次调用均被审计」；（2）近期路线图 — 工具调用日志（谁/什么/何时/结果/延迟）+ 导出功能；（3）近期路线图 — MCP 工具变更审计（服务器刷新时持久化差异，可搜索历史）；（4）远期路线图 — SIEM 导出、不可变审计日志；（5）ACI.dev 云端版提供实时监控和流式日志，可配置日志保留策略。当前 v0 版本审计日志功能尚未完全产品化",
+    "预算管理": "远期路线图（RFC 阶段），尚未实现。规划功能包括：按用户/团队/应用/函数的配额与预算管理，超预算告警或截断。ACI.dev 平台侧已有 Stripe 计费集成（订阅付费），但未整合到 Gate22 的工具级预算管控中",
+    "数据驻留": "支持数据本地化部署。Gate22 为 100% 开源（Apache 2.0），可完全自托管部署于私有基础设施。后端使用 PostgreSQL 数据库存储所有配置、凭证和审计数据，前端可部署于 Vercel 或自有 Node.js 服务器。支持 on-premises 部署，满足数据驻留合规需求（GDPR/数据安全法等）。ACI.dev 云端版已通过 SOC 2 合规认证"
+  },
+  "content_safety": {
+    "Prompt 注入防护": "路线图规划中，尚未实现。近期路线图包含「安全加固：对 MCP 服务器和配置进行 Tool Poisoning 及 Prompt Injection 模式预检（pre-flight checks）」。当前通过函数级 allow-list 最小权限机制作为间接防护手段，但不具备 Prompt 注入检测引擎。远期规划策略即代码 v2（OPA/Cedar 风格 ABAC + 审批集成）以增强安全防护",
+    "PII 脱敏": "[不确定] 未在公开文档、README 或路线图中提及 PII（个人身份信息）检测与脱敏功能。Gate22 作为 MCP 工具治理网关，不直接处理 LLM 输入/输出内容，PII 脱敏能力不在此产品的设计范围",
+    "内容审核": "[不确定] 未在公开文档中提及毒性检测、违规内容过滤或自定义安全策略等内容审核功能。当前安全模型侧重于工具访问控制（谁可以调用什么工具），而非工具输入/输出内容的审核"
+  },
+  "ai_vs_l7_gateway": {
+    "架构层级定位": "AI 应用层（L7+）。Gate22 位于 Agent 与 MCP Server 之间，工作在 MCP 协议层（基于 JSON-RPC），不处理传统 HTTP/HTTPS 请求路由。与传统 L4/L7 网关的网络层定位不同，Gate22 专注于 AI Agent 工具调用的治理——权限校验、凭证注入、工具发现和审计",
+    "协议感知能力": "MCP 协议深度感知。Gate22 理解 MCP 协议语义（工具列表、工具调用、资源暴露），可将多 MCP 服务器聚合为统一的 search + execute 双函数接口。支持 MCP 工具列表刷新与差异视图。与传统网关仅处理 HTTP 请求/响应不同，Gate22 深度感知 Agent 与工具的交互语义。但不处理 LLM 供应商 API 协议（如 OpenAI/Anthropic API 格式），不进行 SSE 流解析优化或 provisioned throughput 管理",
+    "状态模型": "有状态。Gate22 维护丰富的持久化状态：（1）组织/项目/用户层级关系；（2）MCP 服务器配置和凭证（OAuth2 Token 加密存储）；（3）函数级 allow-list 权限策略；（4）Bundle 组合配置；（5）审计日志记录（每次工具调用）。与传统网关的无状态或弱状态模式（仅限连接跟踪）有本质区别",
+    "计费模型": "治理层计费。Gate22 本身不对工具调用进行 Token 级计费，其计费模式体现在：（1）ACI.dev 平台侧的订阅计费（Stripe 集成）—— 按团队规模定价（Free → Team $29/月 → Enterprise）；（2）远期路线图规划按用户/团队/应用/函数的配额与预算管控。传统网关采用请求数/带宽计费，Gate22 采用与 AI 治理维度对齐的计费思路",
+    "路由粒度": "基于函数级权限和 Bundle 配置的路由。Gate22 的路由决策基于：（1）函数级 allow-list — 按 MCP 配置精细化控制可调用工具；（2）Bundle 组合 — 开发者选择被授权的 MCP 配置组装个人 Bundle；（3）运行时动态工具解析 — search + execute 在调用时动态发现和路由工具。与传统网关基于 URL/Header/Host 的路由完全不同，不涉及模型名/成本/延迟等 AI 网关典型路由维度",
+    "缓存策略": "语义工具发现，非响应缓存。Gate22 使用 PostgreSQL + pgvector 实现向量相似性搜索用于工具发现和匹配；不实现 HTTP 级缓存（ETag/CDN）或 LLM 语义缓存（基于向量嵌入的语义相似响应匹配）。与传统网关和 AI 模型网关的缓存策略均有显著差异：Gate22 的「缓存」服务于治理层的工具发现，而非加速响应或降低成本",
+    "安全模型": "Agent 工具访问治理安全模型。核心安全维度：（1）函数级最小权限 — 管理员预设 allow-list，开发者仅能调用被授权的工具；（2）凭证隔离 — 组织共享 vs 按用户独立的凭证模式；（3）审计日志 — 追踪每次工具调用；（4）权限分离 — 管理员管理配置和凭证，开发者组装 Bundle；（5）路线图中的 Prompt 注入防护和策略即代码。与传统网关的 WAF/DDoS/限流/CORS 安全模型正交互补，与传统 AI 网关的 Prompt 注入 + 数据防泄露 + Token 级滥用检测相比，更侧重于组织治理和访问控制，内容安全检查尚在规划中",
+    "内容转换": "MCP 协议级别工具聚合。Gate22 的核心转换是将多 MCP 服务器的多工具聚合为统一的 search + execute 双函数接口（Bundle 机制），属于 MCP 协议级别的转换，而非 HTTP 请求改写或 LLM 格式互转。不进行模型供应商 API 格式互转（OpenAI↔Claude↔Gemini），不实现降级 fallback 或模型切换",
+    "限流单位": "[不确定] 后端环境配置中包含 rate limits 配置项，但未公开文档化具体限流单位（请求数/秒 vs Token/分钟 vs 金额/月）。远期路线图规划的配额单位是「按用户/团队/应用/函数」，具体计量维度待明确",
+    "流量特征": "MCP 协议流量。Gate22 处理的是 Agent 与工具间的 MCP 协议流量（基于 JSON-RPC，支持 SSE 流式传输），而非直接 LLM API 调用流量。流量模式特征：（1）工具发现请求（list tools）— 低频率；（2）工具调用请求（call tool）— 中等频率，包含结构化参数；（3）流式工具响应 — 通过 SSE 推送。与传统 HTTP 短连接 API 调用和 AI 网关的流式长连接大载荷场景均有差异",
+    "生态定位": "MCP 专用网关 + Agent 治理平台。Gate22 定位为团队级 AI Agent 工具治理控制平面，区别于：（1）独立 AI 网关（如 Portkey/Helicone）— Gate22 不代理 LLM API；（2）API 网关 AI 插件（如 Kong AI Plugin）— Gate22 是独立 MCP 网关，非传统网关的扩展；（3）统一 API+AI 网关 — Gate22 仅处理 MCP 工具调用治理；（4）Agent 框架内置网关 — Gate22 是独立部署的外部治理层。其独特生态位是「组织级 MCP 工具治理中间件」，聚焦于谁可以用什么工具、如何审计，而非 LLM 调用的路由/缓存/成本优化"
+  },
+  "uncertain": [
+    "速率限制",
+    "降级与重试",
+    "传统网关集成",
+    "A2A 支持",
+    "官方性能声明",
+    "延迟开销",
+    "社区评价",
+    "PII 脱敏",
+    "内容审核",
+    "限流单位"
+  ]
+}
