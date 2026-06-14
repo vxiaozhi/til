@@ -6,5 +6,6 @@
 - [Bifrost](results/Bifrost.json)
 - [Helicone](results/Helicone.json)
 - [LiteLLM](results/LiteLLM.json)
+- [OptiLLM](results/OptiLLM.json)
 - [Portkey](results/Portkey.json)
 - [TensorZero](results/TensorZero.json)

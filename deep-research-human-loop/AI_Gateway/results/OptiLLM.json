@@ -1,0 +1,85 @@
+{
+  "基本信息": {
+    "项目名称": "OptiLLM",
+    "GitHub 地址": "https://github.com/codelion/optillm",
+    "Stars": "约 4,100（截至2026年6月）",
+    "主要语言": "Python",
+    "开源协议": "Apache 2.0",
+    "背后公司/社区": "Asankhaya Sharma（codelion）个人发起，现由 algorithmicsuperintelligence 组织维护，社区驱动开源项目",
+    "首次发布": "2024年8月22日（GitHub 初始提交），2024年10月24日（PyPI 首个可用版本 0.0.2）",
+    "官网": "无独立官网，以 GitHub 仓库页面作为主要入口"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 5 类提供商接入：OpenAI、Cerebras、Azure OpenAI、本地推理（HuggingFace）、以及通过 LiteLLM 封装的 100+ 模型（含 Anthropic Claude、Google Gemini、Amazon Bedrock、Vertex AI 等）。LiteLLM 作为默认回退提供最高覆盖度。",
+    "负载均衡": "支持（通过 proxy 插件）。提供 round-robin（轮询）、weighted（加权）、failover（故障转移）三种路由策略；后台健康检查（默认 30 秒间隔、5 秒超时），自动排除不健康节点；支持 fallback_only 备用提供商；支持 per-provider 并发限制（max_concurrent）。",
+    "速率限制": "无显式请求速率限制功能。proxy 插件支持 per-provider 并发槽位限制（max_concurrent）和全局队列限制（默认最大 100 并发），可间接控制并发，但非传统意义上的速率限制（如每分钟请求数上限）。",
+    "缓存能力": "无缓存机制。不提供精确匹配缓存或语义缓存，不支持 Redis/Memcached 等缓存后端。",
+    "降级与重试": "支持（通过 proxy 插件）。自动故障转移机制：请求超时或提供商错误时自动切换至下一个健康提供商；支持 fallback_only 提供商作为最后防线；健康检查自动恢复机制使已恢复的提供商重新加入路由池。",
+    "认证与密钥管理": "单一服务器级 API Key 认证（OPTILLM_API_KEY），客户端需在 Authorization: Bearer 头中传递。支持多提供商 API Key 环境变量管理（OPENAI_API_KEY、CEREBRAS_API_KEY、GEMINI_API_KEY 等）。无多租户密钥管理、虚拟密钥或密钥轮转机制。",
+    "可观测性": "基础日志级别：标准输出（stdout）记录请求详情（HTTP 状态码、耗时、使用的优化策略等）；proxy 插件支持延迟追踪（最近 10 次请求平均延迟）和错误追踪；MCP 插件日志写入文件（~/.optillm/logs/mcp_plugin.log）；支持 DEBUG=mcp:* 环境变量启用 MCP 调试日志。无 Prometheus/Grafana/OpenTelemetry 集成，无结构化指标暴露端点。",
+    "请求/响应转换": "支持。通过 LiteLLM 实现 OpenAI Chat Completions 格式与各提供商原生格式之间的双向自动转换（消息格式、工具/函数定义、推理内容、流式数据等均自动适配）。system message 支持检测及自动格式调整（如 Gemini 不支持 system role）。",
+    "提示词安全": "无显式 Prompt 注入防护机制。privacy 插件可对请求中的 PII 数据进行匿名化处理，在响应中进行去匿名化还原，间接提供部分数据安全保障。",
+    "插件扩展": "支持 Python 动态插件系统。插件通过 SLUG 标识和 run 函数定义，服务器启动时自动扫描和加载；支持本地插件覆盖包插件；内置 16 个插件（MCP、router、memory、privacy、web_search、deep_research、executecode、json、readurls、majority_voting、genselect、spl、deepthink、longcepo、coc、proxy）。不支持 Wasm 或 Lua 扩展。",
+    "流式处理": "支持 SSE（Server-Sent Events）流式响应。处理 OpenAI 兼容的 stream=True 参数，将优化后的结果以流式方式返回客户端。",
+    "Token 计数与成本追踪": "无内建 Token 计数或成本追踪功能。LiteLLM 层可记录 Token 使用量，但 OptiLLM 本身不提供 Token 统计、成本归属或多模型价格换算界面。proxy 插件提供的延迟追踪近似于使用量监控，但非精确成本管理。"
+  },
+  "部署与架构": {
+    "部署方式": "独立服务（透明代理模式）。支持四种部署方式：pip install 命令行启动、Docker 容器（三种镜像变体：latest/latest-proxy/latest-offline）、Docker Compose 编排、源码安装。默认绑定 127.0.0.1:8000，作为 OpenAI API 兼容的透明代理运行。",
+    "协议支持": "REST（OpenAI API 兼容的 /v1/chat/completions 和 /v1/models 端点），SSE 流式协议，MCP 协议支持 stdio/SSE/WebSocket 三种传输方式。不支持 gRPC。",
+    "传统网关集成": "无明确与传统 API 网关（Kong/APISIX/Envoy/Nginx/Traefik）集成的文档或配置示例。作为独立 HTTP 服务运行，可与反向代理（Nginx 等）组合使用，但无专用集成插件或中间件。",
+    "语言运行时": "Python（>=3.10），基于 Flask Web 框架。异步处理能力有限，本地推理可选 GPU 加速。",
+    "扩展机制": "Python 动态插件系统：插件目录中的 Python 模块通过 SLUG（标识名）+ run（执行函数）约定自动注册；支持插件链式调用（& 操作符串行流水线）和并行调用（| 操作符）；本地插件优先于包安装插件；支持 request_config 参数传递插件级配置。"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生支持 MCP（通过 mcp 插件）。完整支持 MCP 三大核心能力：Tools（可执行函数调用，含 JSON Schema 自动注入系统提示）、Resources（结构化数据源上下文）、Prompts（可复用提示模板）。支持三种传输方式：stdio（本地进程）、SSE（远程 HTTP）、WebSocket（远程双向连接）。通过 ~/.optillm/mcp_config.json 配置，支持 ${VARIABLE_NAME} 环境变量注入。启动时自动发现和连接所有配置的 MCP 服务器。",
+    "A2A 支持": "无 Google Agent-to-Agent（A2A）协议支持。目前仅支持 MCP 协议作为代理间通信标准。",
+    "Agent 框架集成": "通过 OpenAI 兼容 API 接口实现广泛兼容。任何使用 OpenAI Python SDK 的 Agent 框架均可直接集成，包括 LangChain、LangGraph、AutoGen、OpenAI Agents SDK、CrewAI 等。无针对特定框架的专用适配器，但 Patchwork 已在实际工作流中验证集成效果。",
+    "API-to-MCP 转换": "无此功能。OptiLLM 的 MCP 插件作为 MCP 客户端连接已有 MCP 服务器，不提供将 REST API（OpenAPI 规范）零代码转换为 MCP 工具的能力。"
+  },
+  "性能特征": {
+    "官方性能声明": "未提供网关自身延迟开销数据，但提供了多项推理质量基准测试：MARS + Gemini 2.5 Flash Lite 在 AIME 2025 上从 43.3% 提升至 73.3%（+30 分），CePO + Llama 3.3 70B 在 Math-L5 上从 51.0% 提升至 69.6%（+18.6 分），MOA + GPT-4o-mini 在 Arena-Hard-Auto 上匹配 GPT-4o 水平，PlanSearch + GPT-4o-mini 在 LiveCodeBench 上提升 20% pass@5。",
+    "延迟开销": "无官方 P99/P50 延迟数据。延迟开销取决于所选优化技术：Best-of-N 需生成 N 个完整响应（默认 N=3），MCTS 需进行多次模拟和搜索（默认 simulations=2、depth=1），MARS 需要多代理协作和交叉验证。简单技术（如 ReRead）增加的延迟较小，复杂技术（如 CePO 四阶段流水线）增加的延迟可达数倍。proxy 插件本身引入的转发延迟极低（毫秒级）。",
+    "社区评价": "GitHub 4,100+ Stars 反映较高社区关注度。Hacker News 曾有讨论（2024年10月），因访问限制未能获取详细内容。Reddit 等社区未发现充分独立评测。社区主要关注点：推理质量提升效果显著、插件生态丰富、部署简便，但缺少企业级功能（监控、限流、多租户等）。"
+  },
+  "治理与合规": {
+    "多租户支持": "无多租户隔离功能。仅支持单一服务器级 API Key（OPTILLM_API_KEY）认证，无团队/项目/用户级别的隔离机制，无虚拟密钥或按租户的配额管理。",
+    "审计日志": "基础请求日志。标准输出记录每次请求的 HTTP 状态、耗时和策略，proxy 插件记录提供商选择和延迟，MCP 插件写入独立日志文件。但无结构化审计日志功能（谁/何时/调用什么模型/消耗多少 Token/执行了哪些工具）。",
+    "预算管理": "无按用户/团队/项目的 Token 或金额预算管理功能。不支持预算上限设定、超预算告警或自动截断。",
+    "数据驻留": "支持全本地化部署（Docker/源码安装，数据不离开用户控制的基础设施）。但无专门的 GDPR/数据安全法等合规功能模块，无数据地域限制配置或审计报告生成。"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "无显式 Prompt Injection 检测与防护机制。系统依赖 OpenAI 兼容 API 的标准输入传递，未实现注入检测、输入过滤或安全分类器。",
+    "PII 脱敏": "支持（通过 privacy 插件）。可对请求中的个人身份信息（PII）进行自动检测和匿名化处理，在模型返回响应后将匿名化占位符还原为原始 PII 数据，实现输入和输出双侧的敏感信息保护。",
+    "内容审核": "无毒性检测、违规内容过滤或自定义安全策略。系统不集成任何内容审核 API 或分类模型，不提供输入/输出内容的安全评分。"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "L7+/AI 应用层。OptiLLM 工作在 HTTP 应用层之上，作为 LLM API 调用链中的中间件层，专注于推理质量的语义优化而非通用 HTTP 流量管理。与传统 L7 网关（如 Nginx/Envoy）的 TCP/HTTP 代理定位有本质区别。",
+    "协议感知能力": "LLM 协议深度感知。理解 OpenAI Chat Completions API 的完整语义结构（messages、tools、temperature、stream、model 等字段），能解析和操作 LLM 特有的 SSE 流格式、Token 级参数（logprobs、top_logprobs）、推理内容标记（thinking blocks）。传统网关仅做 HTTP 层面的通用解析，不感知 API 语义。",
+    "状态模型": "混合状态模型。基础代理层无状态（每个请求独立处理），但通过 memory 插件可启用有状态会话管理（维护对话历史、支持无界上下文窗口）。传统 L7 网关通常完全无状态，仅依靠外部存储（如 Redis）实现会话粘性。",
+    "计费模型": "调用次数计费模型（无自身计费系统）。OptiLLM 本身不管理计费，直接转发原始 API 调用，计费由上游提供商处理。优化技术可能成倍增加 API 调用次数（如 Best-of-N 产生 N 次调用），间接影响成本但无内建预算控制。传统网关按请求数或带宽计费。",
+    "路由粒度": "基于模型名 + 优化策略 + 内容语义的多维路由。通过模型名前缀选择优化技术（如 moa-gpt-4o），proxy 插件按模型名映射到不同提供商，router 插件使用 ModernBERT 对提示内容分类以选择最优优化策略。传统网关仅按 URL/Header/Host 做路由。",
+    "缓存策略": "无缓存机制。不提供 HTTP 层缓存（ETag/CDN/Vary）或 AI 层语义缓存（基于向量嵌入的语义相似匹配）。传统网关通常有成熟的 HTTP 缓存能力。",
+    "安全模型": "基础 API 认证 + SSL 验证 + 选择性 PII 保护。与传统网关的 WAF/DDoS/限流/CORS 安全模型不同，OptiLLM 的安全关注点在于 API Key 管理和数据隐私（PII 匿名化），缺少传统网关标配的流量攻击防护和访问控制。",
+    "内容转换": "推理增强型内容转换。不仅做请求/响应格式转换（OpenAI 格式与各提供商格式互转），更核心的是对请求进行推理优化处理：多轮采样（BON）、搜索探索（MCTS）、多代理协作（MARS）、计划搜索（PlanSearch）等。传统网关仅做 HTTP 层面的请求改写和响应修改。",
+    "限流单位": "无显式限流单位。OptiLLM 不提供请求数/秒、Token/分钟或金额预算/月级别的限流。proxy 插件提供的并发限制（max_concurrent）是一种粗粒度的并发控制，与传统网关的精确限流（速率/配额/令牌桶）有本质区别。",
+    "流量特征": "流式长连接、高延迟、大载荷。LLM 推理请求涉及 SSE 长连接（秒至分钟级）、大体积 Token 流负载、对延迟更敏感的交互场景。优化技术（如多次采样、搜索）会进一步放大延迟和 API 调用量。传统网关主要处理同步短连接请求/响应。",
+    "生态定位": "推理优化代理（独立 AI 中间件）。OptiLLM 的核心定位是通过 test-time compute 提升 LLM 推理质量，而非替代或增强传统 API 网关。它属于 AI 中间件层的推理优化工具，可与传统网关组合使用（传统网关做流量管理，OptiLLM 做推理质量优化），形成分层架构。生态分类：独立 AI 推理优化代理 / 透明网关中间件。"
+  },
+  "uncertain": [
+    "速率限制",
+    "缓存能力",
+    "官网",
+    "Token 计数与成本追踪",
+    "传统网关集成",
+    "A2A 支持",
+    "API-to-MCP 转换",
+    "延迟开销",
+    "社区评价",
+    "多租户支持",
+    "审计日志",
+    "预算管理",
+    "数据驻留",
+    "Prompt 注入防护",
+    "内容审核"
+  ]
+}
