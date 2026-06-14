@@ -1,0 +1,98 @@
+{
+  "基本信息": {
+    "项目名称": "Plano（原名 Arch Gateway / archgw）",
+    "GitHub 地址": "https://github.com/katanemo/archgw",
+    "Stars": "约 6,600（截至 2026 年 6 月）",
+    "主要语言": "Rust（70%），辅以 Python（18%）、TypeScript（11%）",
+    "开源协议": "Apache 2.0",
+    "背后公司/社区": "Katanemo Labs（2026 年 4 月被 DigitalOcean 收购）",
+    "首次发布": "2024 年（首个 Show HN 在 2024 年末）",
+    "官网": "https://planoai.dev"
+  },
+  "功能特性": {
+    "模型提供商支持": "支持 OpenAI、Anthropic、DigitalOcean 自有模型等，通过 YAML 配置声明式添加任意兼容 OpenAI Chat Completions API 的提供商。实测支持 Ollama 等本地模型。采用统一 API 抽象，开发者无需处理各提供商的 API 差异。",
+    "负载均衡": "[不确定] 未在文档、README 或 GitHub Issues 中找到负载均衡策略（如 round-robin、least-latency、weighted）的明确说明。作为基于 Envoy 构建的代理，理论上可复用 Envoy 的负载均衡能力，但项目未显式暴露或配置此功能。",
+    "速率限制": "[不确定] 文档和 README 中未提及速率限制能力（请求数/Token 级/金额级限制）。Envoy 原生支持限流，但 Plano 未在配置中暴露此功能。",
+    "缓存能力": "[不确定] 文档和 README 中未提及任何缓存机制（精确匹配缓存或语义缓存），也未提及 Redis/Memcached 等缓存后端集成。",
+    "降级与重试": "[不确定] GitHub Issues 中有 1 个与 fallback 路由策略相关的议题（#818），但项目未正式文档化自动故障转移和重试机制。",
+    "认证与密钥管理": "支持通过环境变量注入 API Key（如 $OPENAI_API_KEY），支持 pass-through 模式（客户端自行携带 Authorization Header）。[不确定] 未发现多租户虚拟密钥管理、密钥轮转等企业级认证功能。",
+    "可观测性": "内置 W3C Trace Context 端到端追踪，通过 OpenTelemetry 协议（OTLP/gRPC）导出。支持随机采样（1%-100%）、span 属性自定义、traceparent Header 传播。提供 plannoai obs 命令实时查看流量和成本，plannoai trace 命令深入单请求追踪。可集成到兼容 OTel 的后端：Grafana Tempo、Jaeger、Signoz、Prometheus（通过 OTel Collector 桥接）。零代码自动捕获全链路追踪。",
+    "请求/响应转换": "[不确定] 未发现 OpenAI↔Claude↔Gemini 等模型间请求/响应格式互转的明确文档。GitHub 有 protocol_translation 标签的 Issue（#798 Gemini v1beta），表明有格式转换工作在进行中，但尚不完整。",
+    "提示词安全": "支持集中式 Prompt 护栏，通过 Filter Chains 机制实现。內建 jailbreak（越狱攻击）检测，可在配置文件中声明 input_guards 并自定义拒绝消息。支持自定义护栏规则（如领域/主题限制）。护栏作为独立 HTTP/MCP 服务运行在数据面中，可跨所有 Agent 和 LLM 统一应用。支持短路拒绝机制（4xx 返回）。",
+    "插件扩展": "通过 Filter Chains 机制实现扩展：Filter 是独立的 HTTP 或 MCP 服务，支持用任意语言编写，返回标准 HTTP 状态码即可。Filter 可执行检查（Inspect）、修改（Mutate）、短路拒绝（Short-circuit）、日志追踪（Emit）四种操作。底层基于 Envoy proxy-wasm，Rust 代码编译为 .wasm 二进制，作为 Envoy HTTP Filter 加载。核心 Wasm 过滤插件：prompt_gateway.wasm（入站）、llm_gateway.wasm（出站）。",
+    "流式处理": "支持 SSE（Server-Sent Events）流式响应。Agent 可通过 text/event-stream 返回 StreamingResponse。Plano 自身透传 SSE 流，并在流式场景下维持端到端 trace。暴露 OpenAI 兼容的 /v1/chat/completions 端点，客户端按标准 OpenAI SDK 方式消费流式响应。[不确定] 未明确文档化对 WebSocket 和 Streamable HTTP 的支持细节。",
+    "Token 计数与成本追踪": "[不确定] plannoai obs 命令提到「成本自动从 DigitalOcean 公开定价目录中填充」，表明有一定成本可见性。但文档中未系统描述 Token 使用量统计、多模型价格换算、按用户/团队的成本归属等能力。"
+  },
+  "部署与架构": {
+    "部署方式": "支持三种部署模式：Native 独立服务（Linux x86_64/aarch64、macOS Apple Silicon）、Docker 容器化（使用 katanemo/plano 镜像）、Kubernetes（单容器 Deployment，内含 Envoy + WASM 插件 + brightstaff，由 supervisord 管理）。作为 out-of-process dataplane 运行，可作为 Sidecar 部署（项目定位明确为 AI-native sidecar）。",
+    "协议支持": "核心暴露 OpenAI 兼容的 /v1/chat/completions HTTP REST 端点。支持 SSE 流式响应。底层 Agent 通过 HTTP 协议通信。[不确定] 未明确文档化对 gRPC、WebSocket 的原生支持。Filter Chains 支持 MCP（Model Context Protocol）作为过滤器通信协议。",
+    "传统网关集成": "直接构建于 Envoy Proxy 之上，共享 Envoy 的连接管理、HTTP 处理等基础能力。通过 proxy-wasm 机制嵌入 Envoy，无需修改 Envoy 构建。作为独立进程运行，不与 Kong/APISIX/Nginx/Traefik 等传统网关直接集成，但理论上可与这些网关组合部署（Plano 专注于 AI 流量处理，传统网关处理通用 HTTP 流量）。",
+    "语言运行时": "Rust（核心代理、WASM 插件、CLI 工具），编译目标 wasm32-wasip1。Wasm 运行时使用 Envoy 内置的 V8 引擎。Agent 可使用任意语言编写（Python、TypeScript、Go 等），只需实现 OpenAI 兼容的 Chat Completions 端点。Filter 可使用任意支持 HTTP/MCP 的语言实现。",
+    "扩展机制": "双层次扩展：1) Filter Chains：通过 HTTP/MCP 服务实现自定义逻辑，用任意语言编写，可插拔挂载到 Agent 或 Listener 级别；2) Wasm 插件：基于 proxy-wasm 规范，用 Rust 编写并编译为 .wasm，作为 Envoy HTTP Filter 运行在核心数据路径中。Filter 支持四种操作语义：Inspect、Mutate、Short-circuit、Emit。"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "Filter Chains 原生支持 MCP 协议作为过滤器类型（type: mcp），Filter 可以是 MCP Server，Plano 通过 MCP 工具调用与之通信。Filter 默认 transport 为 streamable-http。但项目并非完整的 MCP 网关（如 MCP Server 代理注册发现、API-to-MCP 工具转换等高级功能未文档化）。",
+    "A2A 支持": "[不确定] 团队在 HN 讨论和公开声明中表示 A2A（Agent-to-Agent）协议支持是下一步路线图的核心方向（定位为「Agent 间的 service mesh」），但截至 v0.4.24（2026 年 6 月），文档和代码中未发现 A2A 协议的实质性支持。",
+    "Agent 框架集成": "[不确定] 项目强调框架无关（framework-agnostic），Agent 只需实现 OpenAI 兼容的 Chat Completions HTTP 端点即可接入。未发现与特定框架（LangChain/LangGraph/AutoGen/OpenAI Agents SDK/CrewAI 等）的原生集成或 SDK。",
+    "API-to-MCP 转换": "[不确定] 未发现将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具的功能文档。Filter Chains 的手动 MCP 集成存在，但非自动转换。"
+  },
+  "性能特征": {
+    "官方性能声明": "[不确定] 项目未发布正式的性能基准测试报告或吞吐量对比数据。仅提及：意图路由延迟 <100ms（基于 Arch-Router 1.5B 模型），Arch-Router 端到端约 50ms（L40s GPU），本地 Mac M2 Max 约 70ms。",
+    "延迟开销": "[不确定] 仅从 HN 讨论中获取非正式数据：Mac M2 Max 上本地运行约 70ms 开销，云端 100-300ms。无 P50/P99 系统性延迟数据。Arch-Function 模型声称「低延迟、高吞吐」，但未给出具体数字。",
+    "社区评价": "[不确定] HN 社区评价总体正面（首个 Show HN 获 118 points），社区认可团队背景（Envoy 核心贡献者、AWS API Gateway、Microsoft Research）。主要讨论点：与 Kong AI Gateway 的定位差异、训练自定义小型模型而非依赖 GPT-4 的策略合理性、对 A2A/MCP 协议的期待。批评点：功能尚不完备（如缓存、限流等企业级特性缺失），仍在快速迭代中。"
+  },
+  "治理与合规": {
+    "多租户支持": "[不确定] 文档中未提及多租户隔离（团队/项目/用户级别）能力。无虚拟密钥、多租户配额管理等功能的说明。当前主要通过配置文件区分不同环境，非原生多租户支持。",
+    "审计日志": "[不确定] 具备访问日志（Access Logging）和 OpenTelemetry 全链路追踪能力，可记录请求元数据。但未发现专门的审计日志功能（谁/何时/调用什么模型/消耗多少 Token/执行了哪些工具的结构化审计记录）。",
+    "预算管理": "[不确定] 文档中未提及按用户/团队/项目的 Token 或金额预算管理，无超预算告警或截断机制。plannoai obs 命令可实时查看成本，但非预算管控功能。",
+    "数据驻留": "官网明确提及支持本地部署（on-premises deployment），可实现「受监管环境中的完全数据控制」。部署方式支持完全本地化运行（Native/Docker/K8s），数据不离开用户基础设施。[不确定] 但未详细文档化 GDPR/数据安全法等特定合规标准的认证或配置指南。"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "內建 Jailbreak 检测护栏，通过配置声明即可启用。检测输入尝试改变 LLM 行为、暴露系统 Prompt 或绕过安全策略的请求。可通过 YAML 配置自定义拒绝消息。检测由专用小模型执行（非正则匹配）。[不确定] 对于更多样化的 Prompt Injection 攻击模式（非 jailbreak 类）的防护深度未详细说明。",
+    "PII 脱敏": "[不确定] 文档和 Filter Chains 示例中未发现输入/输出双侧的敏感信息（PII）检测与脱敏功能。Filter Chains 理论上可通过自定义 Filter 实现，但项目未提供内置 PII 检测能力。",
+    "内容审核": "通过 Filter Chains 可配置领域/主题限制（如只允许回答特定公司产品相关问题）。支持自定义护栏策略，拒绝不合规请求。[不确定] 未发现內建的毒性检测、违规内容分类、仇恨言论识别等全面内容审核功能，当前以领域限制和 Jailbreak 防护为主。"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "定位为 L7+/AI 应用层。Plano 构建在 Envoy（L7 代理）之上，但处理的是 AI 特定的语义层（Prompt 意图理解、Agent 路由、Token 级追踪），而非仅 HTTP 协议层。团队表述：'Kong 为 API 设计，Envoy 为微服务构建，Arch 为 Agent 构建。' 作为 out-of-process dataplane，等同于 AI 时代的 Envoy。",
+    "协议感知能力": "与标准 HTTP 代理不同，Plano 深度感知 LLM 协议：理解 OpenAI Chat Completions API 语义、SSE 流式响应、Token 使用量、模型路由决策、工具调用（Function Calling）。内置轻量 LLM 模型用于 Prompt 意图分析和路由决策。可自动提取 Prompt 参数并映射到后端 API 调用。",
+    "状态模型": "支持有状态会话管理。Plano 维护跨对话轮次的状态（Conversational State），可基于历史上下文进行 Agent 路由（如「也帮我订个酒店」能自动路由到酒店 Agent）。[不确定] 但对于上下文窗口 Token 预算跟踪等更高级的有状态管理，未发现详细文档。",
+    "计费模型": "混合模式为主。通过 plannoai obs 命令可查看基于 DigitalOcean 公开定价目录的成本信息。[不确定] 但项目未系统实现 Token 级计费或金额预算计费。实际计费取决于底层 LLM 提供商（按 Token），Plano 目前处于可见性层面（能看成本），而非管控层面。",
+    "路由粒度": "支持多层级路由：1) 基于模型名称的显式路由（如 anthropic/claude-sonnet-4-5）；2) 基于语义别名路由（Model Aliases）；3) 基于偏好自动路由（Arch-Router 1.5B 模型，通过自然语言偏好策略实现 Domain-Action 映射）；4) Agent 级别路由（Plano Orchestrator 4B 模型，基于 Agent 描述做意图分类）。路由策略可动态调整，无需重新训练路由器（偏好策略与模型绑定解耦）。",
+    "缓存策略": "[不确定] 项目当前不涉及缓存策略。无 HTTP 缓存（ETag/CDN/Vary）也无语义缓存（基于向量嵌入的语义相似匹配）的实现文档。作为 AI 网关，这是与成熟产品的主要功能差距之一。",
+    "安全模型": "安全模型侧重于 AI 特定威胁。內建 Jailbreak 检测、领域/主题执行护栏（Domain/Topicality Enforcement）、可自定义 Filter Chains 实现合规检查。[不确定] 与传统 WAF/DDoS/限流/CORS 防护不重叠——项目依赖 Envoy 的底层网络安全能力和部署环境的网关层来完成传统防护。",
+    "内容转换": "请求级转换通过 Filter Chains 实现（可修改/丰富请求内容、Query Rewriting、RAG 上下文组装）。[不确定] 但不支持模型间格式自动互转（如 OpenAI ↔ Claude 格式自动转换），该能力在 GitHub Issue #798（Gemini protocol translation）中有初步讨论但尚未完整实现。",
+    "限流单位": "[不确定] 项目当前未实现限流能力。传统网关按请求数/秒限流，AI 网关通常按 Token/分钟或金额预算/月限流——Plano 在两类限流上均未见文档化支持。这是与成熟 AI 网关（如 Portkey、LiteLLM）的核心功能差距。",
+    "流量特征": "深度适配 AI 流量的长连接、流式响应特征。支持 SSE 流式传输，在流式场景下保持端到端追踪。使用异步架构（Rust + Envoy）处理并发流式长连接。[不确定] 但对于大载荷（大量 Token 上下文）场景的处理能力和优化策略未详细文档化。",
+    "生态定位": "独立 AI 网关 + Agent 治理平台的混合定位。作为 AI-native dataplane，Plano 不依附于任何传统 API 网关，独立处理 AI 流量。同时具备 Agent 编排能力（多 Agent 路由与协调），向 Agent 治理平台方向演进。团队愿景是成为「AI Agent 的 Envoy」——一个通用的、与框架无关的 Agent 数据面基础设施。"
+  },
+  "uncertain": [
+    "负载均衡",
+    "速率限制",
+    "缓存能力",
+    "降级与重试",
+    "认证与密钥管理",
+    "请求/响应转换",
+    "流式处理",
+    "Token 计数与成本追踪",
+    "A2A 支持",
+    "Agent 框架集成",
+    "API-to-MCP 转换",
+    "官方性能声明",
+    "延迟开销",
+    "社区评价",
+    "多租户支持",
+    "审计日志",
+    "预算管理",
+    "数据驻留",
+    "Prompt 注入防护",
+    "PII 脱敏",
+    "内容审核",
+    "状态模型",
+    "计费模型",
+    "缓存策略",
+    "安全模型",
+    "内容转换",
+    "限流单位",
+    "流量特征"
+  ]
+}
