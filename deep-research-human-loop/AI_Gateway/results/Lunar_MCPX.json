@@ -1,0 +1,76 @@
+{
+  "基本信息": {
+    "项目名称": "Lunar MCPX（Lunar MCP Gateway）",
+    "GitHub 地址": "https://github.com/TheLunarCompany/lunar（mcpx 子目录）",
+    "Stars": "454",
+    "主要语言": "TypeScript（60.9%），Go（29.7%），Python（3.4%）",
+    "开源协议": "MIT",
+    "背后公司/社区": "Lunar.dev（TheLunarCompany）——以色列特拉维夫的AI基础设施公司",
+    "首次发布": "2025年5月（MCPX首个官方博客公告为2025年5月29日；CHANGELOG最早可追溯版本v0.2.9发布于2025年8月19日；GitHub仓库最早创建于2023年8月15日，但初期为Lunar Proxy项目）",
+    "官网": "https://lunar.dev；文档：https://docs.lunar.dev/mcpx/"
+  },
+  "功能特性": {
+    "模型提供商支持": "作为MCP专用网关，MCPX自身不直接代理LLM模型提供商API流量。其demo客户端支持Google Gemini和Anthropic Claude。通过配套的Lunar AI Gateway（Lunar Proxy）可统一管理OpenAI、Anthropic等LLM提供商的API流量，提供实时流量可见性、成本和Token使用量追踪。企业版明确标注OpenAI集成支持。",
+    "负载均衡": "支持动态路由与多路复用（Dynamic Routing and Multiplexing），将工具调用按配置分发到多个MCP服务器并聚合响应。支持Consumer Tags（x-lunar-consumer-tag头）实现基于消费者身份的流量分发。通过Lunar Proxy提供优先级队列（Priority Queues）进行负载管理。传统round-robin/least-latency/weighted等负载均衡算法未明确记载。",
+    "速率限制": "支持基于Consumer Tags（x-lunar-consumer-tag HTTP头）的精细化速率限制。通过Lunar Proxy提供Advanced Traffic Shaping，包括请求级速率限制、Agent动作节流和流量整形策略。可配置工具级（per-tool）和消费者级（per-consumer）访问控制与节流。支持IP级访问控制（CIDR格式IPv4/IPv6白名单）。",
+    "缓存能力": "[不确定]——MCPX官方文档和功能页面未提及缓存机制。MCPX聚焦于实时流量可见性和工具调用审计，不提供精确匹配缓存或语义缓存。Lunar Proxy可能提供一定缓存能力但未在公开文档中确认。无Redis/Memcached等缓存后端集成记录。",
+    "降级与重试": "通过Lunar Proxy提供熔断器（Circuit Breaker）机制，自动切断故障连接防止级联失败。支持基于HTTP标准的重试机制，兼容service mesh。MCPX架构设计支持故障隔离（Failure Isolation），单个MCP服务器故障不影响其他客户端。作为HTTP原生中间件，天然兼容HTTP重试语义。无专门的fallback到备用模型或服务降级机制的明确记载。",
+    "认证与密钥管理": "开源版支持：Basic API Key认证（基于token的接入认证）、OAuth（集成Okta/Microsoft Entra ID/Active Directory/Google Workspace/JumpCloud等IdP）、Static OAuth（OAuth 2.0 Device Authorization Grant + Client Credentials）。企业版额外提供：Secret Management（集成HashiCorp Vault，集中管理密钥和OAuth Token）、In-Client Authentication（客户端内嵌认证）、集中用户管理与SSO。Consumer Tags机制实现消费者身份传递。密钥轮转功能由企业版Secret Management覆盖。",
+    "可观测性": "开源版提供：Prometheus指标暴露在 /metrics 端点（跟踪工具调用次数、延迟、错误等）；结构化持久审计日志（记录Agent工具使用和配置变更）。企业版额外提供：Usage Dashboard（用量仪表板）、Agent Inventory（Agent清单）、Full Auditability（不可变审计跟踪）。通过Lunar AI Gateway提供实时API流量可见性（延迟、错误、成本、Token使用）。OpenTelemetry集成未明确记载，但Prometheus指标可间接接入OTel Collector。",
+    "请求/响应转换": "支持工具级参数覆写（Tool Customization / Tool Hardening）：通过app.yaml配置toolExtensions字段，可覆写工具参数值（overrideParams）、重写工具描述（description rewrite）以提升LLM准确性。支持创建子工具（childTools）变体。不支持跨LLM协议格式互转（如OpenAI↔Claude↔Gemini请求响应格式转换）。不支持通用的请求/响应body改写。",
+    "提示词安全": "提供OWASP MCP Top 10对齐的多层安全防护：AI驱动的工具描述恶意模式扫描（检测'ignore previous instructions'等Prompt Injection模式）；五因子复合风险评分引擎（版本漂移检测+工具描述分析+敏感工具分类+认证授权审查+上下文最小化评估）；四层风险分级（Critical：任意代码执行、文件删除、恶意Prompt；High：关键数据写入、任意URL网络调用、PII访问；Medium：只读内部数据；Low：只读公开数据）。工具可通过Tool Hardening锁定参数、重写描述以消除注入风险。企业版提供Risk Scoring引擎。",
+    "插件扩展": "不提供传统插件/Wasm扩展/Lua脚本等扩展机制。扩展通过声明式配置文件（app.yaml、mcp.json）实现：工具自定义（toolExtensions）进行参数覆写和描述重写；工具组（toolGroups）跨服务组织工具合集；访问控制列表（ACL YAML）定义权限策略。无自定义中间件管道或代码级扩展API。",
+    "流式处理": "客户端侧支持两种传输协议：Streamable HTTP（推荐，使用/mcp端点，双HTTP连接模式——一条用于握手、一条用于收发操作）和SSE/HTTP+SSE（已弃用但保持向后兼容，使用/sse端点）。后端MCP服务器通过stdio子进程通信（标准MCP协议传输）。MCPX网关统一聚合多服务器的流式响应，客户端只需连接单一端点即可接收所有工具调用的流式结果。",
+    "Token 计数与成本追踪": "通过配套的Lunar AI Gateway（Lunar Proxy）提供：实时Token使用量追踪（所有出站LLM和Agent调用）、实时成本指标（每次API调用的成本可见性）、Cost & Performance Optimization（识别浪费、平滑流量峰值、减少昂贵API过度使用）。MCPX自身不独立提供Token计数或成本追踪功能，这些能力依赖Lunar Proxy配合使用。"
+  },
+  "部署与架构": {
+    "部署方式": "独立服务部署模式。开源版通过Docker容器化部署，可在本地或Kubernetes上运行，支持滚动升级、自愈、零宕机部署。CI/CD友好的环境提升流水线（同一容器和配置在开发/预发/生产环境间流转）。企业版采用集中控制平面+多网关集群架构（每个身份独立隔离的网关实例），支持VPC/本地部署/air-gapped环境（AWS/GCP/Azure），提供Eco Mode休眠空闲实例。",
+    "协议支持": "客户端→MCPX：Streamable HTTP（推荐）和SSE（已弃用但兼容）；后端MCPX→MCP服务器：stdio子进程通信（标准MCP协议传输）。不原生支持REST/gRPC/WebSocket协议。通过Lunar Proxy间接管理REST API流量。",
+    "传统网关集成": "不直接集成Kong/APISIX/Envoy/Nginx/Traefik等传统7层API网关。MCPX与Lunar AI Gateway（Lunar Proxy）紧耦合集成，形成'AI Gateway + MCP Gateway'双层架构。与传统API网关是互补关系而非替代关系：团队可能同时使用传统API网关管理REST/gRPC流量，使用Lunar MCPX管理MCP工具调用流量。",
+    "语言运行时": "TypeScript（60.9%，主控平面/Web层）+ Go（29.7%，性能关键网络操作）+ Python（3.4%，辅助工具）。多语言混合仓库，Node.js运行时为主。",
+    "扩展机制": "配置驱动扩展，无传统插件/中间件/自定义代码扩展API。通过app.yaml声明式配置：toolExtensions（工具自定义）、toolGroups（工具组）、permissions（ACL访问控制）、consumers（消费者分组）、auth（认证开关）。通过mcp.json声明式配置MCP服务器连接。客户端零代码集成——修改JSON配置即可接入新MCP服务器。"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生MCP支持——MCPX本身就是一个MCP Server（MCP聚合器）。核心MCP能力包括：多MCP服务器聚合到统一端点（零代码JSON配置接入）；动态工具路由与多路复用（按配置分发工具调用并聚合响应）；意图驱动的工具发现（Intent-based Tool Discovery，Agent仅接收当前任务所需工具）；标准MCP目录（预审查的公共MCP服务器即连即用）；动态工具发现（Dynamic Tool Discovery）；工具注册与发现（Tool Registration & Discovery）；工具自定义（Tool Hardening，覆写参数和描述）。客户端兼容所有MCP兼容的Agent和IDE。",
+    "A2A 支持": "不支持Google Agent-to-Agent协议。MCPX是垂直Agent-to-Tool集成层（MCP），不提供水平Agent-to-Agent通信（A2A）。如需A2A，需配合Google ADK或LangGraph等框架实现。",
+    "Agent 框架集成": "通过标准MCP协议（Streamable HTTP/SSE）支持所有MCP兼容的Agent框架和IDE，但文档未提供LangChain/LangGraph/AutoGen/CrewAI/OpenAI Agents SDK的专用集成教程。官方文档列出的已测试客户端包括：Claude Code（CLI）、Claude Desktop（mcp-remote over HTTP）、Cursor、VS Code/GitHub Copilot、ChatGPT、n8n、Warp、Codex Desktop、自定义MCP SDK。任何支持MCP协议的Agent框架均可通过Streamable HTTP连接MCPX。",
+    "API-to-MCP 转换": "不支持——未发现将现有REST API（OpenAPI规范）零代码转换为MCP工具的功能。MCPX定位为MCP服务器聚合中间件，而非API转换层。"
+  },
+  "性能特征": {
+    "官方性能声明": "P99网关延迟约4ms（生产级规模）。官方宣称'production scale with ~4ms p99 gateway overhead'。强调HTTP原生架构（兼容retries和service mesh），Kubernetes原生部署（滚动升级、自愈、零宕机）。未公开吞吐量（QPS/TPS）基准数据。",
+    "延迟开销": "P99网关额外延迟约4ms。无P50延迟数据公开。",
+    "社区评价": "[不确定]——第三方社区反馈较少。Reddit和Hacker News上未见Lunar MCPX的直接讨论帖子。Nordic APIs行业评测将其评为MCP支持'Strong'级别（最强档），称赞其开源、聚合性强、提供治理/安全/成本分析。HiBob（大型HR科技公司）案例研究正面评价：提高了Agent准确性（减少工具噪音）、消除了安全审查瓶颈、实现了基于身份的统一治理。GitHub Stars 454，Forks 37，社区规模相对较小但持续增长。"
+  },
+  "治理与合规": {
+    "多租户支持": "支持Consumer级别隔离（开源版），通过Consumer Tags（x-lunar-consumer-tag HTTP头）区分不同消费者身份，配合ACL YAML实现per-consumer工具访问控制。企业版提供更完整的多租户：集中用户管理+SSO、Groups（团队分组）、Profiles（角色和工具集映射）、每个身份独立隔离的专用网关集群（Dedicated Gateway Clusters per Identity）。虚拟密钥由企业版Secret Management提供。",
+    "审计日志": "开源版提供结构化持久审计日志，跟踪Agent工具使用行为和配置变更。企业版提供Full Auditability（不可变审计跟踪），包含所有Prompt负载、工具响应和使用归属的完整记录。审计日志可区分谁/何时/调用什么工具/执行了哪些操作。",
+    "预算管理": "[不确定]——MCPX和Lunar文档均未明确提及Token/金额预算管理功能。Lunar AI Gateway提供成本追踪和成本优化，但无证据表明支持硬性预算上限设置、超预算告警或自动截断。Consumer Tags可用于跟踪用量但非预算管理。",
+    "数据驻留": "[不确定]——支持VPC、本地部署（on-premises）、air-gapped环境部署（AWS/GCP/Azure），具备数据本地化部署的基本基础。但官方文档未明确提及GDPR合规、数据安全法合规或其他数据驻留法规遵从声明。企业版提供自我托管选项，可满足基本的数据驻留需求但无正式合规认证记载。"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "提供多层Prompt注入防护：AI驱动的工具描述分析引擎自动扫描'ignore previous instructions'等指令覆盖模式并标记为Critical风险；OWASP MCP Top 10（MCP03:2025 Tool Poisoning）对齐的复合风险评分；工具硬化（Tool Hardening）允许管理员锁定不安全参数、重写工具描述消除注入点；上下文最小化评估（限制上下文大小、会话分离、内存TTL强制）；端点白名单阻止向未批准域名的出站调用。企业版Risk Scoring引擎自动评估所有已注册MCP服务器的安全风险。",
+    "PII 脱敏": "[不确定]——风险评分系统将访问PII的工具自动分类为High风险等级，并可通过工具组限制PII访问工具的可用范围。通过Lunar AI Gateway可进行统一数据脱敏（Data Sanitization across LLM and MCP traffic）。但未发现独立的PII检测引擎、自动脱敏/掩码功能或可配置的敏感信息检测规则（如正则模式匹配）。工具级参数覆写可间接限制PII暴露范围（如将文件操作限制在/tmp目录）。",
+    "内容审核": "[不确定]——无独立的内容审核引擎（如毒性检测、违规内容过滤、自定义安全策略引擎）。风险评分系统关注工具安全而非内容安全。官方建议配合第三方工具实现内容审核：LangKit（LLM输出监控）、OpenAI Moderation API（不当内容检测）、Invariant Labs（上下文护栏）、LlamaFirewall（Agent风险扫描）。MCPX提供治理和执行层，内容检测由这些专用工具负责。"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "MCP应用层（L7+ / AI应用层）——位于AI Agent和MCP Server之间，专门处理MCP协议语义的工具调用路由与治理。与传统L4/L7网关（如Nginx/Envoy/Kong处理通用HTTP流量）处于不同层级，是互补而非替代关系。与Lunar AI Gateway组成双层AI网关架构：AI Gateway处理LLM API流量（L7+AI感知），MCPX处理MCP工具调用流量（应用层）。",
+    "协议感知能力": "MCP协议深度感知——原生理解MCP协议语义（工具声明、工具调用请求/响应、资源引用、Prompt模板）。统一管理Streamable HTTP和SSE两种MCP传输协议。通过Lunar Proxy扩展LLM协议感知（SSE流处理、Token计算、provisioned throughput监控）。传统网关（Nginx/Kong/Envoy）处理通用HTTP语义，需要自定义插件才能理解MCP协议。",
+    "状态模型": "有状态——维护Consumer身份状态（通过Consumer Tags跟踪）、工具调用审计状态（持久审计日志）、配置状态（app.yaml/mcp.json）。企业版进一步加强状态管理：Eco Mode休眠空闲实例（保留状态）、Profiles和Groups映射关系持久化、不可变审计跟踪。传统网关通常无状态（或仅维护连接状态如sticky session）。",
+    "计费模型": "混合计费模式——MCPX层追踪工具调用次数（Prometheus metrics和审计日志）。Lunar AI Gateway层提供Token级计费和金额级成本追踪（实时成本可见性、按模型/API的成本归属）。整体支持请求级+Token级+金额级的成本计量。无独立的计费系统或发票/结算功能。",
+    "路由粒度": "工具级路由——基于MCP工具名、工具组（Tool Groups）、Consumer身份（Consumer Tags）进行路由决策。支持意图驱动路由（Agent仅接收当前任务相关工具）。Lunar AI Gateway扩展基于模型名、成本优化、延迟优先的LLM API路由。传统网关基于URL/Header/Host的通用路由。MCPX路由粒度从'请求'下沉到'工具调用'级别。",
+    "缓存策略": "[不确定]——MCPX和Lunar文档均未提及缓存策略（精确匹配缓存或语义缓存）。无Redis/Memcached/向量数据库缓存后端集成记录。MCPX定位为实时工具调用治理层，不提供响应缓存功能。传统API网关通常提供丰富的HTTP缓存策略（ETag/CDN/Vary）。此项为MCPX相对于传统网关的明显空白。",
+    "安全模型": "工具级安全治理模型——不同于传统WAF/DDoS/限流/CORS模式，MCPX聚焦于：Prompt Injection检测与防护（AI驱动恶意模式扫描）；数据防泄露（端点白名单、风险分级阻止PII/数据外泄工具）；Tool级滥用检测（每工具每日调用次数监控、Consumer级别访问审计）；OWASP MCP Top 10对齐的复合风险评分；基于身份的工具最小权限访问控制（RBAC-like）。传统WAF/DDoS防护由Lunar AI Gateway或前置传统API网关处理。",
+    "内容转换": "工具参数级转换——支持工具参数覆写（overrideParams）和工具描述重写（description rewrite）以提升LLM调用准确性。不支持跨LLM协议格式互转（OpenAI↔Claude↔Gemini请求响应格式转换）。不支持通用的HTTP请求/响应body改写。传统API网关提供丰富的HTTP请求改写/响应修改能力。MCPX的内容转换聚焦于'工具语义'级别而非'HTTP载荷'级别。",
+    "限流单位": "消费者级工具调用限流——以Consumer（通过Consumer Tags标识）为粒度，按工具/工具组实施访问节流。不同于传统网关的'请求数/秒'限流，MCPX限流更关注'谁可以调用什么工具'而非'每秒多少请求'。通过Lunar Proxy扩展请求数/秒和Token/分钟的限流能力。无金额预算/月的限流单位（预算管理功能缺失）。",
+    "流量特征": "MCP工具调用流量+LLM API流量双模——MCPX处理MCP协议工具调用（流式长连接Streamable HTTP/SSE，工具声明和响应载荷）。Lunar Proxy处理LLM API流量（流式长连接SSE、秒级延迟、大载荷Token流）。架构需同时应对：低延迟工具调用（4ms P99开销要求）、流式响应聚合（多MCP服务器结果合并）、工具声明元数据管理（非负载性流量但影响Agent行为）。与传统API网关的同步短连接HTTP REST流量模式有本质区别。",
+    "生态定位": "MCP专用网关——纯MCP协议网关和聚合器，位于AI Agent → MCP Server路径中作为治理中间件。可与传统API网关并行使用（传统API网关管理REST/gRPC流量，MCPX管理MCP流量）。配合Lunar AI Gateway形成统一AI+API网关平台。属于MCP专用网关品类，不试图替代传统API网关。生态定位为Agent工具治理基础设施层。"
+  },
+  "uncertain": [
+    "缓存能力",
+    "预算管理",
+    "数据驻留",
+    "PII 脱敏",
+    "内容审核",
+    "社区评价"
+  ]
+}
