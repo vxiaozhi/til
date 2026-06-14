@@ -1,0 +1,79 @@
+{
+  "基本信息": {
+    "项目名称": "Langfuse",
+    "GitHub 地址": "https://github.com/langfuse/langfuse",
+    "Stars": "29,033（截至2026年6月）",
+    "主要语言": "TypeScript（核心平台为 Next.js/Node.js，SDK 支持 Python 和 JS/TS）",
+    "开源协议": "MIT（核心代码）；企业版功能（ee/ 目录）使用商业许可",
+    "背后公司/社区": "Langfuse GmbH（2026年1月被 ClickHouse 收购，团队整体加入 ClickHouse 继续独立开发；YC W23 孵化项目）",
+    "首次发布": "2023年5月（GitHub 仓库创建于 2023-05-18，YC W23 批次）",
+    "官网": "https://langfuse.com"
+  },
+  "功能特性": {
+    "模型提供商支持": "不适用——Langfuse 定位为 LLM 可观测性平台而非 API 网关。通过 SDK 封装和 OpenTelemetry 支持观测几乎所有 OpenAI 兼容接口的模型提供商，包括 OpenAI、Anthropic、Google Gemini、Azure、AWS Bedrock、Ollama、DeepSeek、Together AI 等。原生集成 80+ 框架和工具。通过 LiteLLM 可覆盖 100+ 模型提供商。",
+    "负载均衡": "[不确定] Langfuse 自身不提供负载均衡能力。官方博客（2024年9月）明确表示刻意不充当 LLM 代理角色。社区讨论（GitHub Discussion #4939）提出了代理模式功能请求（含动态负载均衡），但截至2026年6月尚未实现。推荐通过 LiteLLM Proxy、Helicone 或 Vercel AI Gateway 等外部网关实现负载均衡。",
+    "速率限制": "Langfuse Cloud 提供内置组织和项目级速率限制（根据套餐不同，从 1,000 到 20,000 请求/分钟不等）。自托管版本不内置速率限制，官方推荐使用 Nginx、HAProxy 等反向代理在外部实现。",
+    "缓存能力": "[不确定] Langfuse 自身不提供请求级或语义级 LLM 响应缓存。推荐通过外部网关（Portkey 支持语义缓存、Helicone 支持语义缓存）实现。Langfuse 内部使用 Redis 缓存 API Key 和 Prompt 数据以提升平台性能。",
+    "降级与重试": "Langfuse 自身不提供模型故障转移（fallback）和自动重试能力。通过集成 LiteLLM Proxy、Portkey 等外部网关可实现多模型 fallback 策略。Langfuse SDK 对 Prompt 获取内置重试机制（客户端缓存+重试）。",
+    "认证与密钥管理": "支持项目和用户级别的 API Key 管理（Public Key / Secret Key 对）。通过 Organization → Project 层级实现多租户隔离。Langfuse Cloud 支持 SSO（Okta、Azure AD/Entra ID，Teams 附加包）。企业版支持 SCIM 用户自动配置。不支持虚拟密钥或密钥轮转自动化。",
+    "可观测性": "这是 Langfuse 的核心能力。提供全面的 LLM 可观测性：分布式追踪（Traces/Spans/Generations/Events）、多轮对话会话管理、Agent 图可视化、延迟时间线视图、Token 使用量和成本仪表盘、自定义评分和评估。原生集成 OpenTelemetry，支持 OTLP/HTTP（JSON 和 Protobuf）协议。支持 Prometheus metrics 导出。自 v3 版本起以 ClickHouse 为分析存储引擎，支持 10K+ spans/秒。",
+    "请求/响应转换": "[不确定] Langfuse 自身不执行请求/响应格式转换（如 OpenAI↔Claude↔Gemini 格式互转）。其 OpenAI SDK 封装（langfuse.openai.OpenAI）支持修改 base_url 以指向任意 OpenAI 兼容端点，但不进行不同提供商之间的格式转换。格式转换需依赖外部网关（如 LiteLLM、Portkey）。",
+    "提示词安全": "Langfuse 自身不是安全防护库，而是通过可观测性层包裹第三方安全工具来实现防护。集成方式：通过 SDK 装饰器（@observe()）追踪 LLM Guard、Lakera Guard、NeMo Guardrails、Azure AI Content Safety 等安全库的检测结果，并在 Langfuse 中进行评分、评估和监控。支持 Prompt 注入检测（通过 Lakera Guard 效果较好，LLM Guard 对高级攻击效果有限）、BanTopics 话题过滤、毒性检测等。",
+    "插件扩展": "[不确定] Langfuse 没有明确的 Wasm/Lua/插件系统。其扩展主要通过以下方式实现：(1) OpenTelemetry 检测织入——社区可自定义 OTel span 处理；(2) 自定义 Evaluator（评估器）——通过 SDK 编写自定义评分逻辑；(3) 自定义模型定价——通过 API/UI 添加自定义模型定义。未发现类似 Kong/APISIX 的插件架构。",
+    "流式处理": "Langfuse 通过 SDK 层面完整支持 SSE（Server-Sent Events）流式响应追踪。Python SDK 的 OpenAI 封装自动重组 SSE 数据块、捕获 usage 信息块、测量首 Token 时间（TTFT）。JS/TS SDK 同样支持流式生成追踪。平台自身使用 Next.js 提供 Web 界面，支持 Streamable HTTP。不直接代理 WebSocket 连接。",
+    "Token 计数与成本追踪": "Langfuse 的核心功能之一。支持双重 Token 计算：优先使用 API 返回的实际 usage 数据（最准确），其次通过内置 tokenizer（tiktoken 用于 OpenAI、@anthropic-ai/tokenizer 用于 Claude）推断。内置模型价格数据库覆盖 OpenAI、Anthropic、Google 等主要提供商。支持自定义模型定价定义（通过 API/UI）。2025年12月新增定价层级（Pricing Tiers）支持上下文相关的差异化定价（如 claude-sonnet-4-5-20250929 根据输入 Token 量级采用不同费率）。支持成本按 User/Session/Trace 归属到具体项目和用户。"
+  },
+  "部署与架构": {
+    "部署方式": "独立服务部署，支持两种模式：(1) Langfuse Cloud SaaS——多区域托管服务（EU 爱尔兰、US 俄勒冈、JP 东京、HIPAA 美国），即开即用；(2) 自托管——Docker Compose（测试/低流量）或 Kubernetes Helm Chart（生产环境）。架构包含 4 个核心组件：Langfuse Web（Next.js，处理 UI 和数据摄入 API）、Langfuse Worker（Node.js，异步处理消息队列中的事件）、PostgreSQL（元数据/事务数据）、ClickHouse（OLAP 分析——Traces、Observations、Scores）、Redis/Valkey（BullMQ 任务队列+缓存）、S3（多模态载荷和原始事件存储）。",
+    "协议支持": "REST API（公共 API 提供完整的数据和功能访问）。OpenTelemetry OTLP/HTTP 协议（支持 JSON 和 Protobuf 序列化格式，端点 /api/public/otel 和 /api/public/otel/v1/traces）。明确不支持 gRPC。不支持原生 WebSocket（Agent 检测通过 SDK 实现）。MCP 协议通过内置 MCP Server 支持（StreamableHttp 传输，端点 /api/public/mcp）。",
+    "传统网关集成": "[不确定] 未发现 Langfuse 与 Kong、APISIX、Envoy、Nginx、Traefik 等传统 API 网关的直接插件或集成。Langfuse 定位为旁路可观测性层，非请求路径中间件。实践中的集成模式为：应用 → 传统网关/代理 → Langfuse SDK（旁路）→ LLM 提供商。与 AI 网关（LiteLLM、Portkey、Helicone、Vercel AI Gateway、TrueFoundry）有原生集成，这些 AI 网关可替换传统网关角色。",
+    "语言运行时": "TypeScript（Next.js 框架，Node.js 后端 Worker）。SDK 支持：Python（v4+，OpenTelemetry 原生）、JavaScript/TypeScript（v5+）。社区 SDK：Rust（langfuse-rs）、Ruby（langfuse-ruby）、Go（第三方）。",
+    "扩展机制": "主要通过 OpenTelemetry 生态系统扩展：(1) OTel Span Processor——自定义 Span 处理和路由；(2) 自定义 Evaluator——通过 Python/JS SDK 编写评分逻辑；(3) 自定义模型定价——通过 API/UI 添加模型；(4) Webhook（2026年路线图）——支持事件驱动的外部集成。无 Wasm/Lua 插件沙箱。"
+  },
+  "Agent 与生态集成": {
+    "MCP 支持": "原生支持 MCP（Model Context Protocol）。2025年11月发布内置 MCP Server（端点 /api/public/mcp，使用 StreamableHttp 传输，遵循 MCP 2025-03-26 规范）。提供 5 个工具：getPrompt（按名称/标签/版本获取 Prompt）、listPrompts（带过滤和分页浏览）、createTextPrompt（创建文本 Prompt 版本）、createChatPrompt（创建 Chat Prompt 版本）、updatePromptLabels（管理 Prompt 标签）。使用 BasicAuth 认证（项目级 API Key）。当前 MCP 能力聚焦于 Prompt 管理，官方计划扩展至 Traces、Observations、Datasets、Evaluations。2026年3月社区发布 langfuse-mcp-server（PyPI，56 个工具，覆盖完整可观测性）和 langfuse-agent（80+ 工具，含 Graph Agent 和 ACP 支持）。",
+    "A2A 支持": "[不确定] 未发现 Langfuse 对 Google Agent-to-Agent（A2A）协议的原生支持。间接关联：Langfuse 支持观测 Google ADK（Agent Development Kit）应用（通过 OpenTelemetry），而 Google ADK 本身支持构建 A2A 兼容 Agent。但 Langfuse 不直接解析或追踪 A2A 协议消息（Agent Cards、Task 生命周期、Artifacts 等）。",
+    "Agent 框架集成": "Langfuse 原生集成以下 Agent 框架：LangChain（Callback Handler）、LangGraph（图节点追踪）、OpenAI Agents SDK（原生 Python SDK 集成+OpenTelemetry）、LlamaIndex（Callback Handler）、CrewAI（OpenTelemetry）、AutoGen（OpenTelemetry via OpenLit）、Haystack、Google ADK（OpenTelemetry）、Vercel AI SDK、Mastra、TanStack AI。总计 80+ 集成。",
+    "API-to-MCP 转换": "[不确定] 未发现 Langfuse 支持将现有 REST API（OpenAPI 规范）零代码转换为 MCP 工具的功能。Langfuse 的 MCP Server 仅暴露 Langfuse 自身的 Prompt 管理 API 为 MCP 工具。"
+  },
+  "性能特征": {
+    "官方性能声明": "SDK 客户端侧性能目标：Trace 创建开销 <1ms（实测 P50 0.197ms）、刷新延迟 <100ms、内存占用 <1KB/trace、CPU 开销 <1%。SDK 采用异步 fire-and-forget 批处理架构，对 LLM 调用关键路径零延迟影响。服务端：V3 架构迁移至 ClickHouse 后，Prompts API P99 从 7 秒降至 100ms（70 倍提升）。Dashboard 查询 P99 目标 <1 秒（7 天内）/ <4 秒（更长周期）。经测试可支撑 10K+ spans/秒的摄入吞吐量。",
+    "延迟开销": "[不确定] SDK 客户端侧延迟可忽略（P50 <0.2ms）。第三方 benchmark（AIMultiple 2026）测试显示 RAG 流水线总开销约 169ms，但差异不具统计显著性，且被 LLM API 延迟方差（标准差 2,645ms）完全覆盖。由于 Langfuse 不是代理/网关（不位于请求关键路径上），不存在网关层延迟开销。",
+    "社区评价": "优点：开源 MIT 许可、框架无关的 SDK 覆盖广、生产级追踪和评估能力、慷慨的免费云层、活跃的社区和维护、被 19 家 Fortune 50 和 63 家 Fortune 500 使用。缺点：UI/UX 被认为不够完善（'由技术人为技术人打造的工具'）、缺乏实时/主动告警（Alerting feature request #714 自 2023 年 12 月起开放）、Dataset 运行对比功能弱、大批量 Trace 查询速度慢、无离线模式。社区共识：最佳开源 LLM 可观测性平台，但 UI 和主动告警仍是短板。"
+  },
+  "治理与合规": {
+    "多租户支持": "支持 Organization → Project 两级多租户模型。Organization 为顶层管理/计费单元，Project 为操作隔离单元（API Key、Traces、配置按 Project 隔离）。组织级 RBAC 角色：Owner、Admin、Member、Viewer、None（MIT 免费提供）。项目级细粒度 RBAC（按项目分配角色）：企业版/Teams 附加包提供。Langfuse Cloud 为逻辑隔离；严格基础设施级隔离推荐自托管专用部署。",
+    "审计日志": "企业版（Enterprise，$2,499/月）独有功能。记录 30+ 资源类型的不可变审计记录：API Key、Prompt、Trace、Score、Dataset、组织/项目成员变更、计费变更等。区分用户发起和 API Key 发起的操作。捕获谁（who）、什么（what）、何时（when）、何地（where）、完整的前/后状态（before/after state）。支持按时间和项目过滤、分页查看。需要 auditLogs:read 权限（通常为 Owner/Admin）。",
+    "预算管理": "[不确定] Langfuse 不提供传统的按用户/团队/项目设定 Token 或金额硬性预算上限（hard cap）和超预算自动截断功能。成本控制主要通过：(1) 用量可见性——Token 使用量和成本按 Trace/User/Session/Project 追踪和可视化；(2) 用量分级定价——Cloud 套餐按使用量阶梯计费；(3) 自托管 MIT 版——无用量上限（仅基础设施成本）。超预算告警需依赖 Webhook（2026年路线图计划）。",
+    "数据驻留": "支持完整的数据本地化部署。Langfuse Cloud 提供三个专用数据区域：EU（爱尔兰，AWS eu-west-1）、US（俄勒冈，AWS us-west-2）、JP（东京，AWS ap-northeast-1），以及 HIPAA 合规区域（US HIPAA）。各区域数据、用户账户和基础设施完全隔离。GDPR 合规：提供数据处理协议（DPA）、数据脱敏/保留/删除功能、SOC 2 Type II 和 ISO 27001 认证。自托管可完全离线/气隙（air-gapped）部署，满足最严格的数据主权要求。"
+  },
+  "内容安全": {
+    "Prompt 注入防护": "Langfuse 自身不内置 Prompt 注入检测引擎。通过集成第三方安全库实现：(1) LLM Guard 的 PromptInjection scanner——对'Grandma trick'等高级越狱攻击检测效果有限；(2) Lakera Guard——在 Langfuse 官方的对比测试中成功检测到 LLM Guard 漏掉的 Prompt 注入（含恶意 URL 注入）；(3) Prompt Armor、NeMo Guardrails、Azure AI Content Safety。Langfuse 通过 @observe() 装饰器追踪安全库的检测调用、评分和拦截动作，在 Dashboard 中提供安全评分可视化和自动化评估。推荐纵深防御策略。",
+    "PII 脱敏": "提供两层 PII 保护：(1) 内置 Masking 功能——可在 Langfuse 客户端构造函数中传入自定义脱敏函数，所有事件的输入/输出/元数据在发送到 Langfuse 服务器之前经脱敏函数处理。支持正则脱敏（信用卡号、邮箱、电话、身份证号等）和集成 LLM Guard 的 Anonymize scanner（基于 NER 的 PII 检测——姓名、组织、地点等）。(2) 运行时 Anonymize/Deanonymize 模式——数据发给 LLM 前脱敏（使用 LLM Guard Vault），响应中恢复，全程被 Langfuse 追踪。",
+    "内容审核": "通过集成第三方安全库实现，Langfuse 负责追踪和评估：(1) LLM Guard BanTopics scanner——零样本分类过滤违禁话题（如暴力、色情）；(2) 毒性检测（Toxicity scanner）；(3) 输出质量扫描——NoRefusal、Relevance、Sensitive、Bias、Gibberish、Factual consistency、URL Reachability；(4) 输入/输出双侧扫描——scan_prompt() 可堆叠多个 scanner。所有检测结果作为 Langfuse Score 存储，支持构建安全评分仪表盘和自动化评估流水线。"
+  },
+  "AI 网关 vs 传统 7 层网关对比": {
+    "架构层级定位": "AI 应用层（可观测性层）——Langfuse 定位为 LLM 应用的可观测性和工程平台，非 L4/L7 网络代理。其架构为旁路异步采集模式：应用通过 SDK 将 Trace 数据异步发送至 Langfuse，不影响 LLM 请求的关键路径。与位于 L7 的传统网关（Kong、Nginx、Envoy）不同，Langfuse 不代理、不路由、不终结网络连接。",
+    "协议感知能力": "具备 LLM 协议深度感知能力，但通过 SDK 层面而非网络代理层面实现。SDK 封装能解析 OpenAI/Anthropic 等 API 的请求/响应格式，自动提取模型名称、Token 用量（input/output/cached_tokens）、成本、延迟（含 TTFT）、Tool Calls 等 AI 语义字段。支持 SSE 流式数据的重组和 usage 块捕获。原生支持 OpenTelemetry GenAI Semantic Conventions。不同于传统网关仅做 HTTP 层面的通用处理。",
+    "状态模型": "有状态——Langfuse 管理丰富的会话和应用状态：(1) Trace/Session 级上下文——多轮对话跨请求关联；(2) Token 预算跟踪——累计 Token 消耗按 User/Session/Trace 统计；(3) Prompt 版本管理——追踪每个请求使用的 Prompt 版本和标签；(4) Evaluation 评分——持续跟踪质量指标变化。传统 7 层网关通常为无状态（或仅有简单的会话粘性）。",
+    "计费模型": "Token 级计费——Langfuse 追踪的是 Token 粒度的使用量和成本，而非请求数。内置多模型价格数据库支持按模型、按 Token 类型（input/output/cached/audio/image）的精确成本计算。支持按 User/Session/Trace/Project 的成本归因。2025年12月新增定价层级支持上下文敏感的差异化计价。自托管 MIT 版本无用量限制。这与传统网关的请求级计费模型有本质区别。",
+    "路由粒度": "不适用——Langfuse 不执行请求路由，因此不存在路由粒度概念。实际路由由应用层或外部网关（LiteLLM、Portkey、Helicone）处理。但 Langfuse 的 Prompt 管理支持基于标签（Label）的版本路由（如 production 标签对应特定 Prompt 版本），这是应用层的配置路由而非网络层请求路由。",
+    "缓存策略": "不适用——Langfuse 自身不提供 LLM 响应缓存（精确匹配缓存或语义缓存）。其关注点在于缓存行为的可观测性（追踪哪些请求命中缓存、缓存命中率等）。语义缓存需通过外部网关（如 Portkey 的语义缓存模式）实现，Langfuse 可观测这些缓存操作。Langfuse 内部使用 Redis 缓存 API Key 和 Prompt 数据以加速平台自身性能。与传统 HTTP 缓存（ETag/CDN/Vary）不在同一维度。",
+    "安全模型": "观测驱动安全——Langfuse 的安全模型侧重于：(1) 集成第三方安全库（LLM Guard、Lakera、NeMo Guardrails）进行 Prompt 注入检测和内容审核；(2) 在 Dashboard 中追踪和评分安全检测结果；(3) 自动化安全评估流水线。这与传统网关的 WAF/DDoS/限流/CORS 安全模型是互补而非替代关系。Langfuse 不做请求拦截/阻断（由安全库在执行层完成），但提供安全态势的全景视图。",
+    "内容转换": "不适用——Langfuse 不执行请求改写、模型切换或不同提供商格式互转。其 SDK 封装（langfuse.openai.OpenAI）支持修改 base_url 指向任意 OpenAI 兼容端点，但格式保持一致（OpenAI 格式）。不同提供商之间的格式互转（如 Anthropic ↔ OpenAI ↔ Google Gemini）需依赖外部 AI 网关（LiteLLM、Portkey）。Langfuse 的价值在于转换行为的可观测性而非转换本身。",
+    "限流单位": "不适用——Langfuse 自身不执行请求级限流。其 Cloud 套餐的速率限制是以 '请求数/分钟' 为单位（传统请求级限流），目的是保护平台基础设施而非控制 LLM 调用量。Token 级或金额预算级的硬性限制不在 Langfuse 产品范围内。这与 AI 网关以 Token/分钟或金额/月为限流单位有本质差异。",
+    "流量特征": "异步旁路采集——Langfuse 的流量处理特征为：(1) SDK 异步 fire-and-forget 批处理发送 Trace 数据；(2) Worker 通过 Redis BullMQ 队列异步消费并写入 ClickHouse；(3) 不在 LLM 请求的同步关键路径上。这种架构天然适配流式长连接（SSE）场景——SDK 监听流事件而不阻塞响应返回。与代理型网关需要处理同步短连接和长连接代理不同，Langfuse 的数据流是单向（应用→Langfuse）、异步、批量化的。",
+    "生态定位": "LLM 可观测性平台——Langfuse 在生态中的定位是独立 LLM 可观测性和工程平台，而非 API 网关。它提供 Tracing、Evaluation、Prompt Management、Datasets、Playground 等能力。在架构上推荐与 AI 网关（LiteLLM、Portkey、Helicone、Vercel AI Gateway）配合使用：AI 网关处理路由/缓存/限流/fallback → Langfuse 处理可观测性/评估/Prompt 管理。不属于 MCP 专用网关或 Agent 治理平台，但在可观测性维度上支持 Agent 应用的全面追踪。"
+  },
+  "uncertain": [
+    "负载均衡",
+    "缓存能力",
+    "请求/响应转换",
+    "插件扩展",
+    "传统网关集成",
+    "A2A 支持",
+    "API-to-MCP 转换",
+    "延迟开销",
+    "预算管理"
+  ]
+}
