@@ -11,3 +11,4 @@
 - [家庭主妇如何利用碎片化时间赚钱：一份全面的实操指南](research_report_housewife_fragmented_time_earning.md)
 - [个人开发者最赚钱的软件类型及推广运营最佳实践](research_report_indie_dev_profitable_software.md)
 - [macOS 搭建梯子开启全局代理的最佳开源方案深度研究报告](research_report_macos_proxy_opensource.md)
+- [开源 AI 视频生成模型深度评估：面向电商产品转视频广告 SaaS 的技术选型报告](research_report_oss_video_gen_models.md)
