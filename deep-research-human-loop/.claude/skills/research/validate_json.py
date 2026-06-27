@@ -10,8 +10,16 @@ import yaml
 
 CATEGORY_MAPPING = {
     "基本信息": ["basic_info", "基本信息"],
+    "功能特性": ["features", "功能特性"],
+    "部署与架构": ["deployment", "部署与架构"],
+    "Agent 与生态集成": ["agent_ecosystem", "Agent 与生态集成"],
+    "性能特征": ["performance", "性能特征"],
+    "治理与合规": ["governance", "治理与合规"],
+    "内容安全": ["content_safety", "内容安全"],
+    "AI 网关 vs 传统 7 层网关对比": ["ai_vs_l7_gateway", "AI 网关 vs 传统 7 层网关对比"],
+    # Legacy mappings
     "技术特性": ["technical_features", "technical_characteristics", "技术特性"],
-    "性能指标": ["performance_metrics", "performance", "性能指标"],
+    "性能指标": ["performance_metrics", "性能指标"],
     "里程碑意义": ["milestone_significance", "milestones", "里程碑意义"],
     "商业信息": ["business_info", "commercial_info", "商业信息"],
     "竞争与生态": ["competition_ecosystem", "competition", "竞争与生态"],
@@ -25,9 +33,11 @@ _SKIP_KEYS = {"_source_file", "uncertain"}
 def load_fields_yaml(fields_path):
     with fields_path.open(encoding="utf-8") as f:
         data = yaml.safe_load(f)
+    # Support both "field_categories" and "categories" top-level keys
+    categories = data.get("field_categories") or data.get("categories") or []
     items = [
-        (field["name"], category["category"], field.get("required", False))
-        for category in data.get("field_categories", [])
+        (field["name"], category.get("category") or category.get("name", ""), field.get("required", False))
+        for category in categories
         for field in category.get("fields", [])
     ]
     all_fields = {name for name, _, _ in items}
