@@ -8,6 +8,7 @@
 - [AI 驱动垂直 SaaS 与 API 服务产品设计方案：聚焦 AI 生图与 AI 生视频](research_report_ai_image_video_saas_products.md)
 - [亚马逊电商赚钱与运营方案深度研究报告](research_report_amazon_ecommerce_profit.md)
 - [Claude Code / Codex 与 Telegram 集成的最佳开源方案](research_report_claude_codex_telegram_integration.md)
+- [Claude Code 官方 Telegram 插件运行原理：MCP 通道架构全解析](research_report_claude_telegram_plugin_architecture.md)
 - [电商产品图转视频广告工具：竞品与市场深度研究报告](research_report_ecommerce_video_ad_competitive_analysis.md)
 - [电商产品图转视频广告工具：开源实现方案深度研究报告](research_report_ecommerce_video_opensource_implementation.md)
 - [电商产品图转视频广告工具：最优产品形态与快速获客盈利策略](research_report_optimal_product_form_gtm.md)
