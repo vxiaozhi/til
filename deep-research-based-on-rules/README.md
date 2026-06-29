@@ -17,6 +17,7 @@
 - [Hermes Skill 与 Claude Code Skill 对比研究 & CLAUDE.md 对标分析](research_report_hermes_skill_vs_claude_skill.md)
 - [家庭主妇如何利用碎片化时间赚钱：一份全面的实操指南](research_report_housewife_fragmented_time_earning.md)
 - [电商产品图转视频广告工具：跨行业扩展场景深度研究报告](research_report_vertical_video_use_cases.md)
+- [visword.com 文字转可视化方向：深度可行性研究与场景切入点](research_report_visword_text_to_visual_deep.md)
 - [visword.com 域名建站盈利方案深度研究报告](research_report_visword_website_profit.md)
 - [个人开发者最赚钱的软件类型及推广运营最佳实践](research_report_indie_dev_profitable_software.md)
 - [macOS 搭建梯子开启全局代理的最佳开源方案深度研究报告](research_report_macos_proxy_opensource.md)
