@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visword — Turn any text into visual insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo" onclick="showView('landing')">
+      <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="8" fill="#6366f1"/>
+        <path d="M8 22V10l6 6 4-4 6 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="23" cy="9" r="1.8" fill="white"/>
+      </svg>
+      Visword
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#" onclick="showView('landing')">Home</a>
+      <a href="#" onclick="showView('pricing')">Pricing</a>
+      <a href="#" class="btn btn-sm btn-ghost" id="navLogin" onclick="toggleAuth()">Sign In</a>
+      <a href="#" class="btn btn-sm btn-primary" id="navSignup" onclick="toggleAuth()">Get Started Free</a>
+      <span class="user-badge hidden" id="userBadge">
+        <span class="plan-dot pro"></span> Pro
+      </span>
+    </div>
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- VIEW: Landing Page -->
+<section class="view active" id="view-landing">
+  <div class="hero">
+    <div class="hero-badge">✨ AI-Powered Text Visualization</div>
+    <h1 class="hero-title">Turn any text into<br><span class="gradient-text">visual insights</span></h1>
+    <p class="hero-sub">Paste an article, URL, or notes — Visword instantly generates an interactive mind map, shareable infographic cards, and a smart word cloud. Three visual formats, one click.</p>
+
+    <div class="hero-input-wrapper">
+      <div class="hero-input-box">
+        <svg class="input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        <input type="text" id="heroInput" placeholder="Paste article URL or text here..." onkeydown="if(event.key==='Enter')startDemo(event.target.value)">
+        <button class="btn btn-primary btn-lg hero-submit" onclick="startDemo(document.getElementById('heroInput').value)">Generate →</button>
+      </div>
+    </div>
+
+    <div class="hero-examples">
+      <span>Try an example:</span>
+      <button class="example-chip" onclick="startDemo('product-review')">📱 Product Review</button>
+      <button class="example-chip" onclick="startDemo('research-paper')">📄 Research Paper</button>
+      <button class="example-chip" onclick="startDemo('news')">📰 News Article</button>
+    </div>
+
+    <div class="hero-users">
+      <div class="avatar-stack">
+        <span class="avatar" style="background:#818cf8">J</span>
+        <span class="avatar" style="background:#c084fc">M</span>
+        <span class="avatar" style="background:#34d399">S</span>
+        <span class="avatar" style="background:#fbbf24">K</span>
+        <span class="avatar" style="background:#f472b6">A</span>
+      </div>
+      <span class="hero-users-text">Join 12,000+ creators, students & thinkers</span>
+    </div>
+  </div>
+
+  <!-- How It Works -->
+  <section class="section">
+    <h2 class="section-title">How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon">📝</div>
+        <h3>1. Paste text or URL</h3>
+        <p>Drop in an article link, paste notes, or upload a PDF. We extract the content automatically.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-icon">🧠</div>
+        <h3>2. AI analyzes structure</h3>
+        <p>Our AI reads the content, identifies key concepts, logical relationships, and important themes.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-icon">✨</div>
+        <h3>3. Get three visual formats</h3>
+        <p>Instantly receive an interactive mind map, shareable info cards, and a smart word cloud.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Output Preview -->
+  <section class="section section-alt">
+    <h2 class="section-title">One input, three outputs</h2>
+    <p class="section-sub">Every generation gives you three complementary views of your content.</p>
+    <div class="format-cards">
+      <div class="format-card">
+        <div class="format-card-preview mindmap-preview">
+          <svg viewBox="0 0 200 120" class="preview-svg">
+            <circle cx="100" cy="60" r="16" fill="#6366f1" opacity="0.9"/><text x="100" y="64" text-anchor="middle" fill="white" font-size="7" font-weight="600">AI</text>
+            <line x1="86" y1="52" x2="50" y2="25" stroke="#818cf8" stroke-width="1.5"/>
+            <circle cx="48" cy="22" r="10" fill="#818cf8" opacity="0.8"/><text x="48" y="25" text-anchor="middle" fill="white" font-size="5">ML</text>
+            <line x1="86" y1="52" x2="25" y2="62" stroke="#a78bfa" stroke-width="1.5"/>
+            <circle cx="22" cy="62" r="9" fill="#a78bfa" opacity="0.8"/><text x="22" y="64" text-anchor="middle" fill="white" font-size="5">NLP</text>
+            <line x1="114" y1="52" x2="155" y2="30" stroke="#c084fc" stroke-width="1.5"/>
+            <circle cx="158" cy="28" r="9" fill="#c084fc" opacity="0.8"/><text x="158" y="31" text-anchor="middle" fill="white" font-size="5">CV</text>
+            <line x1="114" y1="68" x2="160" y2="95" stroke="#e879f9" stroke-width="1.5"/>
+            <circle cx="163" cy="98" r="9" fill="#e879f9" opacity="0.8"/><text x="163" y="101" text-anchor="middle" fill="white" font-size="5">DL</text>
+          </svg>
+        </div>
+        <h4>Interactive Mind Map</h4>
+        <p>Explore the logical structure. Zoom, drag, expand nodes. See how ideas connect.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-card-preview infocard-preview">
+          <div class="mini-card">
+            <div class="mini-card-title">Key Takeaways</div>
+            <div class="mini-card-row"><span>📌</span> First finding here</div>
+            <div class="mini-card-row"><span>💡</span> Second insight</div>
+            <div class="mini-card-row"><span>🔑</span> Third point brief</div>
+          </div>
+        </div>
+        <h4>Shareable Info Cards</h4>
+        <p>Beautiful cards optimized for Instagram, LinkedIn, Twitter. Ready to share in one click.</p>
+      </div>
+      <div class="format-card">
+        <div class="format-card-preview wordcloud-preview">
+          <div class="mini-cloud">
+            <span style="font-size:18px;color:#6366f1">Innovation</span>
+            <span style="font-size:14px;color:#818cf8">Technology</span>
+            <span style="font-size:22px;color:#4f46e5">AI</span>
+            <span style="font-size:13px;color:#a78bfa">Research</span>
+            <span style="font-size:16px;color:#6366f1">Data</span>
+            <span style="font-size:11px;color:#c084fc">Future</span>
+            <span style="font-size:15px;color:#818cf8">Design</span>
+            <span style="font-size:12px;color:#a78bfa">System</span>
+          </div>
+        </div>
+        <h4>Smart Word Cloud</h4>
+        <p>See the vocabulary landscape at a glance. TF-IDF + AI semantic weighting for real insight.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing-section">
+    <h2 class="section-title">Simple pricing</h2>
+    <p class="section-sub">Start free. Upgrade when you need more.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h4>Free</h4>
+        <div class="price">$0</div>
+        <ul>
+          <li>3 generations / day</li>
+          <li>Basic templates</li>
+          <li>PNG export (watermarked)</li>
+          <li>Share link</li>
+        </ul>
+        <button class="btn btn-outline btn-block" onclick="startDemo('try')">Try Free</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <h4>Pro</h4>
+        <div class="price">$12<span>/mo</span></div>
+        <ul>
+          <li>Unlimited generations</li>
+          <li>All templates + color schemes</li>
+          <li>HD PNG / SVG / PDF export</li>
+          <li>No watermark</li>
+          <li>Save to library</li>
+          <li>Priority AI processing</li>
+        </ul>
+        <button class="btn btn-primary btn-block">Start Pro Trial</button>
+      </div>
+      <div class="pricing-card">
+        <h4>Team</h4>
+        <div class="price">$25<span>/seat/mo</span></div>
+        <ul>
+          <li>Everything in Pro</li>
+          <li>Team templates & brand kit</li>
+          <li>Collaborative editing</li>
+          <li>Admin dashboard</li>
+          <li>SSO (coming soon)</li>
+        </ul>
+        <button class="btn btn-outline btn-block">Contact Sales</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>Visword</strong>
+        <p>Turn any text into visual insights.<br>Made for curious minds.</p>
+      </div>
+      <div class="footer-links">
+        <span>© 2026 Visword</span>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Twitter</a>
+      </div>
+    </div>
+  </footer>
+</section>
+
+<!-- VIEW: Pricing Page -->
+<section class="view" id="view-pricing">
+  <div class="section" style="padding-top:120px">
+    <h2 class="section-title">Simple pricing</h2>
+    <p class="section-sub">Start free. Upgrade when you need more.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <h4>Free</h4><div class="price">$0</div>
+        <ul><li>3 generations / day</li><li>Basic templates</li><li>PNG export (watermarked)</li><li>Share link</li></ul>
+        <button class="btn btn-outline btn-block" onclick="startDemo('try')">Try Free</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <h4>Pro</h4><div class="price">$12<span>/mo</span></div>
+        <ul><li>Unlimited generations</li><li>All templates + color schemes</li><li>HD PNG / SVG / PDF export</li><li>No watermark</li><li>Save to library</li><li>Priority AI processing</li></ul>
+        <button class="btn btn-primary btn-block">Start Pro Trial</button>
+      </div>
+      <div class="pricing-card">
+        <h4>Team</h4><div class="price">$25<span>/seat/mo</span></div>
+        <ul><li>Everything in Pro</li><li>Team templates & brand kit</li><li>Collaborative editing</li><li>Admin dashboard</li></ul>
+        <button class="btn btn-outline btn-block">Contact Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIEW: Processing -->
+<section class="view" id="view-processing">
+  <div class="processing-container">
+    <div class="processing-card">
+      <div class="processing-animation">
+        <div class="brain-spinner">
+          <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#e0e7ff" stroke-width="4"/><circle cx="50" cy="50" r="42" fill="none" stroke="#6366f1" stroke-width="4" stroke-dasharray="264" stroke-dashoffset="200" stroke-linecap="round" class="spin-circle"/></svg>
+          <div class="brain-icon">🧠</div>
+        </div>
+      </div>
+      <h2 class="processing-title">Analyzing your content...</h2>
+      <div class="processing-steps" id="processingSteps">
+        <div class="pstep active" id="pstep1"><span class="pstep-dot"></span> Extracting content</div>
+        <div class="pstep" id="pstep2"><span class="pstep-dot"></span> Identifying key concepts</div>
+        <div class="pstep" id="pstep3"><span class="pstep-dot"></span> Building mind map structure</div>
+        <div class="pstep" id="pstep4"><span class="pstep-dot"></span> Designing info cards</div>
+        <div class="pstep" id="pstep5"><span class="pstep-dot"></span> Generating word cloud</div>
+      </div>
+      <p class="processing-hint" id="processingHint">This usually takes 5-10 seconds...</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIEW: Result Page -->
+<section class="view" id="view-result">
+  <div class="result-header">
+    <button class="btn btn-ghost btn-sm" onclick="showView('landing')">← Back</button>
+    <div class="result-meta">
+      <h2 class="result-title" id="resultTitle">The Future of Artificial Intelligence in Healthcare</h2>
+      <span class="result-badge">3,200 words</span>
+      <span class="result-badge">8 sec</span>
+    </div>
+    <div class="result-actions">
+      <button class="btn btn-outline btn-sm" onclick="showShareModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share
+      </button>
+      <button class="btn btn-primary btn-sm" id="exportBtn" onclick="toggleExportMenu()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+      <div class="export-menu hidden" id="exportMenu">
+        <button onclick="alert('PNG exported! (demo)')">PNG Image</button>
+        <button onclick="alert('SVG exported! (demo)')">SVG Vector</button>
+        <button onclick="alert('PDF exported! (demo)')">PDF Document</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="result-tabs">
+    <button class="rtab active" onclick="switchTab('mindmap')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="18" r="3"/><line x1="10.5" y1="8.5" x2="7.5" y2="15.5"/><line x1="13.5" y1="8.5" x2="16.5" y2="15.5"/></svg>
+      Mind Map
+    </button>
+    <button class="rtab" onclick="switchTab('infocard')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      Info Card
+    </button>
+    <button class="rtab" onclick="switchTab('wordcloud')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="4"/><circle cx="16" cy="6" r="3"/><circle cx="6" cy="16" r="3"/><circle cx="14" cy="15" r="5"/></svg>
+      Word Cloud
+    </button>
+  </div>
+
+  <!-- Tab Content: Mind Map -->
+  <div class="tab-content active" id="tab-mindmap">
+    <div class="mindmap-toolbar">
+      <div class="tool-group">
+        <button class="tool-btn active" title="Tree Layout">🌳</button>
+        <button class="tool-btn" title="Radial Layout">☀️</button>
+        <button class="tool-btn" title="Force Layout">🔀</button>
+      </div>
+      <div class="tool-group">
+        <button class="tool-btn" title="Zoom In" onclick="alert('Zoom in (demo)')">🔍+</button>
+        <button class="tool-btn" title="Zoom Out" onclick="alert('Zoom out (demo)')">🔍−</button>
+        <button class="tool-btn" title="Fit to Screen">⊡</button>
+      </div>
+      <div class="tool-group">
+        <span class="color-dot active" style="background:#6366f1" onclick="switchMindmapColor(this)"></span>
+        <span class="color-dot" style="background:#059669" onclick="switchMindmapColor(this)"></span>
+        <span class="color-dot" style="background:#d97706" onclick="switchMindmapColor(this)"></span>
+        <span class="color-dot" style="background:#dc2626" onclick="switchMindmapColor(this)"></span>
+      </div>
+    </div>
+    <div class="mindmap-canvas" id="mindmapCanvas">
+      <svg viewBox="0 0 900 520" class="mindmap-svg" id="mindmapSvg">
+        <!-- Root -->
+        <rect x="370" y="230" width="160" height="44" rx="22" fill="#6366f1" opacity="0.95"/>
+        <text x="450" y="258" text-anchor="middle" fill="white" font-size="13" font-weight="600">AI in Healthcare</text>
+        <!-- Level 1 branches -->
+        <line x1="450" y1="274" x2="450" y2="310" stroke="#6366f1" stroke-width="2"/>
+        <line x1="370" y1="252" x2="200" y2="100" stroke="#818cf8" stroke-width="1.5"/>
+        <line x1="370" y1="252" x2="120" y2="300" stroke="#a78bfa" stroke-width="1.5"/>
+        <line x1="530" y1="252" x2="720" y2="120" stroke="#c084fc" stroke-width="1.5"/>
+        <line x1="530" y1="252" x2="780" y2="320" stroke="#e879f9" stroke-width="1.5"/>
+        <!-- Level 1 nodes -->
+        <rect x="350" y="308" width="200" height="36" rx="18" fill="#e0e7ff"/>
+        <text x="450" y="331" text-anchor="middle" fill="#4338ca" font-size="12" font-weight="600">Applications</text>
+        <rect x="130" y="82" width="140" height="36" rx="18" fill="#e0e7ff"/>
+        <text x="200" y="105" text-anchor="middle" fill="#4338ca" font-size="12" font-weight="600">Clinical Diagnosis</text>
+        <rect x="50" y="282" width="140" height="36" rx="18" fill="#ede9fe"/>
+        <text x="120" y="305" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="600">Drug Discovery</text>
+        <rect x="650" y="102" width="140" height="36" rx="18" fill="#ede9fe"/>
+        <text x="720" y="125" text-anchor="middle" fill="#6d28d9" font-size="12" font-weight="600">Medical Imaging</text>
+        <rect x="710" y="302" width="140" height="36" rx="18" fill="#f3e8ff"/>
+        <text x="780" y="325" text-anchor="middle" fill="#7c3aed" font-size="12" font-weight="600">Patient Monitoring</text>
+        <!-- Level 2 under Clinical Diagnosis -->
+        <line x1="200" y1="118" x2="170" y2="45" stroke="#a5b4fc" stroke-width="1.5"/>
+        <line x1="200" y1="118" x2="230" y2="45" stroke="#a5b4fc" stroke-width="1.5"/>
+        <rect x="120" y="27" width="100" height="28" rx="14" fill="#eef2ff"/>
+        <text x="170" y="46" text-anchor="middle" fill="#4f46e5" font-size="10">Radiology AI</text>
+        <rect x="180" y="27" width="100" height="28" rx="14" fill="#eef2ff"/>
+        <text x="230" y="46" text-anchor="middle" fill="#4f46e5" font-size="10">Pathology AI</text>
+        <!-- Level 2 under Applications -->
+        <line x1="450" y1="344" x2="380" y2="395" stroke="#a5b4fc" stroke-width="1.5"/>
+        <line x1="450" y1="344" x2="520" y2="395" stroke="#a5b4fc" stroke-width="1.5"/>
+        <rect x="310" y="393" width="140" height="28" rx="14" fill="#eef2ff"/>
+        <text x="380" y="412" text-anchor="middle" fill="#4f46e5" font-size="10">Surgical Robots</text>
+        <rect x="450" y="393" width="140" height="28" rx="14" fill="#eef2ff"/>
+        <text x="520" y="412" text-anchor="middle" fill="#4f46e5" font-size="10">Treatment Planning</text>
+        <!-- Info tooltip -->
+        <g transform="translate(830,445)">
+          <rect x="0" y="0" width="45" height="22" rx="6" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1"/>
+          <text x="22" y="15" text-anchor="middle" fill="#15803d" font-size="9">+12 more</text>
+        </g>
+      </svg>
+      <p class="mindmap-hint">🖱 Scroll to zoom · Drag to pan · Click nodes to expand</p>
+    </div>
+  </div>
+
+  <!-- Tab Content: Info Card -->
+  <div class="tab-content" id="tab-infocard">
+    <div class="infocard-toolbar">
+      <div class="tool-group">
+        <span class="tool-label">Size:</span>
+        <button class="tool-btn active" onclick="switchCardSize('instagram')">📱 1:1</button>
+        <button class="tool-btn" onclick="switchCardSize('linkedin')">💼 1.91:1</button>
+        <button class="tool-btn" onclick="switchCardSize('twitter')">🐦 16:9</button>
+        <button class="tool-btn" onclick="switchCardSize('pinterest')">📌 2:3</button>
+      </div>
+      <div class="tool-group">
+        <span class="tool-label">Theme:</span>
+        <span class="color-dot active" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)" onclick="switchCardTheme('indigo')"></span>
+        <span class="color-dot" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="switchCardTheme('green')"></span>
+        <span class="color-dot" style="background:linear-gradient(135deg,#d97706,#f59e0b)" onclick="switchCardTheme('amber')"></span>
+        <span class="color-dot" style="background:linear-gradient(135deg,#18181b,#3f3f46)" onclick="switchCardTheme('dark')"></span>
+      </div>
+      <div class="tool-group">
+        <span class="tool-label">Font:</span>
+        <select class="font-select" onchange="switchCardFont(this.value)">
+          <option value="Inter">Sans</option>
+          <option value="Georgia">Serif</option>
+          <option value="Courier New">Mono</option>
+        </select>
+      </div>
+    </div>
+    <div class="infocard-preview-area">
+      <div class="infocard-render" id="infocardRender">
+        <div class="ic-inner">
+          <span class="ic-label">AI IN HEALTHCARE</span>
+          <h2 class="ic-title">Transforming Medicine Through Artificial Intelligence</h2>
+          <p class="ic-summary">AI is revolutionizing healthcare delivery across diagnostics, treatment, and patient care. Here are the key developments shaping the future.</p>
+          <div class="ic-points">
+            <div class="ic-point"><span>🧬</span><div><strong>Clinical Diagnosis</strong><p>AI models now detect diseases from medical imaging with 95%+ accuracy, often outperforming human radiologists.</p></div></div>
+            <div class="ic-point"><span>💊</span><div><strong>Drug Discovery</strong><p>ML algorithms reduce drug development timelines by 40%, screening billions of molecular combinations in days.</p></div></div>
+            <div class="ic-point"><span>🤖</span><div><strong>Robotic Surgery</strong><p>AI-assisted surgical systems achieve sub-millimeter precision, reducing recovery times by 30-50%.</p></div></div>
+            <div class="ic-point"><span>📊</span><div><strong>Predictive Analytics</strong><p>Hospitals use AI to predict patient deterioration 6-8 hours before critical events occur.</p></div></div>
+            <div class="ic-point"><span>🏥</span><div><strong>Telemedicine</strong><p>AI-powered triage and remote monitoring expand healthcare access to underserved communities.</p></div></div>
+          </div>
+          <div class="ic-source">Source: Healthcare AI Review 2026 · Made with <strong>Visword</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab Content: Word Cloud -->
+  <div class="tab-content" id="tab-wordcloud">
+    <div class="wordcloud-toolbar">
+      <div class="tool-group">
+        <span class="tool-label">Shape:</span>
+        <button class="tool-btn active" onclick="switchCloudShape('circle')">⭕ Circle</button>
+        <button class="tool-btn" onclick="switchCloudShape('rect')">⬜ Rect</button>
+        <button class="tool-btn" onclick="switchCloudShape('heart')">❤️ Heart</button>
+        <button class="tool-btn" onclick="switchCloudShape('star')">⭐ Star</button>
+      </div>
+      <div class="tool-group">
+        <span class="tool-label">Theme:</span>
+        <span class="color-dot active" style="background:#6366f1" onclick="switchCloudTheme('indigo')"></span>
+        <span class="color-dot" style="background:#059669" onclick="switchCloudTheme('green')"></span>
+        <span class="color-dot" style="background:#d97706" onclick="switchCloudTheme('amber')"></span>
+        <span class="color-dot" style="background:#dc2626" onclick="switchCloudTheme('red')"></span>
+      </div>
+      <div class="tool-group" style="align-items:center">
+        <span class="tool-label">Min freq:</span>
+        <input type="range" min="1" max="10" value="2" class="freq-slider">
+      </div>
+    </div>
+    <div class="wordcloud-canvas" id="wordcloudCanvas">
+      <div class="cloud-words">
+        <span style="font-size:44px;color:#4f46e5;font-weight:800">Healthcare</span>
+        <span style="font-size:38px;color:#6366f1;font-weight:700">Artificial Intelligence</span>
+        <span style="font-size:34px;color:#818cf8;font-weight:700">Diagnosis</span>
+        <span style="font-size:30px;color:#6366f1;font-weight:600">Machine Learning</span>
+        <span style="font-size:28px;color:#a78bfa;font-weight:700">Patients</span>
+        <span style="font-size:26px;color:#4f46e5;font-weight:600">Clinical</span>
+        <span style="font-size:24px;color:#818cf8;font-weight:600">Medical Imaging</span>
+        <span style="font-size:23px;color:#6366f1;font-weight:600">Drug Discovery</span>
+        <span style="font-size:22px;color:#c084fc;font-weight:500">Treatment</span>
+        <span style="font-size:21px;color:#a78bfa;font-weight:600">Algorithms</span>
+        <span style="font-size:20px;color:#4f46e5;font-weight:500">Surgery</span>
+        <span style="font-size:19px;color:#818cf8;font-weight:600">Predictive</span>
+        <span style="font-size:18px;color:#6366f1;font-weight:500">Data</span>
+        <span style="font-size:17px;color:#c084fc;font-weight:500">Telemedicine</span>
+        <span style="font-size:16px;color:#a78bfa;font-weight:500">Radiology</span>
+        <span style="font-size:15px;color:#818cf8;font-weight:500">Oncology</span>
+        <span style="font-size:14px;color:#6366f1;font-weight:500">Genomics</span>
+        <span style="font-size:13px;color:#c084fc;font-weight:500">Robotics</span>
+        <span style="font-size:12px;color:#a78bfa;font-weight:400">Ethics</span>
+        <span style="font-size:14px;color:#818cf8;font-weight:500">Outcomes</span>
+        <span style="font-size:16px;color:#4f46e5;font-weight:500">Innovation</span>
+        <span style="font-size:12px;color:#6366f1;font-weight:400">Precision</span>
+        <span style="font-size:11px;color:#a78bfa;font-weight:400">Monitoring</span>
+        <span style="font-size:13px;color:#c084fc;font-weight:400">Research</span>
+        <span style="font-size:15px;color:#818cf8;font-weight:500">Screening</span>
+        <span style="font-size:10px;color:#6366f1;font-weight:400">Pathology</span>
+        <span style="font-size:12px;color:#a78bfa;font-weight:400">Workflow</span>
+        <span style="font-size:11px;color:#c084fc;font-weight:400">Therapeutics</span>
+        <span style="font-size:14px;color:#4f46e5;font-weight:500">Biomarkers</span>
+        <span style="font-size:10px;color:#818cf8;font-weight:400">EHR</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Share Modal -->
+<div class="modal-overlay hidden" id="shareModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Share this visualization</h3>
+      <button class="modal-close" onclick="hideShareModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="share-link-row">
+        <input type="text" value="visword.com/share/abc123" readonly class="share-link-input">
+        <button class="btn btn-primary btn-sm" onclick="copyShareLink()">Copy</button>
+      </div>
+      <div class="share-buttons">
+        <button class="share-btn twitter" onclick="alert('Shared to Twitter! (demo)')">𝕏 Twitter</button>
+        <button class="share-btn linkedin" onclick="alert('Shared to LinkedIn! (demo)')">💼 LinkedIn</button>
+        <button class="share-btn facebook" onclick="alert('Shared to Facebook! (demo)')">📘 Facebook</button>
+      </div>
+      <p class="share-note">Anyone with the link can view the interactive mind map and info card.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
