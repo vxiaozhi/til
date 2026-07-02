@@ -19,6 +19,7 @@
 - [电商产品图转视频广告工具：跨行业扩展场景深度研究报告](research_report_vertical_video_use_cases.md)
 - [Visword 产品规格说明书](spec_visword_product.md)
 - [visword.com 文字转可视化方向：深度可行性研究与场景切入点](research_report_visword_text_to_visual_deep.md)
+- [Visword v2 — AI 热点信息流生成与二次编辑方向深度研究](research_report_visword_infoflow_v2.md)
 - [Visword 用户场景大全与增长推广策略](research_report_visword_use_cases_growth.md)
 - [visword.com 域名建站盈利方案深度研究报告](research_report_visword_website_profit.md)
 - [个人开发者最赚钱的软件类型及推广运营最佳实践](research_report_indie_dev_profitable_software.md)
