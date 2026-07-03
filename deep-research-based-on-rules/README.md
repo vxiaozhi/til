@@ -21,6 +21,7 @@
 - [visword.com 文字转可视化方向：深度可行性研究与场景切入点](research_report_visword_text_to_visual_deep.md)
 - [Visword App 竞品分析、App Store 上架流程与国内备案合规研究](research_report_visword_app_competitors_store.md)
 - [Visword 动态场景扩展 — AI生成→编辑→发布短视频深度研究](research_report_visword_dynamic_scenarios.md)
+- [Visword 产品冷启动阶段零预算推广计划](research_report_visword_coldstart_growth.md)
 - [Visword v2 — 跨平台导出格式规范 + 15场景扩充研究](research_report_visword_export_scenarios_v2.md)
 - [Visword v2 — AI 热点信息流生成与二次编辑方向深度研究](research_report_visword_infoflow_v2.md)
 - [Visword 用户场景大全与增长推广策略](research_report_visword_use_cases_growth.md)
