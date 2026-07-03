@@ -30,3 +30,4 @@
 ## 产品原型
 
 - [Visword 产品原型 (visword-prototype/)](visword-prototype/)
+- [Visword v2 产品原型 — 热点信息流+编辑方向 (visword-prototype-v2/)](visword-prototype-v2/)

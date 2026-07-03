@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Visword — Discover trending stories as beautiful cards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" onclick="showView('home')">
+      <svg width="26" height="26" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#6366f1"/><path d="M8 22V10l6 6 4-4 6 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="9" r="1.8" fill="white"/></svg>
+      Visword
+    </a>
+    <div class="nav-links">
+      <a onclick="showView('home')">Home</a>
+      <a onclick="showView('pricing')">Pricing</a>
+      <button class="btn btn-sm btn-ghost" onclick="toggleAuth()" id="navAuthBtn">Sign In</button>
+      <button class="btn btn-sm btn-primary" onclick="showView('home')">Try Free</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ====== VIEW: HOME ====== -->
+<section class="view active" id="view-home">
+  <div class="home-hero">
+    <div class="hero-text">
+      <div class="hero-badge">📰 AI-Powered Information Flow</div>
+      <h1>Today's stories,<br><span class="grad">beautifully visualized</span></h1>
+      <p>Visword discovers trending topics across the web and turns them into visual cards you can browse, edit, and share — like a magazine that writes itself, then lets you be the editor.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" onclick="showView('feed')">Browse the feed →</button>
+        <button class="btn btn-outline btn-lg" onclick="scrollToSection('how')">How it works</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><strong>200+</strong><span>Sources tracked</span></div>
+        <div class="stat"><strong>12</strong><span>Topics covered</span></div>
+        <div class="stat"><strong>3s</strong><span>Per card generated</span></div>
+      </div>
+    </div>
+    <div class="hero-preview">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-feed">
+            <div class="mini-card c1"><span class="mini-tag">AI</span><strong>GPT-5.5 Launch</strong><p>OpenAI's newest model sets benchmarks…</p></div>
+            <div class="mini-card c2"><span class="mini-tag">Tech</span><strong>Quantum Computing</strong><p>IBM achieves 1000+ qubit milestone…</p></div>
+            <div class="mini-card c3"><span class="mini-tag">Startups</span><strong>YC W26 Batch</strong><p>Record number of AI-first companies…</p></div>
+            <div class="mini-card c4"><span class="mini-tag">Science</span><strong>CRISPR 3.0</strong><p>New gene editing technique shows…</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <section class="section" id="how">
+    <h2 class="section-title">How Visword works</h2>
+    <div class="steps-h">
+      <div class="step-h"><div class="step-h-num">1</div><div class="step-h-icon">🔍</div><h3>Discover</h3><p>AI scans 200+ sources every hour, clustering trending topics and filtering noise.</p></div>
+      <div class="step-h-arrow">→</div>
+      <div class="step-h"><div class="step-h-num">2</div><div class="step-h-icon">✨</div><h3>Generate</h3><p>Each topic becomes a visual card — AI-written summary, key data, source attribution.</p></div>
+      <div class="step-h-arrow">→</div>
+      <div class="step-h"><div class="step-h-num">3</div><div class="step-h-icon">✏️</div><h3>Edit</h3><p>Don't like the card? Edit text, swap images, change colors. Make it yours.</p></div>
+      <div class="step-h-arrow">→</div>
+      <div class="step-h"><div class="step-h-num">4</div><div class="step-h-icon">🚀</div><h3>Share</h3><p>One tap to Twitter, LinkedIn, Instagram. Your curated insight, beautifully packaged.</p></div>
+    </div>
+  </section>
+
+  <!-- Topic categories -->
+  <section class="section section-alt">
+    <h2 class="section-title">Covering the topics you care about</h2>
+    <div class="topic-grid">
+      <div class="topic-chip" onclick="showView('feed')">🤖 Artificial Intelligence</div>
+      <div class="topic-chip" onclick="showView('feed')">💻 Technology</div>
+      <div class="topic-chip" onclick="showView('feed')">🚀 Startups & VC</div>
+      <div class="topic-chip" onclick="showView('feed')">📊 Business & Markets</div>
+      <div class="topic-chip" onclick="showView('feed')">🔬 Science</div>
+      <div class="topic-chip" onclick="showView('feed')">🎨 Design & UX</div>
+      <div class="topic-chip" onclick="showView('feed')">📱 Product & PM</div>
+      <div class="topic-chip" onclick="showView('feed')">🏥 Health & BioTech</div>
+      <div class="topic-chip" onclick="showView('feed')">🌍 Climate & Energy</div>
+      <div class="topic-chip" onclick="showView('feed')">🎮 Gaming & Web3</div>
+      <div class="topic-chip" onclick="showView('feed')">📚 Education</div>
+      <div class="topic-chip" onclick="showView('feed')">⚖️ Policy & Regulation</div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="section" id="pricing-section">
+    <h2 class="section-title">Simple pricing</h2>
+    <p class="section-sub">Start free. Upgrade when you need more.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card"><h4>Free</h4><div class="price">$0</div><ul><li>15 cards / day</li><li>3 topics</li><li>Basic templates</li><li>Watermarked export</li></ul><button class="btn btn-outline btn-block" onclick="showView('feed')">Start Free</button></div>
+      <div class="pricing-card featured"><div class="popular-badge">Popular</div><h4>Pro</h4><div class="price">$12<span>/mo</span></div><ul><li>Unlimited cards</li><li>All 12 topics</li><li>Full editor toolkit</li><li>HD export, no watermark</li><li>Custom brand kit</li><li>Priority AI queue</li></ul><button class="btn btn-primary btn-block">Start Pro Trial</button></div>
+      <div class="pricing-card"><h4>Team</h4><div class="price">$49<span>/mo</span></div><ul><li>3 seats included</li><li>Shared brand kits</li><li>Collaborative editing</li><li>Team templates</li><li>Admin dashboard</li></ul><button class="btn btn-outline btn-block">Contact Sales</button></div>
+    </div>
+  </section>
+
+  <footer class="footer"><div class="footer-inner"><div class="footer-brand"><strong>Visword</strong><p>Discover trending stories as beautiful cards.</p></div><div class="footer-links"><span>© 2026 Visword</span><a>Privacy</a><a>Terms</a><a>Twitter</a></div></div></footer>
+</section>
+
+<!-- ====== VIEW: FEED (Browsing) ====== -->
+<section class="view" id="view-feed">
+  <div class="feed-header">
+    <button class="btn btn-ghost btn-sm" onclick="showView('home')">← Back</button>
+    <div class="feed-topic-selector">
+      <span class="feed-topic active" onclick="switchFeedTopic(this,'all')">All</span>
+      <span class="feed-topic" onclick="switchFeedTopic(this,'ai')">🤖 AI</span>
+      <span class="feed-topic" onclick="switchFeedTopic(this,'tech')">💻 Tech</span>
+      <span class="feed-topic" onclick="switchFeedTopic(this,'startup')">🚀 Startups</span>
+      <span class="feed-topic" onclick="switchFeedTopic(this,'science')">🔬 Science</span>
+      <span class="feed-topic" onclick="switchFeedTopic(this,'business')">📊 Business</span>
+    </div>
+    <span class="feed-time">Updated 3 min ago</span>
+  </div>
+  <div class="feed-grid" id="feedGrid">
+    <!-- Cards injected by JS -->
+  </div>
+  <div class="feed-bottom">You've caught up! 🎉 New stories every hour.</div>
+</section>
+
+<!-- ====== VIEW: CARD DETAIL + EDITOR ====== -->
+<section class="view" id="view-detail">
+  <div class="detail-header">
+    <button class="btn btn-ghost btn-sm" onclick="showView('feed')">← Back to feed</button>
+    <div class="detail-actions">
+      <button class="btn btn-outline btn-sm" onclick="showShareModal()"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share</button>
+      <button class="btn btn-primary btn-sm" onclick="toggleEditMode()" id="editToggleBtn">✏️ Edit Card</button>
+      <button class="btn btn-outline btn-sm" onclick="exportCard()">📥 Export</button>
+    </div>
+  </div>
+
+  <div class="detail-layout" id="detailLayout">
+    <!-- Preview side -->
+    <div class="detail-preview">
+      <div class="card-render" id="cardRender">
+        <div class="cr-tag" id="crTag">🤖 ARTIFICIAL INTELLIGENCE</div>
+        <h1 class="cr-title" id="crTitle">GPT-5.5 Launches: OpenAI Sets New Benchmarks Across Reasoning, Coding, and Multimodal Tasks</h1>
+        <p class="cr-summary" id="crSummary">OpenAI released GPT-5.5 today, achieving state-of-the-art results on MMLU-Pro (92.1%), HumanEval (97.3%), and GPQA Diamond (89.5%). The model introduces native multimodal reasoning, a 2M token context window, and a new "think deeply" mode for complex STEM problems.</p>
+        <div class="cr-points" id="crPoints">
+          <div class="crp"><span>🏆</span><strong>Benchmark Dominance</strong><span>GPT-5.5 tops MMLU-Pro, MATH, HumanEval, and GPQA Diamond, outperforming Claude Opus 4.6 and Gemini 3.1 Pro across all major benchmarks.</span></div>
+          <div class="crp"><span>🧠</span><strong>2M Context Window</strong><span>With native support for 2 million tokens, GPT-5.5 can process entire codebases, full-length books, and multi-hour video transcripts in a single prompt.</span></div>
+          <div class="crp"><span>💡</span><strong>Deep Think Mode</strong><span>A new inference-time reasoning mode allows the model to "think" for up to 30 minutes on a single problem, achieving 89% on the notoriously difficult FrontierMath benchmark.</span></div>
+          <div class="crp"><span>💰</span><strong>API Pricing</strong><span>$15/M input tokens, $60/M output tokens. 40% cheaper than GPT-5.0 at launch. Available via API, ChatGPT Pro, and Azure.</span></div>
+        </div>
+        <div class="cr-source">Sources: OpenAI Blog, The Verge, Ars Technica · AI-generated · Made with <strong>Visword</strong></div>
+      </div>
+    </div>
+
+    <!-- Editor side -->
+    <div class="detail-editor hidden" id="detailEditor">
+      <div class="editor-panel">
+        <div class="editor-section">
+          <label>Card Title</label>
+          <input type="text" id="editTitle" value="GPT-5.5 Launches: OpenAI Sets New Benchmarks" oninput="syncEditToPreview()">
+        </div>
+        <div class="editor-section">
+          <label>Summary</label>
+          <textarea id="editSummary" rows="3" oninput="syncEditToPreview()">OpenAI released GPT-5.5 today, achieving state-of-the-art results on MMLU-Pro (92.1%), HumanEval (97.3%), and GPQA Diamond (89.5%).</textarea>
+        </div>
+        <div class="editor-section">
+          <label>Key Points <span class="editor-hint">(click to edit, drag to reorder)</span></label>
+          <div id="editPoints">
+            <div class="edit-point"><span class="ep-icon">🏆</span><input value="Benchmark Dominance" class="ep-title"><input value="GPT-5.5 tops all major benchmarks" class="ep-desc"><button class="ep-remove" onclick="this.parentElement.remove();syncEditToPreview()">×</button></div>
+            <div class="edit-point"><span class="ep-icon">🧠</span><input value="2M Context Window" class="ep-title"><input value="Process entire codebases in one prompt" class="ep-desc"><button class="ep-remove" onclick="this.parentElement.remove();syncEditToPreview()">×</button></div>
+            <div class="edit-point"><span class="ep-icon">💡</span><input value="Deep Think Mode" class="ep-title"><input value="30-min reasoning for complex problems" class="ep-desc"><button class="ep-remove" onclick="this.parentElement.remove();syncEditToPreview()">×</button></div>
+            <div class="edit-point"><span class="ep-icon">💰</span><input value="API Pricing" class="ep-title"><input value="$15/M input, $60/M output" class="ep-desc"><button class="ep-remove" onclick="this.parentElement.remove();syncEditToPreview()">×</button></div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="addEditPoint()" style="margin-top:8px">+ Add point</button>
+        </div>
+        <div class="editor-section">
+          <label>Topic Tag</label>
+          <select id="editTag" onchange="syncEditToPreview()"><option>🤖 ARTIFICIAL INTELLIGENCE</option><option>💻 TECHNOLOGY</option><option>🚀 STARTUPS & VC</option><option>📊 BUSINESS & MARKETS</option><option>🔬 SCIENCE</option></select>
+        </div>
+        <div class="editor-section">
+          <label>Color Theme</label>
+          <div class="theme-options">
+            <span class="theme-dot active" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)" onclick="switchCardTheme('indigo',this)"></span>
+            <span class="theme-dot" style="background:linear-gradient(135deg,#059669,#10b981)" onclick="switchCardTheme('green',this)"></span>
+            <span class="theme-dot" style="background:linear-gradient(135deg,#d97706,#f59e0b)" onclick="switchCardTheme('amber',this)"></span>
+            <span class="theme-dot" style="background:linear-gradient(135deg,#18181b,#3f3f46)" onclick="switchCardTheme('dark',this)"></span>
+            <span class="theme-dot" style="background:linear-gradient(135deg,#be185d,#ec4899)" onclick="switchCardTheme('rose',this)"></span>
+          </div>
+        </div>
+        <div class="editor-section">
+          <label>Card Size</label>
+          <div class="size-options">
+            <button class="btn btn-outline btn-sm active" onclick="switchCardSize('feed',this)">Feed (3:4)</button>
+            <button class="btn btn-outline btn-sm" onclick="switchCardSize('instagram',this)">Instagram (1:1)</button>
+            <button class="btn btn-outline btn-sm" onclick="switchCardSize('story',this)">Story (9:16)</button>
+            <button class="btn btn-outline btn-sm" onclick="switchCardSize('linkedin',this)">LinkedIn (1.91:1)</button>
+          </div>
+        </div>
+        <div class="editor-section">
+          <button class="btn btn-ghost btn-sm" onclick="resetEdits()">↺ Reset to AI original</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== VIEW: PRICING ====== -->
+<section class="view" id="view-pricing">
+  <div class="section" style="padding-top:120px">
+    <h2 class="section-title">Simple pricing</h2>
+    <p class="section-sub">Start free. Upgrade when you need more.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card"><h4>Free</h4><div class="price">$0</div><ul><li>15 cards / day</li><li>3 topics</li><li>Basic templates</li><li>Watermarked export</li></ul><button class="btn btn-outline btn-block">Start Free</button></div>
+      <div class="pricing-card featured"><div class="popular-badge">Popular</div><h4>Pro</h4><div class="price">$12<span>/mo</span></div><ul><li>Unlimited cards</li><li>All 12 topics</li><li>Full editor toolkit</li><li>HD export, no watermark</li><li>Custom brand kit</li></ul><button class="btn btn-primary btn-block">Start Pro Trial</button></div>
+      <div class="pricing-card"><h4>Team</h4><div class="price">$49<span>/mo</span></div><ul><li>3 seats included</li><li>Shared brand kits</li><li>Collaborative editing</li><li>Team templates</li></ul><button class="btn btn-outline btn-block">Contact Sales</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== SHARE MODAL ====== -->
+<div class="modal-overlay hidden" id="shareModal">
+  <div class="modal">
+    <div class="modal-header"><h3>Share this card</h3><button class="modal-close" onclick="hideShareModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="share-link-row"><input type="text" value="visword.com/c/gpt55-launch" readonly class="share-link-input"><button class="btn btn-primary btn-sm" onclick="showToast('Link copied!')">Copy</button></div>
+      <div class="share-buttons">
+        <button class="share-btn twitter" onclick="showToast('Shared to Twitter (demo)')">𝕏 Twitter</button>
+        <button class="share-btn linkedin" onclick="showToast('Shared to LinkedIn (demo)')">💼 LinkedIn</button>
+        <button class="share-btn insta" onclick="showToast('Exported for Instagram (demo)')">📷 Instagram</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
