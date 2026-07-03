@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Visword Studio — Create animated visual stories</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ====== NAV ====== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="logo" onclick="showView('gallery')">
+      <svg width="24" height="24" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#6366f1"/><path d="M8 22V10l6 6 4-4 6 8" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="23" cy="9" r="1.8" fill="white"/></svg>
+      Visword <span class="nav-badge">Studio</span>
+    </a>
+    <div class="nav-links">
+      <span class="nav-credit" id="navCredit">Free · 3 exports today</span>
+      <button class="btn btn-sm btn-ghost" onclick="showView('gallery')">Gallery</button>
+      <button class="btn btn-sm btn-primary">Upgrade</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ====== VIEW: SCENE GALLERY ====== -->
+<section class="view active" id="view-gallery">
+  <div class="gallery-hero">
+    <h1>What do you want to <span class="grad">bring to life</span> today?</h1>
+    <p>Pick a scene, AI fills it with smart content, you make it yours, export for any platform.</p>
+  </div>
+
+  <div class="scene-grid" id="sceneGrid">
+    <!-- AVAILABLE SCENES -->
+    <div class="scene-card available" onclick="openScene('chart-race')">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
+        <div class="sc-bars"><span style="height:60%"></span><span style="height:85%"></span><span style="height:45%"></span><span style="height:95%;background:#f59e0b"></span><span style="height:70%"></span></div>
+      </div>
+      <div class="sc-body"><span class="sc-badge">🥇 Priority</span><h3>Bar Chart Race</h3><p>Animated ranking changes over time. Perfect for "Top 10" data stories.</p></div>
+    </div>
+
+    <div class="scene-card available" onclick="openScene('ranking-reveal')">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#1e1b4b,#312e81)">
+        <div class="sc-rank">#1</div>
+      </div>
+      <div class="sc-body"><span class="sc-badge">🥈 Priority</span><h3>Ranking Reveal</h3><p>Dramatic countdown from #10 to #1. Builds suspense, drives engagement.</p></div>
+    </div>
+
+    <div class="scene-card available" onclick="openScene('vs-comparison')">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+        <div class="sc-vs"><span>🅰️</span><span class="sc-vs-text">VS</span><span>🅱️</span></div>
+      </div>
+      <div class="sc-body"><span class="sc-badge">🥉 Priority</span><h3>VS Comparison</h3><p>Side-by-side animated comparison. Stats face off, winner takes all.</p></div>
+    </div>
+
+    <div class="scene-card available" onclick="openScene('quote-card')">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#0f172a,#1e293b)">
+        <div class="sc-quote">"The only way to do great work is to love what you do."</div>
+      </div>
+      <div class="sc-body"><span class="sc-badge">Trending</span><h3>Quote Card</h3><p>Wisdom that moves. Kinetic typography meets beautiful backgrounds.</p></div>
+    </div>
+
+    <!-- COMING SOON -->
+    <div class="scene-card locked">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#1a2e1a,#0d3320)"><div class="sc-placeholder">🗺️</div></div>
+      <div class="sc-body"><h3>Map Trajectory</h3><p>Animated routes on beautiful maps. Travel, history, logistics stories.</p><span class="sc-soon">Coming in v1.1</span></div>
+    </div>
+    <div class="scene-card locked">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#2e241a,#33200d)"><div class="sc-placeholder">📰</div></div>
+      <div class="sc-body"><h3>News Brief</h3><p>Today's hot topics as a 60-second animated video briefing.</p><span class="sc-soon">Coming in v1.2</span></div>
+    </div>
+    <div class="scene-card locked">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#1a1a2e,#2a1a3e)"><div class="sc-placeholder">🎁</div></div>
+      <div class="sc-body"><h3>Year Wrapped</h3><p>Spotify Wrapped-style animated stats. Your year, visualized.</p><span class="sc-soon">Coming in v1.3</span></div>
+    </div>
+    <div class="scene-card locked">
+      <div class="sc-preview" style="background:linear-gradient(135deg,#2e1a24,#33101a)"><div class="sc-placeholder">💬</div></div>
+      <div class="sc-body"><h3>Chat Story</h3><p>Conversations that tell a story. AI scripts, you direct.</p><span class="sc-soon">Coming in v1.4</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== VIEW: STUDIO WORKBENCH ====== -->
+<section class="view" id="view-studio">
+  <!-- Top bar -->
+  <div class="studio-topbar">
+    <button class="btn btn-ghost btn-sm" onclick="showView('gallery')">← Gallery</button>
+    <div class="studio-scene-name" id="studioSceneName">Bar Chart Race</div>
+    <div class="studio-actions">
+      <button class="btn btn-outline btn-sm" onclick="regenerateContent()">🔄 Regenerate</button>
+      <button class="btn btn-primary btn-sm" onclick="showExportModal()">📥 Export Video</button>
+    </div>
+  </div>
+
+  <!-- Main workbench: Preview + Editor -->
+  <div class="workbench">
+    <!-- LEFT: Scene Selector Sidebar -->
+    <div class="scene-sidebar">
+      <div class="sidebar-label">Scenes</div>
+      <div class="sidebar-scene active" data-scene="chart-race" onclick="switchScene('chart-race')">
+        <span class="ss-icon">📊</span><span class="ss-name">Bar Chart Race</span>
+      </div>
+      <div class="sidebar-scene" data-scene="ranking-reveal" onclick="switchScene('ranking-reveal')">
+        <span class="ss-icon">🏆</span><span class="ss-name">Ranking Reveal</span>
+      </div>
+      <div class="sidebar-scene" data-scene="vs-comparison" onclick="switchScene('vs-comparison')">
+        <span class="ss-icon">⚔️</span><span class="ss-name">VS Comparison</span>
+      </div>
+      <div class="sidebar-scene" data-scene="quote-card" onclick="switchScene('quote-card')">
+        <span class="ss-icon">💬</span><span class="ss-name">Quote Card</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-label" style="color:var(--tl)">Coming Soon</div>
+      <div class="sidebar-scene locked"><span class="ss-icon">🗺️</span><span class="ss-name">Map Trajectory</span><span class="ss-lock">🔒</span></div>
+      <div class="sidebar-scene locked"><span class="ss-icon">📰</span><span class="ss-name">News Brief</span><span class="ss-lock">🔒</span></div>
+      <div class="sidebar-scene locked"><span class="ss-icon">🎁</span><span class="ss-name">Year Wrapped</span><span class="ss-lock">🔒</span></div>
+    </div>
+
+    <!-- CENTER: Preview -->
+    <div class="preview-panel" id="previewPanel">
+      <div class="preview-label">
+        <span>Preview</span>
+        <span class="preview-size">1080 x 1920 · 30s · 9:16</span>
+      </div>
+      <div class="preview-phone">
+        <div class="preview-screen" id="previewScreen">
+          <!-- Scene-specific preview injected by JS -->
+        </div>
+      </div>
+      <div class="preview-controls">
+        <button class="pctrl-btn" onclick="togglePreviewPlay()" id="playBtn">▶ Play</button>
+        <span class="pctrl-time" id="previewTime">0:00 / 0:30</span>
+        <input type="range" class="pctrl-scrub" id="previewScrub" min="0" max="30" value="0" oninput="scrubPreview(this.value)">
+      </div>
+    </div>
+
+    <!-- RIGHT: Editor -->
+    <div class="editor-panel" id="editorPanel">
+      <div class="editor-label">Editor</div>
+      <div class="editor-sections" id="editorSections">
+        <!-- Scene-specific editor injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== EXPORT MODAL ====== -->
+<div class="modal-overlay hidden" id="exportModal">
+  <div class="modal modal-export">
+    <div class="modal-header"><h3>Export Video</h3><button class="modal-close" onclick="hideExportModal()">✕</button></div>
+    <div class="modal-body">
+      <div class="export-option">
+        <label><input type="radio" name="exportPreset" value="universal" checked onchange="updateExportPreview()"> <strong>🎯 Universal Format</strong></label>
+        <p>MP4 · H.264 · 1080×1920 · 30fps · 10Mbps · AAC 48kHz · Works on all platforms</p>
+      </div>
+      <div class="export-platforms">
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="tiktok" onchange="updateExportPreview()"> <strong>📱 TikTok</strong></label><p>Optimized for TikTok upload. 8Mbps for Android compatibility. 9:16 vertical.</p></div>
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="douyin" onchange="updateExportPreview()"> <strong>🎵 Douyin (抖音)</strong></label><p>≤12Mbps to avoid re-compression. HD upload ready.</p></div>
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="reels" onchange="updateExportPreview()"> <strong>📷 Instagram Reels</strong></label><p>Strict H.264. 30fps (not 60). 1080p optimal.</p></div>
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="shorts" onchange="updateExportPreview()"> <strong>▶️ YouTube Shorts</strong></label><p>≤60s. 10-12Mbps. Can benefit from 4K source.</p></div>
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="wechat" onchange="updateExportPreview()"> <strong>💬 WeChat Channels (视频号)</strong></label><p>6:7 (1080×1260) ratio. No QR codes or watermarks.</p></div>
+        <div class="export-option"><label><input type="radio" name="exportPreset" value="red" onchange="updateExportPreview()"> <strong>📖 Xiaohongshu (小红书)</strong></label><p>3:4 (1080×1440) for fashion/beauty. 9:16 also supported.</p></div>
+      </div>
+      <div class="export-summary" id="exportSummary">
+        <div class="es-row"><span>Format:</span><span id="esFormat">MP4 · H.264</span></div>
+        <div class="es-row"><span>Resolution:</span><span id="esRes">1080 × 1920</span></div>
+        <div class="es-row"><span>Frame Rate:</span><span id="esFPS">30 fps</span></div>
+        <div class="es-row"><span>Bitrate:</span><span id="esBitrate">10 Mbps VBR</span></div>
+        <div class="es-row"><span>Audio:</span><span id="esAudio">AAC-LC · 48kHz · 256kbps</span></div>
+        <div class="es-row"><span>Duration:</span><span id="esDuration">30s</span></div>
+        <div class="es-row"><span>Est. File Size:</span><span id="esSize">~38 MB</span></div>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" onclick="simulateExport()">📥 Export Video</button>
+      <p class="export-note">Your video will be downloaded as an MP4 file. Upload it directly to any social platform.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast hidden" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
