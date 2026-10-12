@@ -63,7 +63,7 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 
 - [entireio/cli](https://github.com/entireio/cli) Entire CLI 是一款精密的开发者工具，它与你的 git 工作流无缝集成，用于在编码过程中捕获和管理 AI agent 会话。它会为代码在仓库中的编写方式创建索引记录，使你能够了解代码变更背后的完整上下文——从最初的提示词到最终提交。
 
-## Coding Agent 团队协作
+## 人与 Coding Agent 协作组成团队（搭建AI Native）
 - [vibe-kanban](https://github.com/BloopAI/vibe-kanban/)
 - [multica](https://github.com/multica-ai/multica)
 - [hermes](https://github.com/NousResearch/hermes-agent)
