@@ -68,3 +68,7 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [multica](https://github.com/multica-ai/multica)
 - [hermes](https://github.com/NousResearch/hermes-agent)
 - [gastown](https://github.com/gastownhall/gastown)
+- [cc-connect](https://github.com/chenhg5/cc-connect)
+- [herdr](https://github.com/herdrdev/herdr)
+- [orca](https://github.com/stablyai/orca)
+- [buzz](https://github.com/block/buzz) 
