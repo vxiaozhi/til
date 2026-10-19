@@ -71,4 +71,8 @@ Spec 编程本质是基于 [claude-code](https://github.com/anthropics/claude-co
 - [cc-connect](https://github.com/chenhg5/cc-connect)
 - [herdr](https://github.com/herdrdev/herdr)
 - [orca](https://github.com/stablyai/orca)
-- [buzz](https://github.com/block/buzz) 
+- [buzz](https://github.com/block/buzz)
+
+## Agent递归自我改进相关项目
+- [google-research/harness2](https://github.com/google-research/harness2)  Harness² 是由 Google Cloud AI Research 与西北大学联合开源的一个即插即用的递归智能体脚手架（Harness）优化框架。它的核心理念是：无需更改大模型权重，也无需人工提供标准答案或评估器，让 AI 智能体在面对全新任务时，能够自动重写并优化自己周围的“脚手架配置”（系统提示词、工具、技能等），从而实现自我演进。
+- [CosmosMind-ai/RSI-Harness](https://github.com/CosmosMind-ai/RSI-Harness) 把 agent 的 harness 变成一个可以版本化、可以分享、可以自动生成的对象。 基于 Pi coding agent， 加上一层叫 Genome 的配置层。一个 Genome 是一份完整、自洽、可交付的 agent harness 配置——system prompt、工具集、skill、MCP server、extension、运行时策略、 记忆、快捷键、主题，全部在一个目录里。换场景就是换 Genome。
