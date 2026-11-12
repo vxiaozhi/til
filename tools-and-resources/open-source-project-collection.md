@@ -12,6 +12,7 @@
 ### 知识库搭建
 - [PandaWiki](https://github.com/chaitin/PandaWiki) PandaWiki 是一款 AI 大模型驱动的开源知识库搭建系统，帮助你快速构建智能化的 产品文档、技术文档、FAQ、博客系统，借助大模型的力量为你提供 AI 创作、AI 问答、AI 搜索 等能力
 - [一个需要自搭建的后台服务，从网上抓取 AI 相关新闻，并发送摘要邮件，整个过程都由 AI 完成，需要安装 Claude Code。](https://github.com/wjcwjc77/hacker-news-agent)
+- [WeKnora（维娜拉）](https://github.com/tencent/weknora) WeKnora（维娜拉） 是一款开源的、基于大语言模型（LLM）的知识管理框架，面向企业级文档理解、语义检索与智能推理场景。它把团队分散的文档汇集起来，用于检索、推理，并随资料更新持续维护。
 
 ### 语音ASR
 - [Handy](https://github.com/cjpais/Handy) 开源的跨平台桌面应用，用来语音转文本, Rust + ts 实现。支持 ParakeetV3、Whisper 系列模型进行语音识别，但对中文的识别效果较差。
@@ -35,3 +36,10 @@
 - [Spring AI Alibaba](https://github.com/alibaba/spring-ai-alibaba) 阿里开源 java 版本 Agent 框架
 - [Agno](https://github.com/agno-agi/agno) 多智能体（multi-agent）框架
 - [AgentScope](https://github.com/agentscope-ai/agentscope) 面向智能体的编程：构建大型语言模型应用
+
+## 测试与压测
+
+CodingAgent时代，怎么对软件进行测试变得重要，这里搜集一些测试相关开源工具
+
+- [grafana/k6](https://github.com/grafana/k6) 云原生负载测试工具
+- [hurl](https://github.com/Orange-OpenSource/hurl) 
