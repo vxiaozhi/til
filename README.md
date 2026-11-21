@@ -17,6 +17,7 @@
 - [Elixir](programming-language/elixir.md)
 - [js/ts](programming-language/javascript.md)
 - [css](programming-language/html-css.md)
+- [lean](programming-language/lean.md) 数学定理证明语言
 
 
 ## 软件开发实践
